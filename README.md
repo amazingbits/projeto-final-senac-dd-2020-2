@@ -8,8 +8,8 @@ a arquitetura de projeto MVC. Para as telas utilizaremos o Java Swing.
 
 ### A equipe
 
-- Guilherme V. de Andrade
-- Jadson dos Santos Silva
+- [Guilherme V. de Andrade](https://github.com/amazingbits)
+- [Jadson dos Santos Silva](https://github.com/jadson179)
 
 ### O projeto
 
@@ -31,12 +31,12 @@ produtos e efetuar lançamentos.
 
 ### Regras de nomenclatura
 
-**Linguagem** - português brasileiro (questão didática).
-**Pacotes** - {empresa}.{nome do projeto}.{nome do pacote}. Ex: senac.financeiro.controller.
-**Classes** - Pascal case. Geralmente com o primeiro nome sendo um substantivo. Ex: UsuarioController.
-**Métodos** - Camel case. Geralmente começando com um verbo no infinitivo. Ex: cadastrarUsuario().
-**Constantes** - Uppercase separados por underline. Ex: MENSAGEM_PADRAO.
-**Variáveis** - Camel case. Ex: dataDeNascimento.
+- **Linguagem** - português brasileiro (questão didática).
+- **Pacotes** - {empresa}.{nome do projeto}.{nome do pacote}. Ex: senac.financeiro.controller.
+- **Classes** - Pascal case. Geralmente com o primeiro nome sendo um substantivo. Ex: UsuarioController.
+- **Métodos** - Camel case. Geralmente começando com um verbo no infinitivo. Ex: cadastrarUsuario().
+- **Constantes** - Uppercase separados por underline. Ex: MENSAGEM_PADRAO.
+- **Variáveis** - Camel case. Ex: dataDeNascimento.
 
 ### Arquitetura
 
