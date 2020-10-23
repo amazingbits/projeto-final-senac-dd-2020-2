@@ -19,15 +19,15 @@ produtos e efetuar lançamentos.
 
 ### O quê precisa ser construído?
 
-- [ ] Requisitos funcionais e não funcionais
-- [ ] Modelos das entidades do banco de dados
-- [ ] Diagrama de classes
-- [ ] Construir as classes de entidade (VO)
-- [ ] Construir as classes de persistência (DAO)
+- [x] Requisitos funcionais e não funcionais
+- [x] Modelos das entidades do banco de dados
+- [x] Diagrama de classes
+- [x] Construir as classes de entidade (VO)
+- [x] Construir as classes de persistência (DAO)
 - [ ] Construir as classes de regra de negócio (BO)
 - [ ] Construir os controladores
 - [ ] Construir as telas (JPanel) separadamente e implementar suas regras
-- [ ] Construir a tela principal (JFrame) com o menu de navegação do sistema
+- [x] Construir a tela principal (JFrame) com o menu de navegação do sistema
 
 ### Regras de nomenclatura
 
@@ -268,3 +268,9 @@ DELIMITER ;
 ### Diagrama de classe
 
 ![Diagrama de Classe](./diagramas/diagrama.png)
+
+### Atualizações
+
+- **23/10/2020**: foi constuída uma rotina de cadastro de categorias. Para isso, construímos uma classe CategoriaController, CategoriaBO e uma tela na view que se chama CadastrarCategoria.java.
+- **23/10/2020**: foi construída a tela principal (JFrame) com a estrutura de menu e uma imagem ilustrativa de
+  apresentação para que a tela não fique vazia. O padrão de largura de janelas por enquanto é de 650.

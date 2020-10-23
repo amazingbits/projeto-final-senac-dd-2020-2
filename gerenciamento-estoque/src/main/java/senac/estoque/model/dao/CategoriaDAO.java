@@ -43,7 +43,7 @@ public class CategoriaDAO {
 	}
 	
 	/**
-	 * retorna uma categoria específica
+	 * retorna uma categoria especï¿½fica
 	 * @param id
 	 * @return
 	 */
@@ -71,13 +71,40 @@ public class CategoriaDAO {
 	}
 	
 	/**
+	 * encontrar categoria pelo nome
+	 * @param nome
+	 * @return
+	 */
+	public boolean encontrarCategoriaPeloNome(String nome) {
+		String sql = "SELECT * FROM tb_categoria WHERE descricao = '"+ nome +"'";
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		int contador = 0;
+		
+		try {
+			result = stmt.executeQuery(sql);
+			while(result.next()) {
+				contador++;
+			}
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		if(contador > 0) return true;
+		return false;
+	}
+	
+	/**
 	 * cadastrar nova categoria
 	 * @param categoria
 	 * @return
 	 */
 	public int cadastrar(CategoriaVO categoria) {
 		String sql = "INSERT INTO tb_categoria VALUES (NULL, "
-		+ categoria.getId() +", "
 		+ "'"+ categoria.getDescricao() +"')";
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
