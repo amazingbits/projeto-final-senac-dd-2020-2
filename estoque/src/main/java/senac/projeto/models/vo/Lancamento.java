@@ -4,6 +4,8 @@ import java.sql.Date;
 
 public class Lancamento {
     private int id;
+    private int idproduto;
+    private int idsetor;
     private Produto produto;
     private Setor setor;
     private TipoLancamento tipo;
@@ -14,8 +16,8 @@ public class Lancamento {
     public Lancamento() {
     }
 
-    public Lancamento(int id, Produto produto, Setor setor, TipoLancamento tipo, int quantidade, float preco_total,
-            Date data) {
+    public Lancamento(int id, int idproduto, int idsetor, Produto produto, Setor setor, TipoLancamento tipo,
+            int quantidade, float preco_total, Date data) {
         this.id = id;
         this.produto = produto;
         this.setor = setor;
@@ -23,6 +25,9 @@ public class Lancamento {
         this.quantidade = quantidade;
         this.preco_total = preco_total;
         this.data = data;
+
+        this.idproduto = idproduto;
+        this.idsetor = idsetor;
     }
 
     public int getId() {
@@ -79,6 +84,22 @@ public class Lancamento {
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    public int getIdproduto() {
+        return idproduto;
+    }
+
+    public void setIdproduto(int idproduto) {
+        this.idproduto = idproduto;
+    }
+
+    public int getIdsetor() {
+        return idsetor;
+    }
+
+    public void setIdsetor(int idsetor) {
+        this.idsetor = idsetor;
     }
 
 }
