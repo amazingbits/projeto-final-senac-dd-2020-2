@@ -1,5 +1,7 @@
 package senac.estoque.model.bo;
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 import senac.estoque.helpers.Caracteres;
@@ -49,6 +51,14 @@ public class CategoriaBO {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * retorna a lista de categorias
+	 * @return
+	 */
+	public ArrayList<CategoriaVO> listarCategoria() {
+		return this.categoriaDAO.listar();
 	}
 
 }

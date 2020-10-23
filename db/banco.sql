@@ -8,9 +8,9 @@ create table if not exists tb_categoria(
     ativo int default 0
 );
 
-insert into tb_categoria values (NULL, "Escritório");
-insert into tb_categoria values (NULL, "Informática");
-insert into tb_categoria values (NULL, "Lazer");
+insert into tb_categoria values (NULL, "Escritório", 0);
+insert into tb_categoria values (NULL, "Informática", 0);
+insert into tb_categoria values (NULL, "Lazer", 0);
 
 create table if not exists tb_setor(
 	id int not null auto_increment primary key,
@@ -18,9 +18,9 @@ create table if not exists tb_setor(
     ativo int default 0
 );
 
-insert into tb_setor values (NULL, "Administração");
-insert into tb_setor values (NULL, "TI");
-insert into tb_setor values (NULL, "Diretoria");
+insert into tb_setor values (NULL, "Administração", 0);
+insert into tb_setor values (NULL, "TI", 0);
+insert into tb_setor values (NULL, "Diretoria", 0);
 
 create table if not exists tb_tipo_lancamento(
 	id int not null auto_increment primary key,

@@ -105,8 +105,8 @@ public class CategoriaDAO {
 	 */
 	public int cadastrar(CategoriaVO categoria) {
 		String sql = "INSERT INTO tb_categoria (descricao) VALUES ('";
-		sql.concat(categoria.getDescricao());
-		sql.concat("')");
+		sql = sql.concat(categoria.getDescricao());
+		sql = sql.concat("')");
 		
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
@@ -130,7 +130,12 @@ public class CategoriaDAO {
 	 * @return
 	 */
 	public int atualizar(CategoriaVO categoria, int id) {
-		String sql = "UPDATE tb_categoria SET descricao = '"+ categoria.getDescricao() +"' WHERE id = " + id;
+		//String sql = "UPDATE tb_categoria SET descricao = '"+ categoria.getDescricao() +"' WHERE id = " + id;
+		String sql = "UPDATE tb_categoria SET descricao = '";
+		sql = sql.concat(categoria.getDescricao());
+		sql = sql.concat("' WHERE id = ");
+		sql = sql.concat(""+id);
+		
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		int result = 0;
@@ -153,6 +158,28 @@ public class CategoriaDAO {
 	 */
 	public int excluir(int id) {
 		String sql = "DELETE FROM tb_categoria WHERE id = " + id;
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		int result = 0;
+		
+		try {
+			result = stmt.executeUpdate(sql);
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		return result;
+	}
+	
+	/**
+	 * exclusão lógica no banco de dados
+	 * @param id
+	 * @return
+	 */
+	public int exclusaoLogica(int id) {
+		String sql = "UPDATE tb_categoria SET ativo = 1 WHERE id = " + id;
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		int result = 0;

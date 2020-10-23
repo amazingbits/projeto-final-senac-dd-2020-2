@@ -81,6 +81,13 @@ public class App extends JFrame {
 		mnCategoria.add(mnCategoriaCadastrar);
 		
 		JMenuItem mnCategoriaListar = new JMenuItem("Listar Categorias");
+		mnCategoriaListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarCategorias listarCategorias = new ListarCategorias();
+				setContentPane(listarCategorias);
+				revalidate();
+			}
+		});
 		mnCategoria.add(mnCategoriaListar);
 		
 		JMenu mnSetor = new JMenu("Setores");
