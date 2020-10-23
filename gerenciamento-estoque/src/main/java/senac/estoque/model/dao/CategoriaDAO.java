@@ -18,7 +18,7 @@ public class CategoriaDAO {
 	 * @return
 	 */
 	public ArrayList<CategoriaVO> listar() {
-		String sql = "SELECT * FROM tb_categoria";
+		String sql = "SELECT * FROM tb_categoria WHERE ativo = 0";
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;
@@ -104,8 +104,10 @@ public class CategoriaDAO {
 	 * @return
 	 */
 	public int cadastrar(CategoriaVO categoria) {
-		String sql = "INSERT INTO tb_categoria VALUES (NULL, "
-		+ "'"+ categoria.getDescricao() +"')";
+		String sql = "INSERT INTO tb_categoria (descricao) VALUES ('";
+		sql.concat(categoria.getDescricao());
+		sql.concat("')");
+		
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		int result = 0;

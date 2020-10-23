@@ -4,7 +4,8 @@ use db_estoque;
 
 create table if not exists tb_categoria(
 	id int not null auto_increment primary key,
-    descricao text
+    descricao text,
+    ativo int default 0
 );
 
 insert into tb_categoria values (NULL, "Escritório");
@@ -13,7 +14,8 @@ insert into tb_categoria values (NULL, "Lazer");
 
 create table if not exists tb_setor(
 	id int not null auto_increment primary key,
-    descricao text
+    descricao text,
+    ativo int default 0
 );
 
 insert into tb_setor values (NULL, "Administração");
@@ -36,6 +38,7 @@ create table if not exists tb_produto(
     preco numeric(10,2) default 0,
     data_ultima_entrada date default null,
     data_ultima_saida date default null,
+    ativo int default 0,
     constraint fk_produto_categoria
     foreign key (categoria) references tb_categoria(id)
 );
@@ -202,8 +205,8 @@ end $$
 
 DELIMITER ;
 
--- insert into tb_produto values (null, "Mouse", 1, 5, 18.50, now(), null);
--- insert into tb_lancamento values (null, 1, 2, 2, 4, null, now());
+ -- insert into tb_produto values (null, "Mouse", 1, 5, 18.50, now(), null);
+ -- insert into tb_lancamento values (null, 1, 2, 2, 4, null, now());
 -- select * from vw_produto_log;
 -- select * from vw_lancamento_log;
 -- select * from vw_produto;
