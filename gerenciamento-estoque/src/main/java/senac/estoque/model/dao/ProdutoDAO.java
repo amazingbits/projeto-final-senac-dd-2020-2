@@ -81,7 +81,7 @@ public class ProdutoDAO {
 	}
 	
 	/**
-	 * listar um produto específico
+	 * listar um produto especï¿½fico
 	 * @param id
 	 * @return
 	 */
@@ -95,6 +95,42 @@ public class ProdutoDAO {
 		try {
 			result = stmt.executeQuery(sql);
 			while(result.next()) {
+				produto.setId(Integer.parseInt(result.getString("id")));
+				produto.setDescricao(result.getString("descricao"));
+				produto.getCategoria().setId(Integer.parseInt(result.getString("categoria")));
+				produto.setQuantidade(Integer.parseInt(result.getString("quantidade")));
+				produto.setPreco(Float.parseFloat(result.getString("preco")));
+				produto.setData_ultima_entrada(result.getString("data_ultima_entrada"));
+				produto.setData_ultima_saida(result.getString("data_ultima_saida"));
+			}
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		return produto;
+	}
+
+	/**
+	 * listar um produto especifico
+	 * @param nome
+	 * @return null ou ProdutoVO
+	 */
+	public ProdutoVO encontrar(String nome) {
+		String sql = "SELECT * FROM tb_produto WHERE ";
+		
+		sql.concat("descricao = '" + nome + "'");
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		ProdutoVO produto = null;
+		
+		try {
+			result = stmt.executeQuery(sql);
+			while(result.next()) {
+				produto = new ProdutoVO();
 				produto.setId(Integer.parseInt(result.getString("id")));
 				produto.setDescricao(result.getString("descricao"));
 				produto.getCategoria().setId(Integer.parseInt(result.getString("categoria")));
