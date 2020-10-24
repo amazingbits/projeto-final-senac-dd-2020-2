@@ -1,5 +1,7 @@
 package senac.estoque.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
@@ -8,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import senac.estoque.model.vo.LancamentoVO;
 import senac.estoque.model.vo.ProdutoVO;
 import senac.estoque.model.vo.SetorVO;
 import senac.estoque.model.vo.TipoLancamentoVO;
@@ -70,7 +73,7 @@ public class CadastroLancamentos extends JPanel {
 
         cbSetor = new JComboBox<String>();
         setorController = new SetorController();
-        
+
         listSetor = new ArrayList<SetorVO>();
         for (int i = 0; i < setorController.listarSetor().size(); i++) {
             cbSetor.addItem(setorController.listarSetor().get(i).getDescricao());
@@ -91,7 +94,7 @@ public class CadastroLancamentos extends JPanel {
 
         for (int i = 0; i < tipoLancamentoController.listarTipoLancamento().size(); i++) {
             cbTipo.addItem(tipoLancamentoController.listarTipoLancamento().get(i).getDescricao());
-            listTipo.add(tipoLancamentoController.listarTipoLancamento().get(i));   
+            listTipo.add(tipoLancamentoController.listarTipoLancamento().get(i));
         }
 
         cbTipo.setBounds(10, 190, 400, 36);
@@ -108,6 +111,23 @@ public class CadastroLancamentos extends JPanel {
         bCadastrar = new JButton("Cadastrar");
         bCadastrar.setBounds(10, 300, 200, 36);
         add(bCadastrar);
+
+        bCadastrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LancamentoVO lancamentoVO = new LancamentoVO();
+                ProdutoVO produtoVO = new ProdutoVO();
+                SetorVO setorVO = new SetorVO();
+                TipoLancamentoVO tipoLancamentoVO = new TipoLancamentoVO();
+
+                lancamentoVO.setProduto(produtoVO);
+                lancamentoVO.setSetor(setorVO);
+                lancamentoVO.setTipo(tipoLancamentoVO);
+
+                //FALTA POPULAR O VO E VALIDAR OS CAMPOS ANTES DE GRAVAR NO BANCO
+
+            }
+		});
 
     }
 
