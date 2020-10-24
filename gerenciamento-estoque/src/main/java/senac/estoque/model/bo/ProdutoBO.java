@@ -1,5 +1,7 @@
 package senac.estoque.model.bo;
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 import senac.estoque.model.dao.ProdutoDAO;
@@ -71,4 +73,9 @@ public class ProdutoBO {
         return resultado;
         
     }
+	public ArrayList<ProdutoVO> listarProduto() {
+       
+		return  produtoDAO.listar();
+    }
+    
 }

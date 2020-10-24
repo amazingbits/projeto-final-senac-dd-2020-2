@@ -12,6 +12,8 @@ import senac.estoque.model.vo.ProdutoVO;
 import senac.estoque.model.vo.SetorVO;
 import senac.estoque.model.vo.TipoLancamentoVO;
 
+import senac.estoque.controller.ProdutoController;
+
 public class CadastroLancamentos extends JPanel {
 
     private JLabel lblTitle;
@@ -32,6 +34,8 @@ public class CadastroLancamentos extends JPanel {
 
     private JButton bCadastrar;
 
+    private ProdutoController produtoController;
+
     public CadastroLancamentos() {
         setLayout(null);
 
@@ -46,6 +50,13 @@ public class CadastroLancamentos extends JPanel {
         add(lblProduto);
 
         cbProduto = new JComboBox<String>();
+        produtoController = new ProdutoController();
+        
+        for (int i = 0; i < produtoController.listarProduto().size(); i++) {
+            cbProduto.addItem(produtoController.listarProduto().get(i).getDescricao());
+            listProduto.add(produtoController.listarProduto().get(i));
+        }
+
         cbProduto.setBounds(10, 80, 400, 36);
         add(cbProduto);
 
