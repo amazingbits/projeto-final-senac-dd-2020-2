@@ -28,6 +28,9 @@ public class App extends JFrame {
 			public void run() {
 				try {
 					App frame = new App();
+
+					CadastroLancamentos cadastrarLancamentos = new CadastroLancamentos();
+					frame.setContentPane(cadastrarLancamentos);
 					frame.setVisible(true);
 					frame.setResizable(false);
 				} catch (Exception e) {
@@ -48,7 +51,7 @@ public class App extends JFrame {
 
 		JMenuBar topMenu = new JMenuBar();
 		setJMenuBar(topMenu);
-
+		
 		JMenu mnLancamento = new JMenu("Lançamentos");
 		topMenu.add(mnLancamento);
 

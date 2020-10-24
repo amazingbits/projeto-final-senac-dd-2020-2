@@ -74,7 +74,8 @@ public class ProdutoBO {
         
     }
 	public ArrayList<ProdutoVO> listarProduto() {
-       
+        produtoDAO = new ProdutoDAO();
+
 		return  produtoDAO.listar();
     }
     

@@ -13,6 +13,8 @@ import senac.estoque.model.vo.SetorVO;
 import senac.estoque.model.vo.TipoLancamentoVO;
 
 import senac.estoque.controller.ProdutoController;
+import senac.estoque.controller.SetorController;
+import senac.estoque.controller.TipoLancamentoController;
 
 public class CadastroLancamentos extends JPanel {
 
@@ -35,12 +37,13 @@ public class CadastroLancamentos extends JPanel {
     private JButton bCadastrar;
 
     private ProdutoController produtoController;
+    private SetorController setorController;
+    private TipoLancamentoController tipoLancamentoController;
 
     public CadastroLancamentos() {
         setLayout(null);
 
-
-        lblTitle = new JLabel("CADASTRO DE PRODUTOS");
+        lblTitle = new JLabel("CADASTRO DE LANÇAMENTOS");
         lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
         lblTitle.setBounds(10, 11, 600, 36);
         add(lblTitle);
@@ -51,11 +54,12 @@ public class CadastroLancamentos extends JPanel {
 
         cbProduto = new JComboBox<String>();
         produtoController = new ProdutoController();
-        
+        listProduto = new ArrayList<ProdutoVO>();
+
         for (int i = 0; i < produtoController.listarProduto().size(); i++) {
             cbProduto.addItem(produtoController.listarProduto().get(i).getDescricao());
             listProduto.add(produtoController.listarProduto().get(i));
-        }
+        }tipoLancamentoController
 
         cbProduto.setBounds(10, 80, 400, 36);
         add(cbProduto);
@@ -65,6 +69,15 @@ public class CadastroLancamentos extends JPanel {
         add(lblSetor);
 
         cbSetor = new JComboBox<String>();
+        setorController = new SetorController();
+        
+        listSetor = new ArrayList<SetorVO>();
+        for (int i = 0; i < setorController.listarSetor().size(); i++) {
+            cbSetor.addItem(setorController.listarSetor().get(i).getDescricao());
+            listSetor.add(setorController.listarSetor().get(i));
+
+        }
+
         cbSetor.setBounds(420, 80, 200, 36);
         add(cbSetor);
 
@@ -73,6 +86,14 @@ public class CadastroLancamentos extends JPanel {
         add(lblTipo);
 
         cbTipo = new JComboBox<String>();
+        listTipo = new ArrayList<TipoLancamentoVO>();
+        tipoLancamentoController = new TipoLancamentoController();
+
+        for (int i = 0; i < tipoLancamentoController.listarTipoLancamento().size(); i++) {
+            cbTipo.addItem(tipoLancamentoController.listarTipoLancamento().get(i).getDescricao());
+            listTipo.add(tipoLancamentoController.listarTipoLancamento().get(i));   
+        }
+
         cbTipo.setBounds(10, 190, 400, 36);
         add(cbTipo);
 
@@ -89,6 +110,5 @@ public class CadastroLancamentos extends JPanel {
         add(bCadastrar);
 
     }
-
 
 }

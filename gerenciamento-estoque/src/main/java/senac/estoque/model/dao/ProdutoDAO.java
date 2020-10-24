@@ -34,6 +34,7 @@ public class ProdutoDAO {
 				produto.setPreco(Float.parseFloat(result.getString("preco")));
 				produto.setData_ultima_entrada(result.getString("data_ultima_entrada"));
 				produto.setData_ultima_saida(result.getString("data_ultima_saida"));
+
 				listaProduto.add(produto);
 			}
 		} catch(SQLException e) {

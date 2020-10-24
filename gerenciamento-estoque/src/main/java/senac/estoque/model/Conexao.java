@@ -8,7 +8,7 @@ public class Conexao {
 	private static final String BANCODADOS = "db_estoque";
 	private static final String CONEXAO = "jdbc:mysql://localhost:3306/" + BANCODADOS + "?useTimezone=true&serverTimezone=UTC";
 	private static final String USER = "root";
-	private static final String PASSWORD = "11445544";
+	private static final String PASSWORD = "";
 	
 	public static Connection getConnection() {
 		try {
@@ -17,11 +17,11 @@ public class Conexao {
 			conn = DriverManager.getConnection(CONEXAO, USER, PASSWORD);
 			return conn;
 		}catch(ClassNotFoundException e) {
-			System.out.println("Classe do driver não foi encontrada");
+			System.out.println("Classe do driver nï¿½o foi encontrada");
 			System.out.println("Erro: " + e.getMessage());
 			return null;
 		}catch(SQLException e) {
-			System.out.println("Erro ao obter conexão");
+			System.out.println("Erro ao obter conexï¿½o");
 			System.out.println("Erro: " + e.getMessage());
 			return null;
 		}
@@ -33,7 +33,7 @@ public class Conexao {
 				conn.close();
 			}
 		}catch(SQLException e) {
-			System.out.println("Problema no fechamento da conexão");
+			System.out.println("Problema no fechamento da conexï¿½o");
 			System.out.println("Erro: " + e.getMessage());
 		}
 	}
