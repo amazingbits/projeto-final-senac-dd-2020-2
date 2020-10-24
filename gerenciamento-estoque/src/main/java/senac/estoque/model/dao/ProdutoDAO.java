@@ -8,6 +8,7 @@ import java.sql.*;
 
 import senac.estoque.model.Conexao;
 import senac.estoque.model.dto.ProdutoDTO;
+import senac.estoque.model.vo.CategoriaVO;
 import senac.estoque.model.vo.ProdutoVO;
 
 public class ProdutoDAO {
@@ -27,9 +28,12 @@ public class ProdutoDAO {
 			result = stmt.executeQuery(sql);
 			while(result.next()) {
 				ProdutoVO produto = new ProdutoVO();
+				CategoriaVO categoria = new CategoriaVO();
+				
 				produto.setId(Integer.parseInt(result.getString("id")));
 				produto.setDescricao(result.getString("descricao"));
-				produto.getCategoria().setId(Integer.parseInt(result.getString("categoria")));
+				categoria.setId(Integer.parseInt(result.getString("categoria")));
+				produto.setCategoria(categoria);
 				produto.setQuantidade(Integer.parseInt(result.getString("quantidade")));
 				produto.setPreco(Float.parseFloat(result.getString("preco")));
 				produto.setData_ultima_entrada(result.getString("data_ultima_entrada"));
@@ -92,13 +96,17 @@ public class ProdutoDAO {
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;
 		ProdutoVO produto = new ProdutoVO();
+		CategoriaVO categoria = new CategoriaVO();
+
 		
 		try {
 			result = stmt.executeQuery(sql);
 			while(result.next()) {
 				produto.setId(Integer.parseInt(result.getString("id")));
 				produto.setDescricao(result.getString("descricao"));
-				produto.getCategoria().setId(Integer.parseInt(result.getString("categoria")));
+
+				categoria.setId(Integer.parseInt(result.getString("categoria")));
+				produto.setCategoria(categoria);
 				produto.setQuantidade(Integer.parseInt(result.getString("quantidade")));
 				produto.setPreco(Float.parseFloat(result.getString("preco")));
 				produto.setData_ultima_entrada(result.getString("data_ultima_entrada"));
@@ -120,9 +128,8 @@ public class ProdutoDAO {
 	 * @return null ou ProdutoVO
 	 */
 	public ProdutoVO encontrar(String nome) {
-		String sql = "SELECT * FROM tb_produto WHERE ";
-		
-		sql.concat("descricao = '" + nome + "'");
+		String sql = "SELECT * FROM tb_produto WHERE descricao = '" + nome + "'";
+
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;
@@ -132,9 +139,12 @@ public class ProdutoDAO {
 			result = stmt.executeQuery(sql);
 			while(result.next()) {
 				produto = new ProdutoVO();
+				CategoriaVO categoria = new CategoriaVO();
+
 				produto.setId(Integer.parseInt(result.getString("id")));
 				produto.setDescricao(result.getString("descricao"));
-				produto.getCategoria().setId(Integer.parseInt(result.getString("categoria")));
+				categoria.setId(Integer.parseInt(result.getString("categoria")));
+				produto.setCategoria(categoria);
 				produto.setQuantidade(Integer.parseInt(result.getString("quantidade")));
 				produto.setPreco(Float.parseFloat(result.getString("preco")));
 				produto.setData_ultima_entrada(result.getString("data_ultima_entrada"));
@@ -156,13 +166,15 @@ public class ProdutoDAO {
 	 * @return
 	 */
 	public int cadastrar(ProdutoVO produto) {
-		String sql = "INSERT INTO tb_produto VALUES (NULL, "
+		String sql = "INSERT INTO tb_produto (id,descricao,categoria,quantidade,preco,data_ultima_entrada,data_ultima_saida) VALUES (NULL,"
 		+ "'"+ produto.getDescricao() +"', "
-		+ produto.getCategoria().getId() +", "
-		+ produto.getQuantidade() +", "
-		+ produto.getPreco() +", "
-		+ "'"+ produto.getData_ultima_entrada() +"', "
-		+ "'"+ produto.getData_ultima_saida() +"')";
+		+ 	produto.getCategoria().getId() +", "
+		+ 	produto.getQuantidade() +", "
+		+ 	produto.getPreco() +", "
+		+ 	""+ produto.getData_ultima_entrada() +", "
+		+ 	""+ produto.getData_ultima_saida() +")";
+
+		System.out.println(sql);
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		int result = 0;
@@ -170,8 +182,10 @@ public class ProdutoDAO {
 		try {
 			result = stmt.executeUpdate(sql);
 		} catch(SQLException e) {
+
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} finally {
+
 			Conexao.closeStatement(stmt);
 			Conexao.closeConnection(conn);
 		}

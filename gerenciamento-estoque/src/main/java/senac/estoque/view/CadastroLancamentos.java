@@ -59,7 +59,7 @@ public class CadastroLancamentos extends JPanel {
         for (int i = 0; i < produtoController.listarProduto().size(); i++) {
             cbProduto.addItem(produtoController.listarProduto().get(i).getDescricao());
             listProduto.add(produtoController.listarProduto().get(i));
-        }tipoLancamentoController
+        }
 
         cbProduto.setBounds(10, 80, 400, 36);
         add(cbProduto);

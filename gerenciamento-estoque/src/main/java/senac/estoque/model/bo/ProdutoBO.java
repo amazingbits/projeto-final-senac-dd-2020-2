@@ -20,6 +20,7 @@ public class ProdutoBO {
         produtoDAO = new ProdutoDAO();
         
         if (produtoDAO.encontrar(produtoVO.getDescricao()) != null ){
+            
 			JOptionPane.showMessageDialog(null, "O produto já foi cadastrado", "Erro", JOptionPane.ERROR_MESSAGE);
 
             return false;
@@ -35,22 +36,12 @@ public class ProdutoBO {
             return false;
         }
 
-        if (produtoVO.getDescricao().length() >= 3 ) {
+        if (produtoVO.getDescricao().length() <= 3 ) {
             JOptionPane.showMessageDialog(null, "A descrição deve conter mais de 3 caracteres", "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-    
-        if (produtoVO.getData_ultima_saida().isEmpty()){
-            JOptionPane.showMessageDialog(null, "A data de saida deve ser preenchida", "Erro", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
 
-        if (produtoVO.getData_ultima_entrada().isEmpty()){
-            JOptionPane.showMessageDialog(null, "A data de entrada deve ser preenchida", "Erro", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
-        if (produtoVO.getCategoria().getDescricao().length() >= 3){
+        if (produtoVO.getCategoria().getDescricao().length() <= 3){
             JOptionPane.showMessageDialog(null, "A categória deve conter mais de 3 caracteres", "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }

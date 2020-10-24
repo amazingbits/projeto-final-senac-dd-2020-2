@@ -1,7 +1,7 @@
 package senac.estoque.model.vo;
 
 public class ProdutoVO {
-	
+
 	private int id;
 	private String descricao;
 	private CategoriaVO categoria;
@@ -9,7 +9,7 @@ public class ProdutoVO {
 	private float preco;
 	private String data_ultima_entrada;
 	private String data_ultima_saida;
-	
+
 	public ProdutoVO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -24,7 +24,7 @@ public class ProdutoVO {
 
 	/**
 	 * @param id the id to set
-	 */	
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -111,6 +111,13 @@ public class ProdutoVO {
 	 */
 	public void setData_ultima_saida(String data_ultima_saida) {
 		this.data_ultima_saida = data_ultima_saida;
+	}
+
+	@Override
+	public String toString() {
+		return "ProdutoVO [categoria=" + categoria + ", data_ultima_entrada=" + data_ultima_entrada
+				+ ", data_ultima_saida=" + data_ultima_saida + ", descricao=" + descricao + ", id=" + id + ", preco="
+				+ preco + ", quantidade=" + quantidade + "]";
 	}
 
 }

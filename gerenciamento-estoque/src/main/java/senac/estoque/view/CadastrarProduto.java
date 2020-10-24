@@ -102,6 +102,8 @@ public class CadastrarProduto extends JPanel {
                 categoriaVO.setId(listIdCategorias.get(cbCategoria.getSelectedIndex()));
                 produtoVO.setCategoria(categoriaVO);
 
+                System.out.println(produtoVO.toString());
+
                 if (produtoController.cadastrarProduto(produtoVO)) {
                     JOptionPane.showMessageDialog(null, "Sucesso em cadastrar o produto");
                 }else{
