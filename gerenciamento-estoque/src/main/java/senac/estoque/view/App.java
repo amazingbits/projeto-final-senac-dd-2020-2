@@ -177,6 +177,13 @@ public class App extends JFrame {
 		mnLog.add(mnLogProduto);
 
 		JMenuItem mnLogLancamento = new JMenuItem("Log Lançamentos");
+		mnLogLancamento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListaLogLancamentos listaLogLancamentos = new ListaLogLancamentos();
+				setContentPane(listaLogLancamentos);
+				revalidate();
+			}
+		});
 		mnLog.add(mnLogLancamento);
 
 		JMenu mnSobre = new JMenu("Sobre");

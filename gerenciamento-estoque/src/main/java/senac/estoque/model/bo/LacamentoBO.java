@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import senac.estoque.model.dao.LancamentoDAO;
 import senac.estoque.model.dto.LancamentoDTO;
 import senac.estoque.model.vo.LancamentoVO;
+import senac.estoque.model.vo.LogLancamentosVO;
 
 public class LacamentoBO {
 
@@ -48,6 +49,11 @@ public class LacamentoBO {
 	public ArrayList<LancamentoDTO>listarLancamento() {
         lancamentoDAO = new LancamentoDAO();
 		return lancamentoDAO.listarView();
-	}   
+    }   
+    
+    public ArrayList<LogLancamentosVO> listarLogLancamentos(){
+        lancamentoDAO = new LancamentoDAO();
+		return lancamentoDAO.listarLogLancamentos();
+    }
     
 }

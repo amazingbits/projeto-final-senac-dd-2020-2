@@ -9,6 +9,7 @@ import java.sql.*;
 import senac.estoque.model.Conexao;
 import senac.estoque.model.dto.LancamentoDTO;
 import senac.estoque.model.vo.LancamentoVO;
+import senac.estoque.model.vo.LogLancamentosVO;
 
 public class LancamentoDAO {
 	
@@ -44,6 +45,41 @@ public class LancamentoDAO {
 			Conexao.closeConnection(conn);
 		}
 		return listaLancamento;
+	}
+	
+	/**
+	 * listar todos os lan�amentos
+	 * @return
+	 */
+	public ArrayList<LogLancamentosVO> listarLogLancamentos() {
+		String sql = "SELECT * FROM vw_lancamento_log";
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		ArrayList<LogLancamentosVO> logLancamentosVO = new ArrayList<LogLancamentosVO>();
+		
+		try {
+			result = stmt.executeQuery(sql);
+			while(result.next()) {
+				LogLancamentosVO logLancamento = new LogLancamentosVO();
+
+				logLancamento.setCodigoproduto(result.getInt("codigoproduto"));
+				logLancamento.setData(result.getString("data"));
+				logLancamento.setOperacacao(result.getString("operacao"));
+				logLancamento.setProduto(result.getString("produto"));
+				logLancamento.setQuantidade(result.getInt("quantidade"));
+				logLancamento.setTipo(result.getString("tipo"));
+				
+				logLancamentosVO.add(logLancamento);
+			}
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		return logLancamentosVO;
 	}
 	
 	/**
