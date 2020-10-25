@@ -128,6 +128,18 @@ inner join tb_tipo_lancamento on
 (tb_lancamento.tipo = tb_tipo_lancamento.id)
 order by tb_lancamento.id desc;
 
+create view vw_produtos_mais_comprados as
+select 
+COUNT(id) qtd_vendas,
+descricao
+from tb_produto
+where  
+	data_ultima_saida = null
+group by 
+	descricao
+order by 
+	qtd_vendas desc
+
 DELIMITER $$
 
 create trigger tg_tb_produto_bi before insert on tb_produto for each row
