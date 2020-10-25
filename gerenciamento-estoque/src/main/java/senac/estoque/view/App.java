@@ -68,6 +68,7 @@ public class App extends JFrame {
 		mnLancamento.add(mnLancamentoCadastrar);
 
 		JMenuItem mnLancamentoListar = new JMenuItem("Listar Lançamentos");
+
 		mnLancamento.add(mnLancamentoListar);
 
 		JMenu mnProduto = new JMenu("Produtos");
@@ -85,6 +86,13 @@ public class App extends JFrame {
 		mnProduto.add(mnProdutoCadastrar);
 
 		JMenuItem mnProdutoListar = new JMenuItem("Listar Produtos");
+		mnProdutoListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ListarProdutos listarProdutos = new ListarProdutos();
+				setContentPane(listarProdutos);
+				revalidate();
+			}
+		});
 		mnProduto.add(mnProdutoListar);
 
 		JMenu mnCategoria = new JMenu("Categorias");

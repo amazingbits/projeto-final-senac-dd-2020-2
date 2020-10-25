@@ -1,29 +1,27 @@
 package senac.estoque.view;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
-import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+import java.awt.Dimension;
 
-import senac.estoque.controller.CategoriaController;
-import senac.estoque.model.vo.CategoriaVO;
+import senac.estoque.controller.ProdutoController;
+import senac.estoque.model.vo.ProdutoVO;
 
-import javax.swing.JTable;
-
-public class ListarCategorias extends JPanel {
-
+public class ListarProdutos extends JPanel {
+    
 	/**
 	 * Create the panel.
 	 */
-	public ListarCategorias() {
+	public ListarProdutos() {
 		setLayout(null);
 		
-		JLabel lblTitle = new JLabel("LISTAR CATEGORIAS");
+		JLabel lblTitle = new JLabel("LISTAR PRODUTOS");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setBounds(10, 11, 600, 36);
 		add(lblTitle);
@@ -31,8 +29,8 @@ public class ListarCategorias extends JPanel {
 		/**
 		 * carregar lista de categorias
 		 */
-		CategoriaController categoriaController = new CategoriaController();
-		ArrayList<CategoriaVO> categorias = categoriaController.listarCategoria();
+		ProdutoController produtoController = new ProdutoController();
+		ArrayList<ProdutoVO> produtos = produtoController.listarProduto();
 		/* ==================================================================== */
 		
 		//definir colunas
@@ -48,8 +46,8 @@ public class ListarCategorias extends JPanel {
 		tabela.setFillsViewportHeight(true);
 		
 		//populando a tabela
-		for(int i = 0; i < categorias.size(); i++) {
-			modelo.addRow(new Object[] {categorias.get(i).getId(), categorias.get(i).getDescricao()});
+		for(int i = 0; i < produtos.size(); i++) {
+			modelo.addRow(new Object[] {produtos.get(i).getId(), produtos.get(i).getDescricao()});
 		}
 		
 		//imprimindo a tabela na tela
