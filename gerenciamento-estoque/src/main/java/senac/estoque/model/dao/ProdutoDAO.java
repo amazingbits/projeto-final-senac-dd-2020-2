@@ -8,13 +8,15 @@ import java.sql.*;
 
 import senac.estoque.model.Conexao;
 import senac.estoque.model.dto.ProdutoDTO;
+import senac.estoque.model.dto.ProdutoMaisVendidoDTO;
 import senac.estoque.model.vo.CategoriaVO;
 import senac.estoque.model.vo.ProdutoVO;
 
 public class ProdutoDAO {
-	
+
 	/**
 	 * listar todos os produtos
+	 * 
 	 * @return
 	 */
 	public ArrayList<ProdutoVO> listar() {
@@ -23,13 +25,13 @@ public class ProdutoDAO {
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;
 		ArrayList<ProdutoVO> listaProduto = new ArrayList<ProdutoVO>();
-		
+
 		try {
 			result = stmt.executeQuery(sql);
-			while(result.next()) {
+			while (result.next()) {
 				ProdutoVO produto = new ProdutoVO();
 				CategoriaVO categoria = new CategoriaVO();
-				
+
 				produto.setId(Integer.parseInt(result.getString("id")));
 				produto.setDescricao(result.getString("descricao"));
 				categoria.setId(Integer.parseInt(result.getString("categoria")));
@@ -41,7 +43,7 @@ public class ProdutoDAO {
 
 				listaProduto.add(produto);
 			}
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			Conexao.closeResultSet(result);
@@ -50,9 +52,44 @@ public class ProdutoDAO {
 		}
 		return listaProduto;
 	}
-	
+
+
+	/**
+	 * listar todos os produtos mais vendidos
+	 * 
+	 * @return
+	 */
+	public ArrayList<ProdutoMaisVendidoDTO> listarMaisVendidos() {
+		String sql = "SELECT * FROM vw_produtos_mais_comprados";
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		ArrayList<ProdutoMaisVendidoDTO> listaProdutoMaisVendidos = new ArrayList<ProdutoMaisVendidoDTO>();
+		
+		try {
+			result = stmt.executeQuery(sql);
+			while(result.next()) {
+				
+				ProdutoMaisVendidoDTO produtoMaisVendidoDTO = new ProdutoMaisVendidoDTO();
+
+				produtoMaisVendidoDTO.setQtd_vendas(Integer.parseInt(result.getString("qtd_vendas")));
+				produtoMaisVendidoDTO.setDescricao(result.getString("descricao"));
+
+				listaProdutoMaisVendidos.add(produtoMaisVendidoDTO);
+			}
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		return listaProdutoMaisVendidos;
+	}
+
 	/**
 	 * listagem de produtos a partir da view do banco de dados
+	 * 
 	 * @return
 	 */
 	public ArrayList<ProdutoDTO> listarView() {
@@ -61,10 +98,10 @@ public class ProdutoDAO {
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;
 		ArrayList<ProdutoDTO> listaProduto = new ArrayList<ProdutoDTO>();
-		
+
 		try {
 			result = stmt.executeQuery(sql);
-			while(result.next()) {
+			while (result.next()) {
 				ProdutoDTO produto = new ProdutoDTO();
 				produto.setId(Integer.parseInt(result.getString("codigo")));
 				produto.setDescricao(result.getString("descricao"));
@@ -75,7 +112,7 @@ public class ProdutoDAO {
 				produto.setUltimaSaida(result.getString("ultima_saida"));
 				listaProduto.add(produto);
 			}
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			Conexao.closeResultSet(result);
@@ -84,9 +121,10 @@ public class ProdutoDAO {
 		}
 		return listaProduto;
 	}
-	
+
 	/**
 	 * listar um produto espec�fico
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -98,10 +136,9 @@ public class ProdutoDAO {
 		ProdutoVO produto = new ProdutoVO();
 		CategoriaVO categoria = new CategoriaVO();
 
-		
 		try {
 			result = stmt.executeQuery(sql);
-			while(result.next()) {
+			while (result.next()) {
 				produto.setId(Integer.parseInt(result.getString("id")));
 				produto.setDescricao(result.getString("descricao"));
 
@@ -112,7 +149,7 @@ public class ProdutoDAO {
 				produto.setData_ultima_entrada(result.getString("data_ultima_entrada"));
 				produto.setData_ultima_saida(result.getString("data_ultima_saida"));
 			}
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			Conexao.closeResultSet(result);
@@ -124,6 +161,7 @@ public class ProdutoDAO {
 
 	/**
 	 * listar um produto especifico
+	 * 
 	 * @param nome
 	 * @return null ou ProdutoVO
 	 */
@@ -134,10 +172,10 @@ public class ProdutoDAO {
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;
 		ProdutoVO produto = null;
-		
+
 		try {
 			result = stmt.executeQuery(sql);
-			while(result.next()) {
+			while (result.next()) {
 				produto = new ProdutoVO();
 				CategoriaVO categoria = new CategoriaVO();
 
@@ -150,7 +188,7 @@ public class ProdutoDAO {
 				produto.setData_ultima_entrada(result.getString("data_ultima_entrada"));
 				produto.setData_ultima_saida(result.getString("data_ultima_saida"));
 			}
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			Conexao.closeResultSet(result);
@@ -159,29 +197,27 @@ public class ProdutoDAO {
 		}
 		return produto;
 	}
-	
+
 	/**
 	 * cadastra um novo produto
+	 * 
 	 * @param produto
 	 * @return
 	 */
 	public int cadastrar(ProdutoVO produto) {
 		String sql = "INSERT INTO tb_produto (id,descricao,categoria,quantidade,preco,data_ultima_entrada,data_ultima_saida) VALUES (NULL,"
-		+ "'"+ produto.getDescricao() +"', "
-		+ 	produto.getCategoria().getId() +", "
-		+ 	produto.getQuantidade() +", "
-		+ 	produto.getPreco() +", "
-		+ 	""+ produto.getData_ultima_entrada() +", "
-		+ 	""+ produto.getData_ultima_saida() +")";
+				+ "'" + produto.getDescricao() + "', " + produto.getCategoria().getId() + ", " + produto.getQuantidade()
+				+ ", " + produto.getPreco() + ", " + "" + produto.getData_ultima_entrada() + ", " + ""
+				+ produto.getData_ultima_saida() + ")";
 
 		System.out.println(sql);
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		int result = 0;
-		
+
 		try {
 			result = stmt.executeUpdate(sql);
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} finally {
@@ -191,29 +227,26 @@ public class ProdutoDAO {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * atualizar um produto
+	 * 
 	 * @param produto
 	 * @param id
 	 * @return
 	 */
 	public int atualizar(ProdutoVO produto, int id) {
-		String sql = "UPDATE tb_produto SET "
-					  + "descricao = '"+ produto.getDescricao() +"', "
-					  + "categoria = " + produto.getCategoria().getId() + ", "
-					  + "quantidade = " + produto.getQuantidade() + ", "
-					  + "preco = " + produto.getPreco() + ", "
-					  + "data_ultima_entrada = '"+ produto.getData_ultima_entrada() +"', "
-					  + "data_ultima_saida = '"+ produto.getData_ultima_saida() +"' "
-					  + "WHERE id = " + id;
+		String sql = "UPDATE tb_produto SET " + "descricao = '" + produto.getDescricao() + "', " + "categoria = "
+				+ produto.getCategoria().getId() + ", " + "quantidade = " + produto.getQuantidade() + ", " + "preco = "
+				+ produto.getPreco() + ", " + "data_ultima_entrada = '" + produto.getData_ultima_entrada() + "', "
+				+ "data_ultima_saida = '" + produto.getData_ultima_saida() + "' " + "WHERE id = " + id;
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		int result = 0;
-		
+
 		try {
 			result = stmt.executeUpdate(sql);
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			Conexao.closeStatement(stmt);
@@ -221,9 +254,10 @@ public class ProdutoDAO {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * exclui um produto
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -232,10 +266,10 @@ public class ProdutoDAO {
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		int result = 0;
-		
+
 		try {
 			result = stmt.executeUpdate(sql);
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			Conexao.closeStatement(stmt);
