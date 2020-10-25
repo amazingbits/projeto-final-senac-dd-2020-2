@@ -10,6 +10,7 @@ import senac.estoque.model.Conexao;
 import senac.estoque.model.dto.ProdutoDTO;
 import senac.estoque.model.dto.ProdutoMaisVendidoDTO;
 import senac.estoque.model.vo.CategoriaVO;
+import senac.estoque.model.vo.LogProdutosVO;
 import senac.estoque.model.vo.ProdutoVO;
 
 public class ProdutoDAO {
@@ -87,6 +88,36 @@ public class ProdutoDAO {
 		return listaProdutoMaisVendidos;
 	}
 
+	public ArrayList<LogProdutosVO> listaLogProdutos(){
+		
+		String sql = "SELECT * FROM vw_produto_log";
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		ArrayList<LogProdutosVO> listaLogProdutosVO = new ArrayList<LogProdutosVO>();
+		
+		try {
+			result = stmt.executeQuery(sql);
+			while(result.next()) {
+				
+				LogProdutosVO logProdutos = new LogProdutosVO();
+
+				logProdutos.setProduto(result.getString("produto"));
+				logProdutos.setOperacao(result.getString("operacao"));
+				logProdutos.setQuantidade(Integer.parseInt(result.getString("quantidade")));
+				logProdutos.setData(result.getString("data"));
+
+				listaLogProdutosVO.add(logProdutos);
+			}
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		return listaLogProdutosVO;
+	}
 	/**
 	 * listagem de produtos a partir da view do banco de dados
 	 * 
