@@ -9,7 +9,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import senac.estoque.controller.CategoriaController;
 import senac.estoque.controller.ProdutoController;
@@ -27,7 +29,8 @@ public class CadastrarProduto extends JPanel {
 
     private JTextField tfNomeProduto;
     private JTextField tfPrecoUnidade;
-    private JTextField tfQuantidade;
+
+    private JSpinner sQuantidade;
 
     private JComboBox<String> cbCategoria;
     private JButton bCadastrar;
@@ -79,10 +82,16 @@ public class CadastrarProduto extends JPanel {
         lblQuantidade.setBounds(420, 150, 200, 36);
         add(lblQuantidade);
 
-        tfQuantidade = new JTextField();
-        tfQuantidade.setBounds(420, 190, 200, 36);
-        add(tfQuantidade);
 
+        Integer value = new Integer(1);
+        Integer min = new Integer(1);
+        Integer max = new Integer(100);
+        Integer step = new Integer(1);
+        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(value, min, max, step);
+        sQuantidade = new JSpinner(spinnerModel);
+        sQuantidade.setBounds(420, 190, 200, 36);
+        add(sQuantidade);
+        
         bCadastrar = new JButton("Cadastrar");
         bCadastrar.setBounds(10, 300, 200, 36);
         add(bCadastrar);
@@ -97,7 +106,7 @@ public class CadastrarProduto extends JPanel {
 
                 produtoVO.setPreco(Float.parseFloat(tfPrecoUnidade.getText()));
                 produtoVO.setDescricao(tfNomeProduto.getText());
-                produtoVO.setQuantidade(Integer.parseInt(tfQuantidade.getText()));
+                produtoVO.setQuantidade((int) sQuantidade.getValue());
                 categoriaVO.setDescricao("" + cbCategoria.getItemAt(cbCategoria.getSelectedIndex()) + "");
                 categoriaVO.setId(listIdCategorias.get(cbCategoria.getSelectedIndex()));
                 produtoVO.setCategoria(categoriaVO);
