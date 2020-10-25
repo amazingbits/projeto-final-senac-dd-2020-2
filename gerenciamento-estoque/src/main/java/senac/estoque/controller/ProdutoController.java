@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import senac.estoque.model.bo.ProdutoBO;
 import senac.estoque.model.dto.ProdutoMaisVendidoDTO;
+import senac.estoque.model.vo.LogProdutosVO;
 import senac.estoque.model.vo.ProdutoVO;
 
 public class ProdutoController {
@@ -19,5 +20,9 @@ public class ProdutoController {
 	public ArrayList<ProdutoMaisVendidoDTO> listarProdutoMaisVendidos(){
 		ProdutoBO produtoBO = new ProdutoBO();
 		return produtoBO.listarProdutoMaisVendidos();
+	}
+	public ArrayList<LogProdutosVO> listaLogProdutos(){
+		ProdutoBO produtoBO = new ProdutoBO();
+		return produtoBO.listaLogProdutos();
 	}
 }
