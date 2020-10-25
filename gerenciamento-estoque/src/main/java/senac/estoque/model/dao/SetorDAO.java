@@ -41,12 +41,34 @@ public class SetorDAO {
 	}
 	
 	/**
-	 * retorna um setor específico
+	 * retorna um setor especï¿½fico
 	 * @param id
 	 * @return
 	 */
 	public SetorVO encontrar(int id) {
 		String sql = "SELECT * FROM tb_setor WHERE id = " + id;
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		SetorVO setor = new SetorVO();
+		
+		try {
+			result = stmt.executeQuery(sql);
+			while(result.next()) {
+				setor.setId(Integer.parseInt(result.getString("id")));
+				setor.setDescricao(result.getString("descricao"));
+			}
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		return setor;
+	}
+	public SetorVO encontrar(String nome) {
+		String sql = "SELECT * FROM tb_setor WHERE descricao = '" + nome +"'";
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;
@@ -74,9 +96,7 @@ public class SetorDAO {
 	 * @return
 	 */
 	public int cadastrar(SetorVO setor) {
-		String sql = "INSERT INTO tb_setor VALUES (NULL, "
-		+ setor.getId() +", "
-		+ "'"+ setor.getDescricao() +"')";
+		String sql = "INSERT INTO tb_setor (descricao) VALUES ('"+ setor.getDescricao() +"')";
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		int result = 0;

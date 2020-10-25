@@ -122,6 +122,13 @@ public class App extends JFrame {
 		topMenu.add(mnSetor);
 
 		JMenuItem mnSetorCadastrar = new JMenuItem("Novo Setor");
+		mnSetorCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CadastroSetor cadastroSetor = new CadastroSetor();
+				setContentPane(cadastroSetor);
+				revalidate();
+			}
+		});
 		mnSetor.add(mnSetorCadastrar);
 
 		JMenuItem mnSetorListar = new JMenuItem("Listar Setores");
