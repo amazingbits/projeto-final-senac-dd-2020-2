@@ -12,7 +12,7 @@ public class ProdutoVO {
 
 	public ProdutoVO() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/**

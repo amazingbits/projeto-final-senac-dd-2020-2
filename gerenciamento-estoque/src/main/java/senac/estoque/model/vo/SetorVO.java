@@ -1,13 +1,13 @@
 package senac.estoque.model.vo;
 
 public class SetorVO {
-	
+
 	private int id;
 	private String descricao;
-	
+
 	public SetorVO() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/**

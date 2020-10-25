@@ -1,7 +1,7 @@
 package senac.estoque.model.dto;
 
 public class ProdutoDTO {
-	
+
 	private int id;
 	private String descricao;
 	private float preco;
@@ -9,10 +9,10 @@ public class ProdutoDTO {
 	private int quantidade;
 	private String ultimaEntrada;
 	private String ultimaSaida;
-	
+
 	public ProdutoDTO() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/**

@@ -1,7 +1,7 @@
 package senac.estoque.model.vo;
 
 public class LancamentoVO {
-	
+
 	private int id;
 	private ProdutoVO produto;
 	private SetorVO setor;
@@ -9,10 +9,10 @@ public class LancamentoVO {
 	private int quantidade;
 	private float precoTotal;
 	private String data;
-	
+
 	public LancamentoVO() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/**

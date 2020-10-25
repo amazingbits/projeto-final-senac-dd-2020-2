@@ -1,7 +1,7 @@
 package senac.estoque.model.dto;
 
 public class LancamentoDTO {
-	
+
 	private int id;
 	private int idproduto;
 	private float preco_total;
@@ -10,10 +10,10 @@ public class LancamentoDTO {
 	private String tipo;
 	private int quantidade;
 	private String data;
-	
+
 	public LancamentoDTO() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/**

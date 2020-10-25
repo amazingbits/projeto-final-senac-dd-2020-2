@@ -13,7 +13,7 @@ import senac.estoque.model.vo.LancamentoVO;
 public class LancamentoDAO {
 	
 	/**
-	 * listar todos os lançamentos
+	 * listar todos os lanï¿½amentos
 	 * @return
 	 */
 	public ArrayList<LancamentoVO> listar() {
@@ -47,7 +47,7 @@ public class LancamentoDAO {
 	}
 	
 	/**
-	 * lista todos os lançamentos a partir da view do banco de dados
+	 * lista todos os lanï¿½amentos a partir da view do banco de dados
 	 * @return
 	 */
 	public ArrayList<LancamentoDTO> listarView() {
@@ -82,7 +82,7 @@ public class LancamentoDAO {
 	}
 	
 	/**
-	 * retorna um lançamento específico
+	 * retorna um lanï¿½amento especï¿½fico
 	 * @param id
 	 * @return
 	 */
@@ -115,7 +115,7 @@ public class LancamentoDAO {
 	}
 	
 	/**
-	 * cadastra um novo lançamento
+	 * cadastra um novo lanï¿½amento
 	 * @param lancamento
 	 * @return
 	 */
@@ -126,15 +126,17 @@ public class LancamentoDAO {
 					  + lancamento.getTipo().getId() +", "
 					  + lancamento.getQuantidade() +", "
 					  + lancamento.getPrecoTotal() +", "
-					  + "'"+ lancamento.getData() +"')";
+					  + "NOW()"+ ")";
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		int result = 0;
 		
 		try {
 			result = stmt.executeUpdate(sql);
+			System.out.println(sql);
 		} catch(SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			System.out.println(sql);
 		} finally {
 			Conexao.closeStatement(stmt);
 			Conexao.closeConnection(conn);
@@ -143,7 +145,7 @@ public class LancamentoDAO {
 	}
 	
 	/**
-	 * atualiza um lançamento
+	 * atualiza um lanï¿½amento
 	 * @param lancamento
 	 * @param id
 	 * @return
@@ -173,7 +175,7 @@ public class LancamentoDAO {
 	}
 	
 	/**
-	 * excluir um lançamento
+	 * excluir um lanï¿½amento
 	 * @param id
 	 * @return
 	 */

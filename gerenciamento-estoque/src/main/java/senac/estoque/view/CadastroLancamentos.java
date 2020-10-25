@@ -7,6 +7,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -14,7 +15,7 @@ import senac.estoque.model.vo.LancamentoVO;
 import senac.estoque.model.vo.ProdutoVO;
 import senac.estoque.model.vo.SetorVO;
 import senac.estoque.model.vo.TipoLancamentoVO;
-
+import senac.estoque.controller.LancamentoController;
 import senac.estoque.controller.ProdutoController;
 import senac.estoque.controller.SetorController;
 import senac.estoque.controller.TipoLancamentoController;
@@ -119,15 +120,21 @@ public class CadastroLancamentos extends JPanel {
                 ProdutoVO produtoVO = new ProdutoVO();
                 SetorVO setorVO = new SetorVO();
                 TipoLancamentoVO tipoLancamentoVO = new TipoLancamentoVO();
+                LancamentoController lancamentoController = new LancamentoController();
 
+                produtoVO.setId(listProduto.get(cbProduto.getSelectedIndex()).getId());
+                setorVO.setId(listSetor.get(cbSetor.getSelectedIndex()).getId());
+                tipoLancamentoVO.setId(listTipo.get(cbTipo.getSelectedIndex()).getId());
+                lancamentoVO.setQuantidade(Integer.parseInt(tfQuantidade.getText()));
                 lancamentoVO.setProduto(produtoVO);
                 lancamentoVO.setSetor(setorVO);
                 lancamentoVO.setTipo(tipoLancamentoVO);
 
-                //FALTA POPULAR O VO E VALIDAR OS CAMPOS ANTES DE GRAVAR NO BANCO
-
+                if (lancamentoController.cadastrarLacamento(lancamentoVO)) {
+                    JOptionPane.showMessageDialog(null, "Sucesso em cadastrar Lancamento");
+                }
             }
-		});
+        });
 
     }
 
