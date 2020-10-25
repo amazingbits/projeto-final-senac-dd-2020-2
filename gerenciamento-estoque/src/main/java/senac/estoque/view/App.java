@@ -132,6 +132,13 @@ public class App extends JFrame {
 		mnSetor.add(mnSetorCadastrar);
 
 		JMenuItem mnSetorListar = new JMenuItem("Listar Setores");
+		mnSetorListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarSetor listarSetor = new ListarSetor();
+				setContentPane(listarSetor);
+				revalidate();
+			}
+		});
 		mnSetor.add(mnSetorListar);
 
 		JMenu mnRelatorio = new JMenu("Relatórios");
