@@ -1,8 +1,11 @@
 package senac.estoque.model.bo;
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 import senac.estoque.model.dao.LancamentoDAO;
+import senac.estoque.model.dto.LancamentoDTO;
 import senac.estoque.model.vo.LancamentoVO;
 
 public class LacamentoBO {
@@ -41,6 +44,10 @@ public class LacamentoBO {
             return false;
 
         }
-    }   
+    }
+	public ArrayList<LancamentoDTO>listarLancamento() {
+        lancamentoDAO = new LancamentoDAO();
+		return lancamentoDAO.listarView();
+	}   
     
 }
