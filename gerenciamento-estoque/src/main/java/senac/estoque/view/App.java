@@ -190,6 +190,13 @@ public class App extends JFrame {
 		topMenu.add(mnSobre);
 
 		JMenuItem mnSobreSistema = new JMenuItem("O Sistema");
+		mnSobreSistema.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SobreSistema sobreSistema = new SobreSistema();
+				setContentPane(sobreSistema);
+				revalidate();
+			}
+		});
 		mnSobre.add(mnSobreSistema);
 
 		JMenuItem mnSobreEquipe = new JMenuItem("A Equipe");
