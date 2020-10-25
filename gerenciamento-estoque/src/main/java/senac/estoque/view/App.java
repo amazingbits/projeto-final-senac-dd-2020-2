@@ -193,7 +193,17 @@ public class App extends JFrame {
 		mnSobre.add(mnSobreSistema);
 
 		JMenuItem mnSobreEquipe = new JMenuItem("A Equipe");
+		mnSobreEquipe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SobreEquipe sobreEquipe = new SobreEquipe();
+				setContentPane(sobreEquipe);
+				revalidate();
+			}
+		});
 		mnSobre.add(mnSobreEquipe);
+		
+		
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
