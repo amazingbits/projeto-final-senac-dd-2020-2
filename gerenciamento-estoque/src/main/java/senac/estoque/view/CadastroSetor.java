@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import senac.estoque.controller.SetorController;
+import senac.estoque.helpers.Constantes;
 import senac.estoque.model.vo.SetorVO;
 
 public class CadastroSetor extends JPanel {
@@ -20,6 +21,8 @@ public class CadastroSetor extends JPanel {
     private JTextField tfSetor;
 
     private JButton bCadastrar;
+    
+    private Constantes constantes;
 
     public CadastroSetor() {
         setLayout(null);
@@ -51,7 +54,7 @@ public class CadastroSetor extends JPanel {
                 setor.setDescricao(tfSetor.getText());
 
                 if(setorController.cadastrarSetor(setor)){
-                    JOptionPane.showMessageDialog(null, "Sucesso em cadastrar o Setor");
+                    JOptionPane.showMessageDialog(null, constantes.MENSAGEM_SUCESSO_CADASTRO_SETOR);
                 }
             }
         });

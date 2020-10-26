@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import senac.estoque.model.vo.LancamentoVO;
@@ -21,6 +20,7 @@ import senac.estoque.controller.LancamentoController;
 import senac.estoque.controller.ProdutoController;
 import senac.estoque.controller.SetorController;
 import senac.estoque.controller.TipoLancamentoController;
+import senac.estoque.helpers.Constantes;
 
 public class CadastroLancamentos extends JPanel {
 
@@ -43,6 +43,8 @@ public class CadastroLancamentos extends JPanel {
     private ProdutoController produtoController;
     private SetorController setorController;
     private TipoLancamentoController tipoLancamentoController;
+    
+    private Constantes constantes;
 
     public CadastroLancamentos() {
         setLayout(null);
@@ -136,7 +138,7 @@ public class CadastroLancamentos extends JPanel {
                 lancamentoVO.setTipo(tipoLancamentoVO);
 
                 if (lancamentoController.cadastrarLacamento(lancamentoVO)) {
-                    JOptionPane.showMessageDialog(null, "Sucesso em cadastrar Lancamento");
+                    JOptionPane.showMessageDialog(null, constantes.MENSAGEM_SUCESSO_CADASTRO_LANCAMENTO);
                 }
             }
         });

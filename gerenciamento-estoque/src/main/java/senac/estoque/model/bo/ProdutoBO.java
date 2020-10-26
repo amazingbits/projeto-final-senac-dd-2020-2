@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import senac.estoque.helpers.Constantes;
 import senac.estoque.model.dao.ProdutoDAO;
 import senac.estoque.model.dto.ProdutoMaisUsadosDTO;
 import senac.estoque.model.dto.ProdutoMaisVendidoDTO;
@@ -13,6 +14,7 @@ import senac.estoque.model.vo.ProdutoVO;
 public class ProdutoBO {
 
    private ProdutoDAO produtoDAO;
+   private Constantes constantes;
     /**
 	 * validar os dados de produto
 	 * @param Produto
@@ -24,28 +26,28 @@ public class ProdutoBO {
         
         if (produtoDAO.encontrar(produtoVO.getDescricao()) != null ){
             
-			JOptionPane.showMessageDialog(null, "O produto já foi cadastrado", "Erro", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, constantes.MENSAGEM_VALIDACAO_SE_EXISTE_PRODUTO, "Erro", JOptionPane.ERROR_MESSAGE);
 
             return false;
         }
 
         if(produtoVO.getQuantidade() < 0 ) {
-			JOptionPane.showMessageDialog(null, "Somente é permitido valores a cima ou igual a 0", "Erro", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,constantes.MENSAGEM_VALIDACAO_PRODUTO_QUANTIDADE , "Erro", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
         
         if (produtoVO.getPreco() < 0){
-			JOptionPane.showMessageDialog(null, "Somente é permitido valores a cima ou igual a 0", "Erro", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, constantes.MENSAGEM_VALIDACAO_PRODUTO_PRECO, "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
         if (produtoVO.getDescricao().length() <= 3 ) {
-            JOptionPane.showMessageDialog(null, "A descrição deve conter mais de 3 caracteres", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, constantes.MENSAGEM_VALIDACAO_PRODUTO_DESCRICAO, "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
         if (produtoVO.getCategoria().getDescricao().length() <= 3){
-            JOptionPane.showMessageDialog(null, "A categória deve conter mais de 3 caracteres", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, constantes.MENSAGEM_VALIDACAO_PRODUTO_CATEGORIA_DESCRICAO, "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 

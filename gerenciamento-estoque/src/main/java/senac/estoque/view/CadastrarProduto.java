@@ -23,6 +23,7 @@ import javax.swing.text.NumberFormatter;
 
 import senac.estoque.controller.CategoriaController;
 import senac.estoque.controller.ProdutoController;
+import senac.estoque.helpers.Constantes;
 import senac.estoque.helpers.Formatos;
 import senac.estoque.model.vo.CategoriaVO;
 import senac.estoque.model.vo.ProdutoVO;
@@ -48,6 +49,7 @@ public class CadastrarProduto extends JPanel {
     private ProdutoController produtoController;
 
     private Formatos formato = new Formatos();
+    private Constantes constantes;
     
     public CadastrarProduto() {
         setLayout(null);
@@ -139,9 +141,9 @@ public class CadastrarProduto extends JPanel {
                 System.out.println(produtoVO.toString());
 
                 if (produtoController.cadastrarProduto(produtoVO)) {
-                    JOptionPane.showMessageDialog(null, "Sucesso em cadastrar o produto");
+                    JOptionPane.showMessageDialog(null, constantes.MENSAGEM_SUCESSO_CADASTRO_PRODUTO);
                 }else{
-                    JOptionPane.showMessageDialog(null, "Erro em cadastrar o produto", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, constantes.MENSAGEM_FALHA_CADASTRO_PRODUTO, "Erro", JOptionPane.ERROR_MESSAGE);
 
                 }
 

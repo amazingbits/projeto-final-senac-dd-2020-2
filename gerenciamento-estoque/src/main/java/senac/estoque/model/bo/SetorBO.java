@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import senac.estoque.helpers.Constantes;
 import senac.estoque.model.dao.SetorDAO;
 import senac.estoque.model.vo.SetorVO;
 
 public class SetorBO {
 
     private SetorDAO setorDAO;
+    private Constantes constantes;
 
 
     public boolean validarSetor(SetorVO setor){
@@ -18,13 +20,13 @@ public class SetorBO {
         
         if (setorDAO.encontrar(setor.getDescricao()) != null ){
             
-			JOptionPane.showMessageDialog(null, "O Setor já foi cadastrado", "Erro", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, constantes.MENSAGEM_VALIDACAO_SE_EXISTE_SETOR, "Erro", JOptionPane.ERROR_MESSAGE);
 
             return false;
         }
 
         if (setor.getDescricao().length() < 3 ){
-            JOptionPane.showMessageDialog(null, "O setor deve conter um nome e o mesmo precisa ter mais de 3 letras", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, constantes.MENSAGEM_VALIDACAO_SETOR_DESCRICAO, "Erro", JOptionPane.ERROR_MESSAGE);
 
             return false;
         }
@@ -37,7 +39,7 @@ public class SetorBO {
             setorDAO = new SetorDAO();
             return setorDAO.cadastrar(setor) == 1?true:false;
         }else {
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar o setor", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, constantes.MENSAGEM_FALHA_CADASTRO_SETOR, "Erro", JOptionPane.ERROR_MESSAGE);
 
             return false;
         }
