@@ -78,9 +78,6 @@ public class App extends JFrame {
 		});
 		mnLancamento.add(mnLancamentoListar);
 
-		JMenuItem mnLancamentoAtualizarExcluir = new JMenuItem("Atualizar/Excluir Lançamento");
-		mnLancamento.add(mnLancamentoAtualizarExcluir);
-
 		JMenu mnProduto = new JMenu("Produtos");
 		topMenu.add(mnProduto);
 
@@ -105,9 +102,6 @@ public class App extends JFrame {
 		});
 		mnProduto.add(mnProdutoListar);
 
-		JMenuItem mnProdutoAtualizarExcluir = new JMenuItem("Atualizar/Excluir Produto");
-		mnProduto.add(mnProdutoAtualizarExcluir);
-
 		JMenu mnCategoria = new JMenu("Categorias");
 		topMenu.add(mnCategoria);
 
@@ -130,9 +124,6 @@ public class App extends JFrame {
 			}
 		});
 		mnCategoria.add(mnCategoriaListar);
-
-		JMenuItem mnCategoriaAtualizarExcluir = new JMenuItem("Atualizar/Excluir Categoria");
-		mnCategoria.add(mnCategoriaAtualizarExcluir);
 
 		JMenu mnSetor = new JMenu("Setores");
 		topMenu.add(mnSetor);
@@ -157,9 +148,6 @@ public class App extends JFrame {
 		});
 		mnSetor.add(mnSetorListar);
 
-		JMenuItem mnSetorAtualizarExcluir = new JMenuItem("Atualizar/Excluir Setor");
-		mnSetor.add(mnSetorAtualizarExcluir);
-		
 		JMenu mnRelatorio = new JMenu("Relatórios");
 		topMenu.add(mnRelatorio);
 
