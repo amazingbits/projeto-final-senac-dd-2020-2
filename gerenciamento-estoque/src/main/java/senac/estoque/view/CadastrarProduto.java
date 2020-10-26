@@ -2,10 +2,15 @@ package senac.estoque.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.Format;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -13,8 +18,12 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
+
 import senac.estoque.controller.CategoriaController;
 import senac.estoque.controller.ProdutoController;
+import senac.estoque.helpers.Formatos;
 import senac.estoque.model.vo.CategoriaVO;
 import senac.estoque.model.vo.ProdutoVO;
 
@@ -28,8 +37,8 @@ public class CadastrarProduto extends JPanel {
     private JLabel lblQuantidade;
 
     private JTextField tfNomeProduto;
-    private JTextField tfPrecoUnidade;
-
+    private JFormattedTextField tfPrecoUnidade;
+    
     private JSpinner sQuantidade;
 
     private JComboBox<String> cbCategoria;
@@ -38,6 +47,8 @@ public class CadastrarProduto extends JPanel {
     private CategoriaController categoriaController;
     private ProdutoController produtoController;
 
+    private Formatos formato = new Formatos();
+    
     public CadastrarProduto() {
         setLayout(null);
 
@@ -57,8 +68,10 @@ public class CadastrarProduto extends JPanel {
         lblPrecoUnidade = new JLabel("Preco Un. R$");
         lblPrecoUnidade.setBounds(420, 50, 200, 36);
         add(lblPrecoUnidade);
-
-        tfPrecoUnidade = new JTextField();
+        
+        tfPrecoUnidade = new JFormattedTextField();
+        (tfPrecoUnidade).setFormatterFactory(formato.money());
+        
         tfPrecoUnidade.setBounds(420, 80, 200, 36);
         add(tfPrecoUnidade);
 
@@ -99,12 +112,24 @@ public class CadastrarProduto extends JPanel {
         bCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+            	
+            	/**
+            	 * tratando o valor do preço para evitar dar crash no programa
+            	 */
+            	String preco = "0";
+            	if(preco.trim().length() == 0 || preco.equalsIgnoreCase(",00")) {
+            		preco = "0";
+            	} else if(preco.trim().length() <= 6) {
+            		preco = tfPrecoUnidade.getText().replace(",", ".");
+            	} else {
+            		preco = tfPrecoUnidade.getText().replace(".", "").replace(",", ".");
+            	}
+            	
                 ProdutoVO produtoVO = new ProdutoVO();
                 CategoriaVO categoriaVO = new CategoriaVO();
                 produtoController = new ProdutoController();
 
-                produtoVO.setPreco(Float.parseFloat(tfPrecoUnidade.getText()));
+                produtoVO.setPreco(Float.parseFloat(preco));
                 produtoVO.setDescricao(tfNomeProduto.getText());
                 produtoVO.setQuantidade((int) sQuantidade.getValue());
                 categoriaVO.setDescricao("" + cbCategoria.getItemAt(cbCategoria.getSelectedIndex()) + "");
