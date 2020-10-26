@@ -151,6 +151,14 @@ public class App extends JFrame {
 		topMenu.add(mnRelatorio);
 
 		JMenuItem mnRelatorioMaisComprados = new JMenuItem("Produtos Mais Comprados");
+		mnRelatorioMaisComprados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarProdutosMaisUsados listarProdutosMaisUsados = new ListarProdutosMaisUsados();
+				setContentPane(listarProdutosMaisUsados);
+				revalidate();
+			}
+		});
+
 		mnRelatorio.add(mnRelatorioMaisComprados);
 
 		JMenuItem mnRelatorioMaisUsados = new JMenuItem("Produtos Mais Usados");

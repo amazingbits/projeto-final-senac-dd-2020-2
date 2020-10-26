@@ -8,6 +8,7 @@ import java.sql.*;
 
 import senac.estoque.model.Conexao;
 import senac.estoque.model.dto.ProdutoDTO;
+import senac.estoque.model.dto.ProdutoMaisUsadosDTO;
 import senac.estoque.model.dto.ProdutoMaisVendidoDTO;
 import senac.estoque.model.vo.CategoriaVO;
 import senac.estoque.model.vo.LogProdutosVO;
@@ -77,6 +78,39 @@ public class ProdutoDAO {
 				produtoMaisVendidoDTO.setDescricao(result.getString("descricao"));
 
 				listaProdutoMaisVendidos.add(produtoMaisVendidoDTO);
+			}
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		return listaProdutoMaisVendidos;
+	}
+
+	/**
+	 * listar todos os produtos mais usados
+	 * 
+	 * @return
+	 */
+	public ArrayList<ProdutoMaisUsadosDTO> listarMaisUsados() {
+		String sql = "SELECT * FROM vw_produtos_mais_usados";
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		ArrayList<ProdutoMaisUsadosDTO> listaProdutoMaisVendidos = new ArrayList<ProdutoMaisUsadosDTO>();
+		
+		try {
+			result = stmt.executeQuery(sql);
+			while(result.next()) {
+				
+				ProdutoMaisUsadosDTO produtoMaisUsadosDTO = new ProdutoMaisUsadosDTO();
+
+				produtoMaisUsadosDTO.setQtd_usados(Integer.parseInt(result.getString("qtd_usados")));
+				produtoMaisUsadosDTO.setDescricao(result.getString("descricao"));
+
+				listaProdutoMaisVendidos.add(produtoMaisUsadosDTO);
 			}
 		} catch(SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);

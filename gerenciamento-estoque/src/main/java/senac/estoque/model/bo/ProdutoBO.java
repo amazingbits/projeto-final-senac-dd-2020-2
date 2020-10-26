@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import senac.estoque.model.dao.ProdutoDAO;
+import senac.estoque.model.dto.ProdutoMaisUsadosDTO;
 import senac.estoque.model.dto.ProdutoMaisVendidoDTO;
 import senac.estoque.model.vo.LogProdutosVO;
 import senac.estoque.model.vo.ProdutoVO;
@@ -83,4 +84,9 @@ public class ProdutoBO {
 
 		return  produtoDAO.listaLogProdutos();
     }
+	public ArrayList<ProdutoMaisUsadosDTO> listarMaisUsados() {
+        produtoDAO = new ProdutoDAO();
+
+		return  produtoDAO.listarMaisUsados();
+	}
 }

@@ -130,7 +130,7 @@ order by tb_lancamento.id desc;
 
 create view vw_produtos_mais_comprados as
 select 
-COUNT(id) qtd_vendas,
+COUNT(id) as qtd_vendas,
 descricao
 from tb_produto
 where  
@@ -138,7 +138,20 @@ where
 group by 
 	descricao
 order by 
-	qtd_vendas desc
+	qtd_vendas desc;
+
+create view vw_produtos_mais_usados as
+select 
+COUNT(id) as qtd_usados,
+descricao
+from tb_produto
+where  
+	data_ultima_entrada is not null
+group by 
+	descricao
+order by 
+	qtd_usados desc;
+
 
 DELIMITER $$
 
