@@ -66,12 +66,28 @@ public class ListarCategorias extends JPanel {
 		
 		txtNomeCategoria = new JTextField();
 		txtNomeCategoria.setColumns(10);
-		txtNomeCategoria.setBounds(10, 58, 478, 36);
+		txtNomeCategoria.setBounds(10, 58, 209, 36);
 		add(txtNomeCategoria);
 		
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setBounds(491, 58, 129, 36);
+		add(btnExcluir);
+		
 		JButton btnFiltrar = new JButton("Filtrar");
-		btnFiltrar.setBounds(491, 58, 129, 36);
+		btnFiltrar.setBounds(224, 58, 129, 36);
 		add(btnFiltrar);
+		
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.setBounds(358, 58, 129, 36);
+		add(btnEditar);
+		
+		JButton btnAnterior = new JButton("<<");
+		btnAnterior.setBounds(10, 373, 89, 23);
+		add(btnAnterior);
+		
+		JButton btnProxima = new JButton(">>");
+		btnProxima.setBounds(531, 373, 89, 23);
+		add(btnProxima);
 
 	}
 }

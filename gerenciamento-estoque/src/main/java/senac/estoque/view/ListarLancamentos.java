@@ -1,6 +1,7 @@
 package senac.estoque.view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -10,17 +11,21 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
 import senac.estoque.controller.LancamentoController;
+import senac.estoque.helpers.RenderizarTabela;
 import senac.estoque.model.dto.LancamentoDTO;
 import javax.swing.JTextField;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ListarLancamentos extends JPanel {
 	private JTextField txtNomeProduto;
 	private JTextField txtNomeSetor;
 	private JTextField txtDataInicial;
 	private JTextField txtDataFinal;
+	
  /**
 	 * Create the panel.
 	 */
@@ -47,16 +52,22 @@ import javax.swing.JLabel;======================================== */
 		String[] colunas = {"ID", "PRODUTO","SETOR","TIPO","QUANTIDADE","PRECO TOTAL","DATA"};
 		
 		//setando modelo padrão de tabela
-		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
+		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0) {
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 		
 		//construindo a tabela seguindo o modelo criado
 		JTable tabela = new JTable(modeloTabela);
 		DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
 		tabela.setPreferredScrollableViewportSize(new Dimension(500,50));
 		tabela.setFillsViewportHeight(true);
+		tabela.setDefaultRenderer(Object.class, new RenderizarTabela());
 		
 		//populando a tabela
 		for(int i = 0; i < lancamentos.size(); i++) {
+			
 			modelo.addRow(
                 new Object[] {
                     lancamentos.get(i).getId(),
@@ -64,9 +75,8 @@ import javax.swing.JLabel;======================================== */
                     lancamentos.get(i).getSetor(),
                     lancamentos.get(i).getTipo(),
                     lancamentos.get(i).getQuantidade(),
-                    lancamentos.get(i).getPreco_total(),
+                    "R$ "+lancamentos.get(i).getPreco_total(),
                     lancamentos.get(i).getData()
-
                 });
 		}
 		
@@ -124,9 +134,22 @@ import javax.swing.JLabel;======================================== */
 		radioBtnSaida.setBounds(467, 187, 109, 23);
 		add(radioBtnSaida);
 		
-		 ButtonGroup radio = new ButtonGroup();
-		 radio.add(radioBtnEntrada);
-		 radio.add(radioBtnSaida);
+		ButtonGroup radio = new ButtonGroup();
+		radio.add(radioBtnEntrada);
+		radio.add(radioBtnSaida);
+		
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setBounds(119, 177, 89, 42);
+		add(btnExcluir);
+		
+		JButton btnAnterior = new JButton("<<");
+		btnAnterior.setBounds(10, 441, 89, 23);
+		add(btnAnterior);
+		
+		JButton btnProxima = new JButton(">>");
+		btnProxima.setBounds(531, 441, 89, 23);
+		add(btnProxima);
+		
 
 	}   
 }

@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import java.awt.Dimension;
 import senac.estoque.controller.ProdutoController;
 import senac.estoque.model.dto.ProdutoMaisVendidoDTO;
+import javax.swing.JButton;
 
 public class ListarProdutosMaisVendidos extends JPanel {
     
@@ -48,7 +49,15 @@ public class ListarProdutosMaisVendidos extends JPanel {
 		
 		//imprimindo a tabela na tela
 		JScrollPane scrollPane = new JScrollPane(tabela);
-		scrollPane.setBounds(10, 50, 600, 239);
+		scrollPane.setBounds(10, 50, 610, 239);
 		add(scrollPane);
+		
+		JButton btnAnterior = new JButton("<<");
+		btnAnterior.setBounds(10, 300, 89, 23);
+		add(btnAnterior);
+		
+		JButton btnProxima = new JButton(">>");
+		btnProxima.setBounds(531, 300, 89, 23);
+		add(btnProxima);
     }
 }

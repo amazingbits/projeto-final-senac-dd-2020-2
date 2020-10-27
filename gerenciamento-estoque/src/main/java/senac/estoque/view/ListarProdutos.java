@@ -63,13 +63,29 @@ public class ListarProdutos extends JPanel {
 		add(lblNomeProduto);
 		
 		txtNomeProduto = new JTextField();
-		txtNomeProduto.setBounds(10, 58, 478, 36);
+		txtNomeProduto.setBounds(10, 58, 209, 36);
 		add(txtNomeProduto);
 		txtNomeProduto.setColumns(10);
 		
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setBounds(491, 58, 129, 36);
+		add(btnExcluir);
+		
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.setBounds(358, 58, 129, 36);
+		add(btnEditar);
+		
 		JButton btnFiltrar = new JButton("Filtrar");
-		btnFiltrar.setBounds(491, 58, 129, 36);
+		btnFiltrar.setBounds(224, 58, 129, 36);
 		add(btnFiltrar);
+		
+		JButton btnAnterior = new JButton("<<");
+		btnAnterior.setBounds(10, 373, 89, 23);
+		add(btnAnterior);
+		
+		JButton btnProxima = new JButton(">>");
+		btnProxima.setBounds(531, 373, 89, 23);
+		add(btnProxima);
 
 	}
 }

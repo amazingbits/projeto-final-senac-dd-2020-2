@@ -47,7 +47,7 @@ public class App extends JFrame {
 		setLocationRelativeTo(null);
 		setTitle("Controle de Estoque");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 510);
+		setBounds(100, 100, 650, 540);
 
 		JMenuBar topMenu = new JMenuBar();
 		setJMenuBar(topMenu);
