@@ -12,8 +12,11 @@ import java.awt.Dimension;
 
 import senac.estoque.controller.ProdutoController;
 import senac.estoque.model.vo.ProdutoVO;
+import javax.swing.JTextField;
+import javax.swing.JButton;
 
 public class ListarProdutos extends JPanel {
+	private JTextField txtNomeProduto;
     
 	/**
 	 * Create the panel.
@@ -52,8 +55,21 @@ public class ListarProdutos extends JPanel {
 		
 		//imprimindo a tabela na tela
 		JScrollPane scrollPane = new JScrollPane(tabela);
-		scrollPane.setBounds(10, 50, 600, 239);
+		scrollPane.setBounds(10, 123, 610, 239);
 		add(scrollPane);
+		
+		JLabel lblNomeProduto = new JLabel("Nome do produto");
+		lblNomeProduto.setBounds(10, 43, 97, 14);
+		add(lblNomeProduto);
+		
+		txtNomeProduto = new JTextField();
+		txtNomeProduto.setBounds(10, 58, 478, 36);
+		add(txtNomeProduto);
+		txtNomeProduto.setColumns(10);
+		
+		JButton btnFiltrar = new JButton("Filtrar");
+		btnFiltrar.setBounds(491, 58, 129, 36);
+		add(btnFiltrar);
 
 	}
 }

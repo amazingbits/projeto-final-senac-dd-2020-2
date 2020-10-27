@@ -41,7 +41,7 @@ public class SobreEquipe extends JPanel {
 		JLabel lblTituloGuilherme = new JLabel("GUILHERME ANDRADE");
 		lblTituloGuilherme.setFont(new Font("Alpha Romanie G98", Font.BOLD, 12));
 		lblTituloGuilherme.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTituloGuilherme.setBounds(185, 77, 207, 30);
+		lblTituloGuilherme.setBounds(195, 84, 207, 30);
 		add(lblTituloGuilherme);
 		
 		JLabel lblInstagramGuilherme = new JLabel("Instagram");
@@ -53,7 +53,7 @@ public class SobreEquipe extends JPanel {
 		});
 		lblInstagramGuilherme.setFont(new Font("Alpha Romanie G98", Font.PLAIN, 16));
 		lblInstagramGuilherme.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInstagramGuilherme.setBounds(167, 130, 88, 37);
+		lblInstagramGuilherme.setBounds(161, 118, 88, 37);
 		add(lblInstagramGuilherme);
 		
 		JLabel lblGithubGuilherme = new JLabel("Github");
@@ -65,7 +65,7 @@ public class SobreEquipe extends JPanel {
 		});
 		lblGithubGuilherme.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGithubGuilherme.setFont(new Font("Alpha Romanie G98", Font.PLAIN, 16));
-		lblGithubGuilherme.setBounds(265, 130, 88, 37);
+		lblGithubGuilherme.setBounds(259, 118, 88, 37);
 		add(lblGithubGuilherme);
 		
 		JLabel lblLinkedinGuilherme = new JLabel("LinkedIn");
@@ -77,7 +77,7 @@ public class SobreEquipe extends JPanel {
 		});
 		lblLinkedinGuilherme.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLinkedinGuilherme.setFont(new Font("Alpha Romanie G98", Font.PLAIN, 16));
-		lblLinkedinGuilherme.setBounds(363, 130, 88, 37);
+		lblLinkedinGuilherme.setBounds(357, 118, 88, 37);
 		add(lblLinkedinGuilherme);
 		
 		/**
@@ -86,13 +86,13 @@ public class SobreEquipe extends JPanel {
 		JLabel lblJadson = new JLabel("");
 		Image imgJadson = new ImageIcon(this.getClass().getResource("/jads.png")).getImage();
 		lblJadson.setIcon(new ImageIcon(imgJadson));
-		lblJadson.setBounds(415, 215, 120, 120);
+		lblJadson.setBounds(500, 215, 120, 120);
 		add(lblJadson);
 		
 		JLabel lblTituloJadson = new JLabel("JADSON SANTOS");
 		lblTituloJadson.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTituloJadson.setFont(new Font("Alpha Romanie G98", Font.BOLD, 12));
-		lblTituloJadson.setBounds(167, 227, 207, 30);
+		lblTituloJadson.setBounds(250, 235, 207, 30);
 		add(lblTituloJadson);
 		
 		JLabel lblInstagramJadson = new JLabel("Instagram");
@@ -104,7 +104,7 @@ public class SobreEquipe extends JPanel {
 		});
 		lblInstagramJadson.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInstagramJadson.setFont(new Font("Alpha Romanie G98", Font.PLAIN, 16));
-		lblInstagramJadson.setBounds(121, 273, 88, 37);
+		lblInstagramJadson.setBounds(206, 272, 88, 37);
 		add(lblInstagramJadson);
 		
 		JLabel lblGithubJadson = new JLabel("Github");
@@ -116,7 +116,7 @@ public class SobreEquipe extends JPanel {
 		});
 		lblGithubJadson.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGithubJadson.setFont(new Font("Alpha Romanie G98", Font.PLAIN, 16));
-		lblGithubJadson.setBounds(219, 273, 88, 37);
+		lblGithubJadson.setBounds(304, 272, 88, 37);
 		add(lblGithubJadson);
 		
 		JLabel lblLinkedinJadson = new JLabel("LinkedIn");
@@ -128,7 +128,7 @@ public class SobreEquipe extends JPanel {
 		});
 		lblLinkedinJadson.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLinkedinJadson.setFont(new Font("Alpha Romanie G98", Font.PLAIN, 16));
-		lblLinkedinJadson.setBounds(317, 273, 88, 37);
+		lblLinkedinJadson.setBounds(402, 272, 88, 37);
 		add(lblLinkedinJadson);
 		
 		JLabel lblTitulo = new JLabel("A EQUIPE");

@@ -14,8 +14,11 @@ import senac.estoque.controller.CategoriaController;
 import senac.estoque.model.vo.CategoriaVO;
 
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JButton;
 
 public class ListarCategorias extends JPanel {
+	private JTextField txtNomeCategoria;
 
 	/**
 	 * Create the panel.
@@ -54,8 +57,21 @@ public class ListarCategorias extends JPanel {
 		
 		//imprimindo a tabela na tela
 		JScrollPane scrollPane = new JScrollPane(tabela);
-		scrollPane.setBounds(10, 50, 600, 239);
+		scrollPane.setBounds(10, 123, 610, 239);
 		add(scrollPane);
+		
+		JLabel lblNomeCategoria = new JLabel("Nome da Categoria");
+		lblNomeCategoria.setBounds(10, 43, 149, 14);
+		add(lblNomeCategoria);
+		
+		txtNomeCategoria = new JTextField();
+		txtNomeCategoria.setColumns(10);
+		txtNomeCategoria.setBounds(10, 58, 478, 36);
+		add(txtNomeCategoria);
+		
+		JButton btnFiltrar = new JButton("Filtrar");
+		btnFiltrar.setBounds(491, 58, 129, 36);
+		add(btnFiltrar);
 
 	}
 }

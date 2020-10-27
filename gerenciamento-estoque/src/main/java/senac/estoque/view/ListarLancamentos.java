@@ -11,8 +11,16 @@ import javax.swing.JScrollPane;
 import java.awt.Dimension;
 import senac.estoque.controller.LancamentoController;
 import senac.estoque.model.dto.LancamentoDTO;
+import javax.swing.JTextField;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JRadioButton;
 
 public class ListarLancamentos extends JPanel {
+	private JTextField txtNomeProduto;
+	private JTextField txtNomeSetor;
+	private JTextField txtDataInicial;
+	private JTextField txtDataFinal;
  /**
 	 * Create the panel.
 	 */
@@ -64,8 +72,61 @@ import javax.swing.JLabel;======================================== */
 		
 		//imprimindo a tabela na tela
 		JScrollPane scrollPane = new JScrollPane(tabela);
-		scrollPane.setBounds(10, 50, 600, 239);
+		scrollPane.setBounds(10, 230, 610, 200);
 		add(scrollPane);
+		
+		JLabel lblNomeProduto = new JLabel("Nome do Produto");
+		lblNomeProduto.setBounds(20, 44, 154, 14);
+		add(lblNomeProduto);
+		
+		txtNomeProduto = new JTextField();
+		txtNomeProduto.setBounds(20, 58, 264, 36);
+		add(txtNomeProduto);
+		txtNomeProduto.setColumns(10);
+		
+		txtNomeSetor = new JTextField();
+		txtNomeSetor.setColumns(10);
+		txtNomeSetor.setBounds(346, 58, 264, 36);
+		add(txtNomeSetor);
+		
+		JLabel lblNomeSetor = new JLabel("Nome do Setor");
+		lblNomeSetor.setBounds(346, 44, 154, 14);
+		add(lblNomeSetor);
+		
+		txtDataInicial = new JTextField();
+		txtDataInicial.setColumns(10);
+		txtDataInicial.setBounds(20, 130, 264, 36);
+		add(txtDataInicial);
+		
+		JLabel lblDataInicial = new JLabel("Data Inicial");
+		lblDataInicial.setBounds(20, 116, 154, 14);
+		add(lblDataInicial);
+		
+		txtDataFinal = new JTextField();
+		txtDataFinal.setColumns(10);
+		txtDataFinal.setBounds(346, 130, 264, 36);
+		add(txtDataFinal);
+		
+		JLabel lblDataFinal = new JLabel("Data Final");
+		lblDataFinal.setBounds(346, 116, 154, 14);
+		add(lblDataFinal);
+		
+		JButton btnFiltrar = new JButton("Filtrar");
+		btnFiltrar.setBounds(20, 177, 89, 42);
+		add(btnFiltrar);
+		
+		JRadioButton radioBtnEntrada = new JRadioButton("Entrada");
+		radioBtnEntrada.setSelected(true);
+		radioBtnEntrada.setBounds(345, 187, 109, 23);
+		add(radioBtnEntrada);
+		
+		JRadioButton radioBtnSaida = new JRadioButton("Saída");
+		radioBtnSaida.setBounds(467, 187, 109, 23);
+		add(radioBtnSaida);
+		
+		 ButtonGroup radio = new ButtonGroup();
+		 radio.add(radioBtnEntrada);
+		 radio.add(radioBtnSaida);
 
 	}   
 }

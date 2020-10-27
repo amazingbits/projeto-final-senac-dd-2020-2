@@ -108,7 +108,7 @@ public class CadastrarProduto extends JPanel {
         add(sQuantidade);
         
         bCadastrar = new JButton("Cadastrar");
-        bCadastrar.setBounds(10, 300, 200, 36);
+        bCadastrar.setBounds(10, 237, 200, 36);
         add(bCadastrar);
 
         bCadastrar.addActionListener(new ActionListener() {

@@ -37,11 +37,11 @@ public class CadastroSetor extends JPanel {
         add(lblSetor);
 
         tfSetor = new JTextField();
-        tfSetor.setBounds(10, 80, 400, 36);
+        tfSetor.setBounds(10, 80, 610, 36);
         add(tfSetor);
 
         bCadastrar = new JButton("Cadastrar");
-        bCadastrar.setBounds(10, 300, 200, 36);
+        bCadastrar.setBounds(10, 127, 200, 36);
         add(bCadastrar);
 
         bCadastrar.addActionListener(new ActionListener() {

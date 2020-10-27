@@ -11,8 +11,11 @@ import javax.swing.JScrollPane;
 import java.awt.Dimension;
 import senac.estoque.controller.SetorController;
 import senac.estoque.model.vo.SetorVO;
+import javax.swing.JTextField;
+import javax.swing.JButton;
 
 public class ListarSetor  extends JPanel{
+	private JTextField txtNomeSetor;
     /**
 	 * Create the panel.
 	 */
@@ -50,8 +53,21 @@ public class ListarSetor  extends JPanel{
 		
 		//imprimindo a tabela na tela
 		JScrollPane scrollPane = new JScrollPane(tabela);
-		scrollPane.setBounds(10, 50, 600, 239);
+		scrollPane.setBounds(10, 123, 610, 239);
 		add(scrollPane);
+		
+		JLabel lblNomeSetor = new JLabel("Nome do Setor");
+		lblNomeSetor.setBounds(10, 43, 97, 14);
+		add(lblNomeSetor);
+		
+		txtNomeSetor = new JTextField();
+		txtNomeSetor.setColumns(10);
+		txtNomeSetor.setBounds(10, 58, 478, 36);
+		add(txtNomeSetor);
+		
+		JButton btnFiltrar = new JButton("Filtrar");
+		btnFiltrar.setBounds(491, 58, 129, 36);
+		add(btnFiltrar);
 
 	}
 }

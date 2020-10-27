@@ -28,15 +28,15 @@ public class CadastrarCategoria extends JPanel {
 		add(lblTitle);
 		
 		JLabel lblNome = new JLabel("Nome da Categoria");
-		lblNome.setBounds(108, 74, 168, 22);
+		lblNome.setBounds(10, 71, 168, 22);
 		add(lblNome);
 		
 		txtCategoria = new JTextField();
-		txtCategoria.setBounds(108, 101, 430, 26);
+		txtCategoria.setBounds(10, 101, 610, 36);
 		add(txtCategoria);
 		txtCategoria.setColumns(10);
 		
-		JButton btnSalvar = new JButton("Salvar");
+		JButton btnSalvar = new JButton("Cadastrar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -49,12 +49,12 @@ public class CadastrarCategoria extends JPanel {
 				}
 			}
 		});
-		btnSalvar.setBounds(108, 138, 89, 40);
+		btnSalvar.setBounds(10, 148, 131, 40);
 		add(btnSalvar);
 		
 		JLabel lblPermitirSomenteLetras = new JLabel("Somente letras");
 		lblPermitirSomenteLetras.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPermitirSomenteLetras.setBounds(286, 138, 252, 14);
+		lblPermitirSomenteLetras.setBounds(368, 148, 252, 14);
 		add(lblPermitirSomenteLetras);
 
 	}
