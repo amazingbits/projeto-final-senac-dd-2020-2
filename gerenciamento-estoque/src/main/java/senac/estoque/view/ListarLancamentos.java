@@ -92,7 +92,6 @@ public class ListarLancamentos extends JPanel {
 		
 		JRadioButton radioBtnEntrada = new JRadioButton("Entrada");
 		radioBtnEntrada.setActionCommand("Entrada");
-		radioBtnEntrada.setSelected(true);
 		radioBtnEntrada.setBounds(345, 187, 109, 23);
 		add(radioBtnEntrada);
 		
@@ -101,9 +100,16 @@ public class ListarLancamentos extends JPanel {
 		radioBtnSaida.setBounds(467, 187, 109, 23);
 		add(radioBtnSaida);
 		
+		JRadioButton radioBtnTodos = new JRadioButton("Todos");
+		radioBtnTodos.setActionCommand("Todos");
+		radioBtnTodos.setSelected(true);
+		radioBtnTodos.setBounds(228, 187, 109, 23);
+		add(radioBtnTodos);
+		
 		final ButtonGroup radio = new ButtonGroup();
 		radio.add(radioBtnEntrada);
 		radio.add(radioBtnSaida);
+		radio.add(radioBtnTodos);
 		
 		JButton btnFiltrar = new JButton("Filtrar");
 		btnFiltrar.addActionListener(new ActionListener() {
@@ -126,12 +132,14 @@ public class ListarLancamentos extends JPanel {
 				if(dataInicial.equals("//")) dataInicial = "";
 				if(dataFinal.equals("//")) dataFinal = "";
 				
+				String tipo = radio.getSelection().getActionCommand() == "Todos" ? "" : radio.getSelection().getActionCommand();
+				
 				SeletorLancamento seletorLancamento = new SeletorLancamento();
 				seletorLancamento.setNomeProduto(txtNomeProduto.getText());
 				seletorLancamento.setNomeSetor(txtNomeSetor.getText());
 				seletorLancamento.setDataInicial(dataInicial);
 				seletorLancamento.setDataFinal(dataFinal);
-				seletorLancamento.setTipo(radio.getSelection().getActionCommand());
+				seletorLancamento.setTipo(tipo);
 				
 				LancamentoController lancamentoController = new LancamentoController();
 				ArrayList<LancamentoDTO> filtro = lancamentoController.filtrarLancamentos(seletorLancamento);
