@@ -17,4 +17,9 @@ public class CategoriaController {
 		return categoriaBO.listarCategoria();
 	}
 
+	public boolean excluirCategoria(CategoriaVO categoriaVO) {
+		CategoriaBO categoriaBO = new CategoriaBO();
+		return categoriaBO.excluirCategoria(categoriaVO);
+	}
+
 }

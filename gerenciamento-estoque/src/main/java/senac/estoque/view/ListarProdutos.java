@@ -11,7 +11,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
 
-import senac.estoque.controller.LancamentoController;
 import senac.estoque.controller.ProdutoController;
 import senac.estoque.helpers.Constantes;
 import senac.estoque.model.dto.ProdutoDTO;

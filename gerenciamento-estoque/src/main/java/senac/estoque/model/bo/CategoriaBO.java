@@ -63,4 +63,14 @@ public class CategoriaBO {
 		return this.categoriaDAO.listar();
 	}
 
+	/**
+	 * retorna true quando deletado e false quando não deletado
+	 * @return
+	 */
+	public boolean excluirCategoria(CategoriaVO categoriaVO) {
+		categoriaDAO = new CategoriaDAO();
+
+		return categoriaDAO.excluir(categoriaVO.getId()) == 1?true:false;
+	}
+
 }

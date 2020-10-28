@@ -66,8 +66,7 @@ public class ProdutoBO {
 			verificacao++;
 		}
 		
-	
-		
+
 		if(eProd.verificarSeExistePorNome(produtoVO.getDescricao())) {
 			JOptionPane.showMessageDialog(null, "Este nome pertence a outro produto no banco de dados. Tente outro nome!", "Erro", JOptionPane.ERROR_MESSAGE);
 			verificacao++;
