@@ -381,5 +381,32 @@ public class ProdutoDAO {
 		if(contador > 0) return true;
 		return false;
 	}
+		/**
+	 * verificar se produto existe no banco
+	 * @param id
+	 * @return
+	 */
+	public boolean verificarSeExistePorNome(String descricao) {
+		String sql = "SELECT * FROM tb_produto WHERE descricao = '" + descricao + "'";
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		int contador = 0;
+		
+		try {
+			result = stmt.executeQuery(sql);
+			while(result.next()) {
+				contador++;
+			}
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		if(contador > 0) return true;
+		return false;
+	}
 
 }

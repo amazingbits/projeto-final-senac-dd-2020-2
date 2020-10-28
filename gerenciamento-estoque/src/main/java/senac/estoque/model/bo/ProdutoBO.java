@@ -60,19 +60,21 @@ public class ProdutoBO {
 		int verificacao = 0;
 		ProdutoDAO eProd = new ProdutoDAO();
 		String nomeAtual = eProd.encontrar(produtoVO.getId()).getDescricao();
-		
+	
 		if(nomeAtual.equalsIgnoreCase(produtoVO.getDescricao())) {
 			JOptionPane.showMessageDialog(null, "O nome do produto não pode ser o mesmo que o nome atual!", "Erro", JOptionPane.ERROR_MESSAGE);
 			verificacao++;
 		}
 		
-		if(!nomeAtual.equalsIgnoreCase(produtoVO.getDescricao()) && eProd.verificarSeExiste(produtoVO.getId())) {
+	
+		
+		if(eProd.verificarSeExistePorNome(produtoVO.getDescricao())) {
 			JOptionPane.showMessageDialog(null, "Este nome pertence a outro produto no banco de dados. Tente outro nome!", "Erro", JOptionPane.ERROR_MESSAGE);
 			verificacao++;
 		}
 		
 		if(verificacao == 0) {
-			boolean editar = this.produtoDAO.atualizar(produtoVO);
+			boolean editar = eProd.atualizar(produtoVO);
 			if(editar) return true; 
 		}
 		return false;
