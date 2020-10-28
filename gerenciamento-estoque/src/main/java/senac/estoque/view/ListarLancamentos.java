@@ -31,8 +31,8 @@ public class ListarLancamentos extends JPanel {
 
 	private Utils utils = new Utils();
 	private SeletorLancamento seletorLancamento = new SeletorLancamento();
-	private Integer offset = 0;
 	
+	private Integer offset = 0;
 	private String nomeProduto = "";
 	private String nomeSetor = "";
 	private String dtInicial = "";

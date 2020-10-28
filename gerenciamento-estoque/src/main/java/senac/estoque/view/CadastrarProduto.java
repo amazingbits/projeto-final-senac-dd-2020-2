@@ -120,7 +120,7 @@ public class CadastrarProduto extends JPanel {
             	/**
             	 * tratando o valor do preço para evitar dar crash no programa
             	 */
-            	String preco = "0";
+            	String preco = tfPrecoUnidade.getText();
             	if(preco.trim().length() == 0 || preco.equalsIgnoreCase(",00")) {
             		preco = "0";
             	} else if(preco.trim().length() <= 6) {
@@ -128,6 +128,7 @@ public class CadastrarProduto extends JPanel {
             	} else {
             		preco = tfPrecoUnidade.getText().replace(".", "").replace(",", ".");
             	}
+            	System.out.println(preco);
             	
                 ProdutoVO produtoVO = new ProdutoVO();
                 CategoriaVO categoriaVO = new CategoriaVO();

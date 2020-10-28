@@ -9,26 +9,11 @@ public class SeletorLancamento {
 	private String dataInicial;
 	private String dataFinal;
 	private String tipo;
+	
 	private boolean temFiltro = true;
-	private boolean temPaginacao = true;
-	private Integer numeroDeRegistros;
 	private Integer offset = 0;
 	private Integer numeroPorPagina = Constantes.ITEM_POR_PAGINA;
-	private double numeroDePaginas = 1;
-	
-	/**
-	 * @return the numeroDePaginas
-	 */
-	public double getNumeroDePaginas() {
-		return numeroDePaginas;
-	}
 
-	/**
-	 * @param numeroDePaginas the numeroDePaginas to set
-	 */
-	public void setNumeroDePaginas(double numeroDePaginas) {
-		this.numeroDePaginas = numeroDePaginas;
-	}
 
 	/**
 	 * @return the numeroPorPagina
@@ -42,20 +27,6 @@ public class SeletorLancamento {
 	 */
 	public void setNumeroPorPagina(Integer numeroPorPagina) {
 		this.numeroPorPagina = numeroPorPagina;
-	}
-
-	/**
-	 * @return the numeroDeRegistros
-	 */
-	public Integer getNumeroDeRegistros() {
-		return numeroDeRegistros;
-	}
-
-	/**
-	 * @param numeroDeRegistros the numeroDeRegistros to set
-	 */
-	public void setNumeroDeRegistros(Integer numeroDeRegistros) {
-		this.numeroDeRegistros = numeroDeRegistros;
 	}
 
 	/**
@@ -84,20 +55,6 @@ public class SeletorLancamento {
 	 */
 	public void setTemFiltro(boolean temFiltro) {
 		this.temFiltro = temFiltro;
-	}
-
-	/**
-	 * @return the temPaginacao
-	 */
-	public boolean isTemPaginacao() {
-		return temPaginacao;
-	}
-
-	/**
-	 * @param temPaginacao the temPaginacao to set
-	 */
-	public void setTemPaginacao(boolean temPaginacao) {
-		this.temPaginacao = temPaginacao;
 	}
 
 	public SeletorLancamento() {

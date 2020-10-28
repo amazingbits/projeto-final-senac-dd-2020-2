@@ -6,10 +6,12 @@ import javax.swing.JOptionPane;
 
 import senac.estoque.helpers.Constantes;
 import senac.estoque.model.dao.ProdutoDAO;
+import senac.estoque.model.dto.ProdutoDTO;
 import senac.estoque.model.dto.ProdutoMaisUsadosDTO;
 import senac.estoque.model.dto.ProdutoMaisVendidoDTO;
 import senac.estoque.model.vo.LogProdutosVO;
 import senac.estoque.model.vo.ProdutoVO;
+import senac.estoque.seletores.SeletorProduto;
 
 public class ProdutoBO {
 
@@ -22,9 +24,9 @@ public class ProdutoBO {
 	 */
 	public boolean validarProduto(ProdutoVO produtoVO) {
 
-        produtoDAO = new ProdutoDAO();
+        ProdutoDAO produtoDAO = new ProdutoDAO();
         
-        if (produtoDAO.encontrar(produtoVO.getDescricao()) != null ){
+        if (produtoDAO.encontrarPorNome(produtoVO.getDescricao()) != null ){
             
 			JOptionPane.showMessageDialog(null, constantes.MENSAGEM_VALIDACAO_SE_EXISTE_PRODUTO, "Erro", JOptionPane.ERROR_MESSAGE);
 
@@ -53,6 +55,32 @@ public class ProdutoBO {
 
         return true;
     }
+	
+	public boolean editarProduto(ProdutoVO produtoVO) {
+		int verificacao = 0;
+		ProdutoVO p = new ProdutoVO();
+		ProdutoDAO eProd = new ProdutoDAO();
+		String nomeAtual = eProd.encontrar(produtoVO.getId()).getDescricao();
+		
+		if(nomeAtual.equalsIgnoreCase(produtoVO.getDescricao())) {
+			JOptionPane.showMessageDialog(null, "O nome do produto não pode ser o mesmo que o nome atual!", "Erro", JOptionPane.ERROR_MESSAGE);
+			verificacao++;
+		}
+		
+		if(!nomeAtual.equalsIgnoreCase(produtoVO.getDescricao()) && eProd.verificarSeExiste(produtoVO.getId())) {
+			JOptionPane.showMessageDialog(null, "Este nome pertence a outro produto no banco de dados. Tente outro nome!", "Erro", JOptionPane.ERROR_MESSAGE);
+			verificacao++;
+		}
+		
+		if(verificacao == 0) {
+			boolean editar = this.produtoDAO.atualizar(produtoVO);
+			if(editar) return true; 
+		}
+		return false;
+	}
+	
+	
+	
     public boolean CadastrarProduto(ProdutoVO produtoVO){
 
         boolean resultado = false;
@@ -69,23 +97,39 @@ public class ProdutoBO {
         return resultado;
         
     }
+    
+    
+    
 	public ArrayList<ProdutoVO> listarProduto() {
         produtoDAO = new ProdutoDAO();
 
 		return  produtoDAO.listar();
     }
+	
+	
+	public ArrayList<ProdutoDTO> listarProdutoSeletor(SeletorProduto seletorProduto) {
+		ProdutoDAO produtoDAO = new ProdutoDAO();
+		return produtoDAO.listarView(seletorProduto);
+	}
+	
+	
 	public ArrayList<ProdutoMaisVendidoDTO> listarProdutoMaisVendidos() {
         
         produtoDAO = new ProdutoDAO();
 
 		return  produtoDAO.listarMaisVendidos();
 	}
+	
+	
     
     public ArrayList<LogProdutosVO> listaLogProdutos(){
         produtoDAO = new ProdutoDAO();
 
 		return  produtoDAO.listaLogProdutos();
     }
+    
+    
+    
 	public ArrayList<ProdutoMaisUsadosDTO> listarMaisUsados() {
         produtoDAO = new ProdutoDAO();
 

@@ -62,7 +62,7 @@ public class CadastroLancamentos extends JPanel {
         cbProduto = new JComboBox<String>();
         produtoController = new ProdutoController();
         listProduto = new ArrayList<ProdutoVO>();
-
+        
         for (int i = 0; i < produtoController.listarProduto().size(); i++) {
             cbProduto.addItem(produtoController.listarProduto().get(i).getDescricao());
             listProduto.add(produtoController.listarProduto().get(i));

@@ -13,6 +13,7 @@ import senac.estoque.model.dto.ProdutoMaisVendidoDTO;
 import senac.estoque.model.vo.CategoriaVO;
 import senac.estoque.model.vo.LogProdutosVO;
 import senac.estoque.model.vo.ProdutoVO;
+import senac.estoque.seletores.SeletorProduto;
 
 public class ProdutoDAO {
 
@@ -157,8 +158,18 @@ public class ProdutoDAO {
 	 * 
 	 * @return
 	 */
-	public ArrayList<ProdutoDTO> listarView() {
+	public ArrayList<ProdutoDTO> listarView(SeletorProduto seletorProduto) {
 		String sql = "SELECT * FROM vw_produto";
+		
+		if(seletorProduto.getNomeProduto().trim().length() > 0) {
+			sql = sql.concat(" WHERE descricao LIKE '%");
+			sql = sql.concat(seletorProduto.getNomeProduto() + "%' ");
+		}
+		
+		sql = sql.concat(" LIMIT " + seletorProduto.getNumeroPorPagina());
+		sql = sql.concat(" OFFSET " + seletorProduto.getOffset());
+		
+		
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;
@@ -230,7 +241,7 @@ public class ProdutoDAO {
 	 * @param nome
 	 * @return null ou ProdutoVO
 	 */
-	public ProdutoVO encontrar(String nome) {
+	public ProdutoVO encontrarPorNome(String nome) {
 		String sql = "SELECT * FROM tb_produto WHERE descricao = '" + nome + "'";
 
 		Connection conn = Conexao.getConnection();
@@ -300,11 +311,10 @@ public class ProdutoDAO {
 	 * @param id
 	 * @return
 	 */
-	public int atualizar(ProdutoVO produto, int id) {
-		String sql = "UPDATE tb_produto SET " + "descricao = '" + produto.getDescricao() + "', " + "categoria = "
-				+ produto.getCategoria().getId() + ", " + "quantidade = " + produto.getQuantidade() + ", " + "preco = "
-				+ produto.getPreco() + ", " + "data_ultima_entrada = '" + produto.getData_ultima_entrada() + "', "
-				+ "data_ultima_saida = '" + produto.getData_ultima_saida() + "' " + "WHERE id = " + id;
+	public boolean atualizar(ProdutoVO produto) {
+		String sql = "UPDATE tb_produto SET descricao = '";
+		sql = sql.concat(produto.getDescricao());
+		sql = sql.concat("' WHERE id = " + produto.getId());
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		int result = 0;
@@ -317,7 +327,8 @@ public class ProdutoDAO {
 			Conexao.closeStatement(stmt);
 			Conexao.closeConnection(conn);
 		}
-		return result;
+		if(result != 0) return true;
+		return false;
 	}
 
 	/**
@@ -341,6 +352,34 @@ public class ProdutoDAO {
 			Conexao.closeConnection(conn);
 		}
 		return result;
+	}
+	
+	/**
+	 * verificar se produto existe no banco
+	 * @param id
+	 * @return
+	 */
+	public boolean verificarSeExiste(int id) {
+		String sql = "SELECT * FROM tb_produto WHERE id = " + id;
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		int contador = 0;
+		
+		try {
+			result = stmt.executeQuery(sql);
+			while(result.next()) {
+				contador++;
+			}
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		if(contador > 0) return true;
+		return false;
 	}
 
 }
