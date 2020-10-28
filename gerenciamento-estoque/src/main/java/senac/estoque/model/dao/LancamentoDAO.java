@@ -10,6 +10,7 @@ import senac.estoque.model.Conexao;
 import senac.estoque.model.dto.LancamentoDTO;
 import senac.estoque.model.vo.LancamentoVO;
 import senac.estoque.model.vo.LogLancamentosVO;
+import senac.estoque.seletores.SeletorLancamento;
 
 public class LancamentoDAO {
 	
@@ -86,8 +87,124 @@ public class LancamentoDAO {
 	 * lista todos os lan�amentos a partir da view do banco de dados
 	 * @return
 	 */
-	public ArrayList<LancamentoDTO> listarView() {
+	public ArrayList<LancamentoDTO> listarView(Integer limit, Integer offset) {
 		String sql = "SELECT * FROM vw_lancamento";
+		if(limit != null) sql = sql.concat(" LIMIT " + limit + " ");
+		if(offset != null) sql = sql.concat(" OFFSET " + offset + " ");
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		ArrayList<LancamentoDTO> listaLancamento = new ArrayList<LancamentoDTO>();
+		
+		try {
+			result = stmt.executeQuery(sql);
+			while(result.next()) {
+				LancamentoDTO lancamento = new LancamentoDTO();
+				lancamento.setId(Integer.parseInt(result.getString("codigo")));
+				lancamento.setIdproduto(Integer.parseInt(result.getString("codigoproduto")));
+				lancamento.setPreco_total(Float.parseFloat(result.getString("preco_total")));
+				lancamento.setProduto(result.getString("produto"));
+				lancamento.setSetor(result.getString("setor"));
+				lancamento.setTipo(result.getString("tipo"));
+				lancamento.setQuantidade(Integer.parseInt(result.getString("quantidade")));
+				lancamento.setData(result.getString("data"));
+				listaLancamento.add(lancamento);
+			}
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		return listaLancamento;
+	}
+	
+	public ArrayList<LancamentoDTO> filtrarLancamentos(SeletorLancamento seletorLancamento) {
+		String nomeProduto = seletorLancamento.getNomeProduto().trim();
+		String nomeSetor = seletorLancamento.getNomeSetor().trim();
+		String dataInicial = seletorLancamento.getDataInicial();
+		String dataFinal = seletorLancamento.getDataFinal();
+		String tipo = seletorLancamento.getTipo();
+		int primeiro = 0;
+		
+		String sql = "SELECT * FROM vw_lancamento ";
+		
+		if(nomeProduto.length() > 0) {
+			if(primeiro == 0) {
+				sql = sql.concat(" WHERE ");
+				primeiro++;
+			} else {
+				sql = sql.concat(" AND ");
+			}
+			primeiro++;
+			sql = sql.concat(" produto LIKE '%");
+			sql = sql.concat(nomeProduto);
+			sql = sql.concat("%' ");
+		}
+		
+		if(nomeSetor.length() > 0) {
+			if(primeiro == 0) {
+				sql = sql.concat(" WHERE ");
+				primeiro++;
+			} else {
+				sql = sql.concat(" AND ");
+			}
+			sql = sql.concat(" setor LIKE '%");
+			sql = sql.concat(nomeSetor);
+			sql = sql.concat("%'");
+		}
+		
+		if(tipo.length() > 0) {
+			if(primeiro == 0) {
+				sql = sql.concat(" WHERE ");
+				primeiro++;
+			} else {
+				sql = sql.concat(" AND ");
+			}
+			sql = sql.concat(" tipo = '");
+			sql = sql.concat(tipo);
+			sql = sql.concat("' ");
+		}
+		
+		if(dataInicial.length() > 0 && dataFinal.length() > 0) {
+			if(primeiro == 0) {
+				sql = sql.concat(" WHERE ");
+				primeiro++;
+			} else {
+				sql = sql.concat(" AND ");
+			}
+			sql = sql.concat(" data BETWEEN '");
+			sql = sql.concat(dataInicial);
+			sql = sql.concat("' AND '");
+			sql = sql.concat(dataFinal);
+			sql = sql.concat("'");
+		}
+		
+		if(dataInicial.length() > 0 && dataFinal.length() == 0) {
+			if(primeiro == 0) {
+				sql = sql.concat(" WHERE ");
+				primeiro++;
+			} else {
+				sql = sql.concat(" AND ");
+			}
+			sql = sql.concat(" data >= '");
+			sql = sql.concat(dataInicial);
+			sql = sql.concat("'");
+		}
+		
+		if(dataFinal.length() > 0 && dataInicial.length() == 0) {
+			if(primeiro == 0) {
+				sql = sql.concat(" WHERE ");
+				primeiro++;
+			} else {
+				sql = sql.concat(" AND ");
+			}
+			sql = sql.concat(" data <= '");
+			sql = sql.concat(dataFinal);
+			sql = sql.concat("'");
+		}
+		
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;

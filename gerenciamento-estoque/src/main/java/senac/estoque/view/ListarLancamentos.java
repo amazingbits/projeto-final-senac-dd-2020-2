@@ -1,30 +1,36 @@
 package senac.estoque.view;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
-import java.awt.Dimension;
 import senac.estoque.controller.LancamentoController;
-import senac.estoque.helpers.RenderizarTabela;
+import senac.estoque.helpers.Utils;
 import senac.estoque.model.dto.LancamentoDTO;
+import senac.estoque.seletores.SeletorLancamento;
+import senac.estoque.tabelas.TabelaLancamentos;
+
 import javax.swing.JTextField;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class ListarLancamentos extends JPanel {
 	private JTextField txtNomeProduto;
 	private JTextField txtNomeSetor;
-	private JTextField txtDataInicial;
-	private JTextField txtDataFinal;
+	private JFormattedTextField txtDataInicial;
+	private JFormattedTextField txtDataFinal;
+	
+	private Integer numberPerPages = 10;
+	private Integer offset = 0;
+	private Utils utils = new Utils();
 	
  /**
 	 * Create the panel.
@@ -37,53 +43,14 @@ public class ListarLancamentos extends JPanel {
 		lblTitle.setBounds(10, 11, 600, 36);
 		add(lblTitle);
 		
-		/**
-		 * carregar lista de categorias
-		 */
-		LancamentoController lancamentoController = new LancamentoController();
-		ArrayList<LancamentoDTO> lancamentos = lancamentoController.listarLancamento();
-		/* ============================package senac.estoque.view;
-
-import java.util.ArrayList;
-
-import javax.swing.JLabel;======================================== */
+		//===========imprimindo tabela na tela========================
+		final TabelaLancamentos tabelaLancamentos = new TabelaLancamentos();
+		final JTable tabela = tabelaLancamentos.gerar(numberPerPages, offset);
 		
-		//definir colunas
-		String[] colunas = {"ID", "PRODUTO","SETOR","TIPO","QUANTIDADE","PRECO TOTAL","DATA"};
-		
-		//setando modelo padrão de tabela
-		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0) {
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
-		
-		//construindo a tabela seguindo o modelo criado
-		JTable tabela = new JTable(modeloTabela);
-		DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
-		tabela.setPreferredScrollableViewportSize(new Dimension(500,50));
-		tabela.setFillsViewportHeight(true);
-		tabela.setDefaultRenderer(Object.class, new RenderizarTabela());
-		
-		//populando a tabela
-		for(int i = 0; i < lancamentos.size(); i++) {
-			
-			modelo.addRow(
-                new Object[] {
-                    lancamentos.get(i).getId(),
-                    lancamentos.get(i).getProduto(),
-                    lancamentos.get(i).getSetor(),
-                    lancamentos.get(i).getTipo(),
-                    lancamentos.get(i).getQuantidade(),
-                    "R$ "+lancamentos.get(i).getPreco_total(),
-                    lancamentos.get(i).getData()
-                });
-		}
-		
-		//imprimindo a tabela na tela
-		JScrollPane scrollPane = new JScrollPane(tabela);
+		final JScrollPane scrollPane = new JScrollPane(tabela);
 		scrollPane.setBounds(10, 230, 610, 200);
 		add(scrollPane);
+		//============================================================
 		
 		JLabel lblNomeProduto = new JLabel("Nome do Produto");
 		lblNomeProduto.setBounds(20, 44, 154, 14);
@@ -103,7 +70,8 @@ import javax.swing.JLabel;======================================== */
 		lblNomeSetor.setBounds(346, 44, 154, 14);
 		add(lblNomeSetor);
 		
-		txtDataInicial = new JTextField();
+		txtDataInicial = new JFormattedTextField();
+		utils.mascara("##/##/####", txtDataInicial);
 		txtDataInicial.setColumns(10);
 		txtDataInicial.setBounds(20, 130, 264, 36);
 		add(txtDataInicial);
@@ -112,7 +80,8 @@ import javax.swing.JLabel;======================================== */
 		lblDataInicial.setBounds(20, 116, 154, 14);
 		add(lblDataInicial);
 		
-		txtDataFinal = new JTextField();
+		txtDataFinal = new JFormattedTextField();
+		utils.mascara("##/##/####", txtDataFinal);
 		txtDataFinal.setColumns(10);
 		txtDataFinal.setBounds(346, 130, 264, 36);
 		add(txtDataFinal);
@@ -121,24 +90,107 @@ import javax.swing.JLabel;======================================== */
 		lblDataFinal.setBounds(346, 116, 154, 14);
 		add(lblDataFinal);
 		
-		JButton btnFiltrar = new JButton("Filtrar");
-		btnFiltrar.setBounds(20, 177, 89, 42);
-		add(btnFiltrar);
-		
 		JRadioButton radioBtnEntrada = new JRadioButton("Entrada");
+		radioBtnEntrada.setActionCommand("Entrada");
 		radioBtnEntrada.setSelected(true);
 		radioBtnEntrada.setBounds(345, 187, 109, 23);
 		add(radioBtnEntrada);
 		
 		JRadioButton radioBtnSaida = new JRadioButton("Saída");
+		radioBtnSaida.setActionCommand("Saída");
 		radioBtnSaida.setBounds(467, 187, 109, 23);
 		add(radioBtnSaida);
 		
-		ButtonGroup radio = new ButtonGroup();
+		final ButtonGroup radio = new ButtonGroup();
 		radio.add(radioBtnEntrada);
 		radio.add(radioBtnSaida);
 		
+		JButton btnFiltrar = new JButton("Filtrar");
+		btnFiltrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int verificador = 0;
+				String dataInicial = txtDataInicial.getText().trim().replace(" ", "");
+				String dataFinal = txtDataFinal.getText().trim().replace(" ", "");
+				
+				if(!utils.validarData(dataInicial) && !dataInicial.equals("//")) {
+					JOptionPane.showMessageDialog(null, "A data inicial deve ser válida!");
+					verificador++;
+				}
+				
+				if(!utils.validarData(dataFinal) && !dataFinal.equals("//")) {
+					JOptionPane.showMessageDialog(null, "A data final deve ser válida!");
+					verificador++;
+				}
+				
+				if(dataInicial.equals("//")) dataInicial = "";
+				if(dataFinal.equals("//")) dataFinal = "";
+				
+				SeletorLancamento seletorLancamento = new SeletorLancamento();
+				seletorLancamento.setNomeProduto(txtNomeProduto.getText());
+				seletorLancamento.setNomeSetor(txtNomeSetor.getText());
+				seletorLancamento.setDataInicial(dataInicial);
+				seletorLancamento.setDataFinal(dataFinal);
+				seletorLancamento.setTipo(radio.getSelection().getActionCommand());
+				
+				LancamentoController lancamentoController = new LancamentoController();
+				ArrayList<LancamentoDTO> filtro = lancamentoController.filtrarLancamentos(seletorLancamento);
+				if(filtro != null) {
+					((DefaultTableModel)tabela.getModel()).setRowCount(0);
+					for(int i = 0; i < filtro.size(); i++) {
+						((DefaultTableModel)tabela.getModel()).addRow(
+									new Object[] {
+											filtro.get(i).getId(),
+											filtro.get(i).getProduto(),
+											filtro.get(i).getSetor(),
+											filtro.get(i).getTipo(),
+											filtro.get(i).getQuantidade(),
+									        "R$ "+filtro.get(i).getPreco_total(),
+									        filtro.get(i).getData()
+									}
+								);
+					}
+					((DefaultTableModel)tabela.getModel()).fireTableDataChanged();
+				}
+			}
+		});
+		btnFiltrar.setBounds(20, 177, 89, 42);
+		add(btnFiltrar);
+		
 		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int linhaSelecionada = tabela.getSelectedRow();
+				int totalDeLinhasSelecionadas = tabela.getSelectedRowCount();
+				int verificacao = 0;
+				
+				if(linhaSelecionada == -1) {
+					JOptionPane.showMessageDialog(null, "Selecione ao menos um registro");
+					verificacao++;
+				}
+				
+				if(totalDeLinhasSelecionadas > 1) {
+					JOptionPane.showMessageDialog(null, "Selecione apenas um registro da tabela!");
+					verificacao++;
+				}
+				
+				if(verificacao == 0) {
+					int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir este registro?");
+					if(confirm == 0) {
+						int id = (int) tabela.getValueAt(linhaSelecionada, 0);
+						LancamentoController lancamentoController = new LancamentoController();
+						if(lancamentoController.excluirLancamento(id)) {
+							JOptionPane.showMessageDialog(null, "Lançamento excluído com sucesso!");
+							((DefaultTableModel)tabela.getModel()).removeRow(linhaSelecionada);
+						} else {
+							JOptionPane.showMessageDialog(null, "Houve um erro ao excluir o lançamento!", "Erro", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					
+				}
+				
+			}
+		});
 		btnExcluir.setBounds(119, 177, 89, 42);
 		add(btnExcluir);
 		
