@@ -42,4 +42,10 @@ public class ProdutoController {
 		ProdutoBO produtoBO = new ProdutoBO();
 		return produtoBO.editarProduto(produtoVO);
 	}
+
+	public boolean excluir(ProdutoVO produtoVO) {
+		ProdutoBO produtoBO = new ProdutoBO();
+		return produtoBO.excluir(produtoVO);
+
+	}
 }

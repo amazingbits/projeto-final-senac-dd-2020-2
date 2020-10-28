@@ -112,6 +112,38 @@ public class ListarProdutos extends JPanel {
 		
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.setBounds(491, 58, 129, 36);
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				int linhaSelecionada = tabela.getSelectedRow();
+		
+
+				if (linhaSelecionada == -1) {
+					JOptionPane.showMessageDialog(null, "Selecione ao menos um registro");
+				}else {
+					int id = (int) tabela.getValueAt(linhaSelecionada, 0);
+					ProdutoController produtoController = new ProdutoController();
+					ProdutoVO produtoVO = new ProdutoVO();
+					produtoVO.setId(id);
+
+				   boolean resultado = produtoController.excluir(produtoVO);
+
+				   if(resultado){
+					JOptionPane.showMessageDialog(null, "Sucesso em deletar o produto");
+
+				   }else {
+					JOptionPane.showMessageDialog(null, "Erro ao deletar o produto");
+
+				   }
+					
+
+				}	
+
+				
+				
+				
+			}
+		});
 		add(btnExcluir);
 		
 		JButton btnEditar = new JButton("Editar");

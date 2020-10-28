@@ -58,7 +58,6 @@ public class ProdutoBO {
 	
 	public boolean editarProduto(ProdutoVO produtoVO) {
 		int verificacao = 0;
-		ProdutoVO p = new ProdutoVO();
 		ProdutoDAO eProd = new ProdutoDAO();
 		String nomeAtual = eProd.encontrar(produtoVO.getId()).getDescricao();
 		
@@ -134,5 +133,11 @@ public class ProdutoBO {
         produtoDAO = new ProdutoDAO();
 
 		return  produtoDAO.listarMaisUsados();
+	}
+
+	public boolean excluir(ProdutoVO produtoVO) {
+		produtoDAO = new ProdutoDAO();
+
+		return  produtoDAO.excluir(produtoVO.getId()) == 1?true:false;
 	}
 }
