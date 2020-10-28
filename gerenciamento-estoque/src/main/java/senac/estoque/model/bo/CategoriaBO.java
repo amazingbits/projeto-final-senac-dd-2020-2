@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import senac.estoque.helpers.Caracteres;
 import senac.estoque.model.dao.CategoriaDAO;
 import senac.estoque.model.vo.CategoriaVO;
+import senac.estoque.seletores.SeletorCategoria;
 import senac.estoque.helpers.Constantes;
 
 public class CategoriaBO {
@@ -94,6 +95,13 @@ public class CategoriaBO {
 		}
 
 		return false;
+	}
+
+	public ArrayList<CategoriaVO> listarCategoriaSeletor(SeletorCategoria seletorCategoria) {
+		categoriaDAO = new CategoriaDAO();
+
+		return categoriaDAO.listarView(seletorCategoria);
+
 	}
 
 }

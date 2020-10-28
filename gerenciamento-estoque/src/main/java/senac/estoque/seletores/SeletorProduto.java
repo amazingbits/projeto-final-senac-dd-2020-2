@@ -5,7 +5,6 @@ import senac.estoque.helpers.Constantes;
 public class SeletorProduto {
 	
 	private String nomeProduto;
-	
 	private boolean temFiltro = true;
 	private Integer offset = 0;
 	private Integer numeroPorPagina = Constantes.ITEM_POR_PAGINA;

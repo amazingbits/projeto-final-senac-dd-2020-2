@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import senac.estoque.model.Conexao;
 import senac.estoque.model.vo.CategoriaVO;
+import senac.estoque.seletores.SeletorCategoria;
 
 public class CategoriaDAO {
 	
@@ -193,6 +194,43 @@ public class CategoriaDAO {
 			Conexao.closeConnection(conn);
 		}
 		return result;
+	}
+
+	public ArrayList<CategoriaVO> listarView(SeletorCategoria seletorCategoria) {
+
+		String sql = "SELECT * FROM tb_categoria";
+
+		if(seletorCategoria.getNomeCategoria().trim().length() > 0) {
+			sql = sql.concat(" WHERE descricao LIKE '%");
+			sql = sql.concat(seletorCategoria.getNomeCategoria() + "%' ");
+		}
+
+		sql = sql.concat(" LIMIT " + seletorCategoria.getNumeroPorPagina());
+		sql = sql.concat(" OFFSET " + seletorCategoria.getOffset());
+		
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		ArrayList<CategoriaVO> listaCategoria = new ArrayList<CategoriaVO>();
+
+		try {
+			result = stmt.executeQuery(sql);
+			while (result.next()) {
+				CategoriaVO categoria = new CategoriaVO();
+				categoria.setId(Integer.parseInt(result.getString("id")));
+				categoria.setDescricao(result.getString("descricao"));
+				
+				listaCategoria.add(categoria);
+				
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		return listaCategoria;
 	}
 
 }

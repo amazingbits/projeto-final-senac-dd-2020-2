@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import senac.estoque.model.bo.CategoriaBO;
 import senac.estoque.model.vo.CategoriaVO;
+import senac.estoque.seletores.SeletorCategoria;
 
 public class CategoriaController {
 	
@@ -26,6 +27,12 @@ public class CategoriaController {
 		CategoriaBO categoriaBO = new CategoriaBO();
 
 		return categoriaBO.editarCategoria(categoriaVO);
+	}
+
+	public ArrayList<CategoriaVO> listarCategoriaSeletor(SeletorCategoria seletorCategoria) {
+		CategoriaBO categoriaBO = new CategoriaBO();
+
+		return categoriaBO.listarCategoriaSeletor(seletorCategoria);
 	}
 
 }

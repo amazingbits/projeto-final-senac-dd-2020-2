@@ -14,7 +14,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import senac.estoque.controller.CategoriaController;
+import senac.estoque.helpers.Constantes;
 import senac.estoque.model.vo.CategoriaVO;
+import senac.estoque.seletores.SeletorCategoria;
 
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -22,6 +24,8 @@ import javax.swing.JButton;
 
 public class ListarCategorias extends JPanel {
 	private JTextField txtNomeCategoria;
+	private Integer offset = 0;
+	private String nomeCategoria = "";
 
 	/**
 	 * Create the panel.
@@ -106,10 +110,6 @@ public class ListarCategorias extends JPanel {
 		});
 		add(btnExcluir);
 		
-		JButton btnFiltrar = new JButton("Filtrar");
-		btnFiltrar.setBounds(224, 58, 129, 36);
-		add(btnFiltrar);
-		
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.setBounds(358, 58, 129, 36);
 		btnEditar.addActionListener(new ActionListener() {
@@ -159,13 +159,59 @@ public class ListarCategorias extends JPanel {
 		});
 		add(btnEditar);
 		
-		JButton btnAnterior = new JButton("<<");
+		final JButton btnAnterior = new JButton("<<");
 		btnAnterior.setBounds(10, 373, 89, 23);
 		add(btnAnterior);
 		
-		JButton btnProxima = new JButton(">>");
+		final JButton btnProxima = new JButton(">>");
 		btnProxima.setBounds(531, 373, 89, 23);
 		add(btnProxima);
+
+			
+		JButton btnFiltrar = new JButton("Filtrar");
+		btnFiltrar.setBounds(224, 58, 129, 36);
+		btnFiltrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				SeletorCategoria filtro = new SeletorCategoria();
+				filtro.setNomeCategoria(txtNomeCategoria.getText());
+
+				nomeCategoria = txtNomeCategoria.getText();
+				offset = 0;
+
+				CategoriaController categoriaController = new CategoriaController();
+				ArrayList<CategoriaVO> categoriasFiltradas = categoriaController.listarCategoriaSeletor(filtro);
+
+				/* ======estados dos botões de paginação===== */
+				if (categoriasFiltradas.size() < Constantes.ITEM_POR_PAGINA) {
+					btnProxima.setEnabled(false);
+				} else {
+					btnProxima.setEnabled(true);
+				}
+
+				if (offset == 0) {
+					btnAnterior.setEnabled(false);
+				} else {
+					btnAnterior.setEnabled(true);
+				}
+				/* ================================ */
+
+				if (categoriasFiltradas != null) {
+					((DefaultTableModel) tabela.getModel()).setRowCount(0);
+					for (int i = 0; i < categoriasFiltradas.size(); i++) {
+						((DefaultTableModel) tabela.getModel()).addRow(
+							new Object[] { 
+								categoriasFiltradas.get(i).getId(),
+								categoriasFiltradas.get(i).getDescricao()
+							});
+					}
+					((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
+				}
+
+			}
+		});
+		
+		add(btnFiltrar);
 
 	}
 }
