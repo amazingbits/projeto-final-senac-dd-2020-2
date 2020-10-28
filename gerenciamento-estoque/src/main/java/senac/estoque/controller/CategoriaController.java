@@ -22,4 +22,10 @@ public class CategoriaController {
 		return categoriaBO.excluirCategoria(categoriaVO);
 	}
 
+	public boolean editarCategoria(CategoriaVO categoriaVO) {
+		CategoriaBO categoriaBO = new CategoriaBO();
+
+		return categoriaBO.editarCategoria(categoriaVO);
+	}
+
 }

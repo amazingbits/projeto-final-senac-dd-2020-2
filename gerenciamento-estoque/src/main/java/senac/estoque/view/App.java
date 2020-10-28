@@ -55,7 +55,6 @@ public class App extends JFrame {
 		JMenu mnLancamento = new JMenu("Lançamentos");
 		topMenu.add(mnLancamento);
 
-
 		JMenuItem mnLancamentoCadastrar = new JMenuItem("Novo Lançamento");
 
 		mnLancamentoCadastrar.addActionListener(new ActionListener() {

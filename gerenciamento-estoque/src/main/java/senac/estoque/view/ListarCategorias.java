@@ -112,6 +112,51 @@ public class ListarCategorias extends JPanel {
 		
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.setBounds(358, 58, 129, 36);
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				int linhaSelecionada = tabela.getSelectedRow();
+				int totalDeLinhasSelecionadas = tabela.getSelectedRowCount();
+				int verificacao = 0;
+				String nmCategoria = txtNomeCategoria.getText().trim();
+
+				if (linhaSelecionada == -1) {
+					JOptionPane.showMessageDialog(null, "Selecione ao menos um registro");
+					verificacao++;
+				}
+
+				if (totalDeLinhasSelecionadas > 1) {
+					JOptionPane.showMessageDialog(null, "Selecione apenas um registro da tabela!");
+					verificacao++;
+				}
+
+				if (nmCategoria.length() <= 0) {
+					JOptionPane.showMessageDialog(null, "Você precisa digitar um nome para a categoria!");
+					verificacao++;
+				}
+
+				if (verificacao == 0) {
+					int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja editar este registro?");
+					if (confirm == 0) {
+						int id = (int) tabela.getValueAt(linhaSelecionada, 0);
+						CategoriaController categoriaController = new CategoriaController();
+
+						CategoriaVO categoriaVO = new CategoriaVO();
+						categoriaVO.setDescricao(nmCategoria);
+						categoriaVO.setId(id);
+
+						if (categoriaController.editarCategoria(categoriaVO)) {
+							JOptionPane.showMessageDialog(null, "Categoria editada com sucesso!");
+							((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
+						} else {
+							JOptionPane.showMessageDialog(null, "Houve um erro ao editar a categoria!", "Erro",JOptionPane.ERROR_MESSAGE);
+						}
+					}
+
+				}
+
+			}
+		});
 		add(btnEditar);
 		
 		JButton btnAnterior = new JButton("<<");

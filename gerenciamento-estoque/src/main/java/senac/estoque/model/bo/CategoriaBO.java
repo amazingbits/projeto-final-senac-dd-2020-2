@@ -73,4 +73,27 @@ public class CategoriaBO {
 		return categoriaDAO.excluir(categoriaVO.getId()) == 1?true:false;
 	}
 
+	public boolean editarCategoria(CategoriaVO categoriaVO) {
+		int verificacao = 0;
+		categoriaDAO = new CategoriaDAO();
+		String nomeAtual = categoriaDAO.encontrar(categoriaVO.getId()).getDescricao();
+
+		if(nomeAtual.equalsIgnoreCase(categoriaVO.getDescricao())) {
+			JOptionPane.showMessageDialog(null, "O nome da categoria não pode ser o mesmo que o nome atual!", "Erro", JOptionPane.ERROR_MESSAGE);
+			verificacao++;
+		}
+
+		if(categoriaDAO.encontrarCategoriaPeloNome(categoriaVO.getDescricao())) {
+			JOptionPane.showMessageDialog(null, "Este nome pertence a outra categoria no banco de dados. Tente outro nome!", "Erro", JOptionPane.ERROR_MESSAGE);
+			verificacao++;
+		}
+
+		if(verificacao == 0) {
+			boolean editar = categoriaDAO.atualizar(categoriaVO,categoriaVO.getId()) == 1?true:false;
+			if(editar) return true; 
+		}
+
+		return false;
+	}
+
 }
