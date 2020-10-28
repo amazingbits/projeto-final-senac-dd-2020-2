@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import java.sql.*;
 
+import senac.estoque.helpers.Constantes;
 import senac.estoque.model.Conexao;
 import senac.estoque.model.dto.LancamentoDTO;
 import senac.estoque.model.vo.LancamentoVO;
@@ -84,48 +85,16 @@ public class LancamentoDAO {
 	}
 	
 	/**
-	 * lista todos os lan�amentos a partir da view do banco de dados
+	 * listar ou filtrar todas as views de lançamento
+	 * @param seletorLancamento
 	 * @return
 	 */
-	public ArrayList<LancamentoDTO> listarView(Integer limit, Integer offset) {
-		String sql = "SELECT * FROM vw_lancamento";
-		if(limit != null) sql = sql.concat(" LIMIT " + limit + " ");
-		if(offset != null) sql = sql.concat(" OFFSET " + offset + " ");
-		Connection conn = Conexao.getConnection();
-		Statement stmt = Conexao.getStatement(conn);
-		ResultSet result = null;
-		ArrayList<LancamentoDTO> listaLancamento = new ArrayList<LancamentoDTO>();
-		
-		try {
-			result = stmt.executeQuery(sql);
-			while(result.next()) {
-				LancamentoDTO lancamento = new LancamentoDTO();
-				lancamento.setId(Integer.parseInt(result.getString("codigo")));
-				lancamento.setIdproduto(Integer.parseInt(result.getString("codigoproduto")));
-				lancamento.setPreco_total(Float.parseFloat(result.getString("preco_total")));
-				lancamento.setProduto(result.getString("produto"));
-				lancamento.setSetor(result.getString("setor"));
-				lancamento.setTipo(result.getString("tipo"));
-				lancamento.setQuantidade(Integer.parseInt(result.getString("quantidade")));
-				lancamento.setData(result.getString("data"));
-				listaLancamento.add(lancamento);
-			}
-		} catch(SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-		} finally {
-			Conexao.closeResultSet(result);
-			Conexao.closeStatement(stmt);
-			Conexao.closeConnection(conn);
-		}
-		return listaLancamento;
-	}
-	
 	public ArrayList<LancamentoDTO> filtrarLancamentos(SeletorLancamento seletorLancamento) {
-		String nomeProduto = seletorLancamento.getNomeProduto().trim();
-		String nomeSetor = seletorLancamento.getNomeSetor().trim();
-		String dataInicial = seletorLancamento.getDataInicial();
-		String dataFinal = seletorLancamento.getDataFinal();
-		String tipo = seletorLancamento.getTipo();
+		String nomeProduto = (seletorLancamento.isTemFiltro()) ? seletorLancamento.getNomeProduto().trim() : "";
+		String nomeSetor = (seletorLancamento.isTemFiltro()) ? seletorLancamento.getNomeSetor().trim() : "";
+		String dataInicial = (seletorLancamento.isTemFiltro()) ? seletorLancamento.getDataInicial() : "";
+		String dataFinal = (seletorLancamento.isTemFiltro()) ? seletorLancamento.getDataFinal() : "";
+		String tipo = (seletorLancamento.isTemFiltro()) ? seletorLancamento.getTipo() : "";
 		int primeiro = 0;
 		
 		String sql = "SELECT * FROM vw_lancamento ";
@@ -174,11 +143,11 @@ public class LancamentoDAO {
 			} else {
 				sql = sql.concat(" AND ");
 			}
-			sql = sql.concat(" data BETWEEN '");
+			sql = sql.concat(" data BETWEEN CAST('");
 			sql = sql.concat(dataInicial);
-			sql = sql.concat("' AND '");
+			sql = sql.concat("' AS DATE) AND CAST('");
 			sql = sql.concat(dataFinal);
-			sql = sql.concat("'");
+			sql = sql.concat("' AS DATE) ");
 		}
 		
 		if(dataInicial.length() > 0 && dataFinal.length() == 0) {
@@ -188,9 +157,9 @@ public class LancamentoDAO {
 			} else {
 				sql = sql.concat(" AND ");
 			}
-			sql = sql.concat(" data >= '");
+			sql = sql.concat(" data >= CAST('");
 			sql = sql.concat(dataInicial);
-			sql = sql.concat("'");
+			sql = sql.concat("' AS DATE) ");
 		}
 		
 		if(dataFinal.length() > 0 && dataInicial.length() == 0) {
@@ -200,9 +169,15 @@ public class LancamentoDAO {
 			} else {
 				sql = sql.concat(" AND ");
 			}
-			sql = sql.concat(" data <= '");
+			sql = sql.concat(" data <= CAST('");
 			sql = sql.concat(dataFinal);
-			sql = sql.concat("'");
+			sql = sql.concat("' AS DATE) ");
+		}
+		
+		sql = sql.concat(" LIMIT " + seletorLancamento.getNumeroPorPagina());
+		
+		if(seletorLancamento.getOffset() != null) {
+			sql = sql.concat(" OFFSET " + seletorLancamento.getOffset());
 		}
 		
 		Connection conn = Conexao.getConnection();
@@ -224,6 +199,7 @@ public class LancamentoDAO {
 				lancamento.setData(result.getString("data"));
 				listaLancamento.add(lancamento);
 			}
+			
 		} catch(SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} finally {
@@ -347,6 +323,41 @@ public class LancamentoDAO {
 			Conexao.closeConnection(conn);
 		}
 		return result;
+	}
+	
+	/**
+	 * retorna o total de registros
+	 * @return
+	 */
+	public int totalDeRegistros() {
+		String sql = "SELECT COUNT(*) AS quantidade FROM tb_lancamento";
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		int total = 0;
+		
+		try {
+			result = stmt.executeQuery(sql);
+			while(result.next()) {
+				total += Integer.parseInt(result.getString("quantidade"));
+			}
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		return total;
+	}
+	
+	/**
+	 * retorna número de páginas
+	 * @param numeroDeRegistros
+	 * @return
+	 */
+	public double numeroDePaginas(double numeroDeRegistros) {
+		return Math.ceil(numeroDeRegistros / Constantes.ITEM_POR_PAGINA);
 	}
 
 }

@@ -19,9 +19,9 @@ public class LancamentoController {
         return lacamentoBO.cadastrarLacamento(lancamento);
     }   
 
-    public ArrayList<LancamentoDTO> listarLancamento(Integer limit, Integer offset){
+    public ArrayList<LancamentoDTO> listarLancamento(SeletorLancamento seletorLancamento){
         lacamentoBO = new LancamentoBO();
-        return lacamentoBO.listarLancamento(limit, offset);
+        return lacamentoBO.listarLancamento(seletorLancamento);
     }
 
     public ArrayList<LogLancamentosVO> listarLogLancamentos(){

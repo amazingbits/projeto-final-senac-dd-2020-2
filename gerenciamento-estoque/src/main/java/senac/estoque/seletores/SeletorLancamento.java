@@ -1,5 +1,7 @@
 package senac.estoque.seletores;
 
+import senac.estoque.helpers.Constantes;
+
 public class SeletorLancamento {
 	
 	private String nomeProduto;
@@ -7,7 +9,97 @@ public class SeletorLancamento {
 	private String dataInicial;
 	private String dataFinal;
 	private String tipo;
+	private boolean temFiltro = true;
+	private boolean temPaginacao = true;
+	private Integer numeroDeRegistros;
+	private Integer offset = 0;
+	private Integer numeroPorPagina = Constantes.ITEM_POR_PAGINA;
+	private double numeroDePaginas = 1;
 	
+	/**
+	 * @return the numeroDePaginas
+	 */
+	public double getNumeroDePaginas() {
+		return numeroDePaginas;
+	}
+
+	/**
+	 * @param numeroDePaginas the numeroDePaginas to set
+	 */
+	public void setNumeroDePaginas(double numeroDePaginas) {
+		this.numeroDePaginas = numeroDePaginas;
+	}
+
+	/**
+	 * @return the numeroPorPagina
+	 */
+	public Integer getNumeroPorPagina() {
+		return numeroPorPagina;
+	}
+
+	/**
+	 * @param numeroPorPagina the numeroPorPagina to set
+	 */
+	public void setNumeroPorPagina(Integer numeroPorPagina) {
+		this.numeroPorPagina = numeroPorPagina;
+	}
+
+	/**
+	 * @return the numeroDeRegistros
+	 */
+	public Integer getNumeroDeRegistros() {
+		return numeroDeRegistros;
+	}
+
+	/**
+	 * @param numeroDeRegistros the numeroDeRegistros to set
+	 */
+	public void setNumeroDeRegistros(Integer numeroDeRegistros) {
+		this.numeroDeRegistros = numeroDeRegistros;
+	}
+
+	/**
+	 * @return the offset
+	 */
+	public Integer getOffset() {
+		return offset;
+	}
+
+	/**
+	 * @param offset the offset to set
+	 */
+	public void setOffset(Integer offset) {
+		this.offset = offset;
+	}
+
+	/**
+	 * @return the temFiltro
+	 */
+	public boolean isTemFiltro() {
+		return temFiltro;
+	}
+
+	/**
+	 * @param temFiltro the temFiltro to set
+	 */
+	public void setTemFiltro(boolean temFiltro) {
+		this.temFiltro = temFiltro;
+	}
+
+	/**
+	 * @return the temPaginacao
+	 */
+	public boolean isTemPaginacao() {
+		return temPaginacao;
+	}
+
+	/**
+	 * @param temPaginacao the temPaginacao to set
+	 */
+	public void setTemPaginacao(boolean temPaginacao) {
+		this.temPaginacao = temPaginacao;
+	}
+
 	public SeletorLancamento() {
 		super();
 		// TODO Auto-generated constructor stub

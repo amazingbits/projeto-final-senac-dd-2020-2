@@ -50,9 +50,9 @@ public class LancamentoBO {
 
         }
     }
-	public ArrayList<LancamentoDTO>listarLancamento(Integer limit, Integer offset) {
+	public ArrayList<LancamentoDTO>listarLancamento(SeletorLancamento seletorLancamento) {
         lancamentoDAO = new LancamentoDAO();
-		return lancamentoDAO.listarView(limit, offset);
+		return lancamentoDAO.filtrarLancamentos(seletorLancamento);
     }   
     
     public ArrayList<LogLancamentosVO> listarLogLancamentos(){

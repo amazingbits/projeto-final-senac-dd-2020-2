@@ -18,6 +18,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
@@ -104,6 +105,7 @@ public class CadastrarProduto extends JPanel {
         Integer step = new Integer(1);
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(value, min, max, step);
         sQuantidade = new JSpinner(spinnerModel);
+        ((DefaultEditor) sQuantidade.getEditor()).getTextField().setEditable(false);
         sQuantidade.setBounds(420, 190, 200, 36);
         add(sQuantidade);
         

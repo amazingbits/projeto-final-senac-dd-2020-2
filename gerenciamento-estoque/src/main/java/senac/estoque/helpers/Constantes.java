@@ -34,5 +34,8 @@ public class Constantes {
     public final static String MENSAGEM_SOBRE_CONTENT = "Este é um sistema simples de controle de estoque. A ideia de desenvolver "
                 + "este sistema é abstrair tudo o que foi ensinado na terceira fase do curso de"
                 + "Análise e Desenvolvimento de Sistemas do SENAC do ano 2020/2."; 
+    
+    // PAGINAÇÃO
+    public final static int ITEM_POR_PAGINA = 10;
 
 }

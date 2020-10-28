@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.SpinnerNumberModel;
 
 import senac.estoque.model.vo.LancamentoVO;
@@ -113,6 +114,7 @@ public class CadastroLancamentos extends JPanel {
         Integer step = new Integer(1);
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(value, min, max, step);
         final JSpinner tfQuantidade = new JSpinner(spinnerModel);
+        ((DefaultEditor) tfQuantidade.getEditor()).getTextField().setEditable(false);
         tfQuantidade.setBounds(420,191,200,36);
         add(tfQuantidade);
 
