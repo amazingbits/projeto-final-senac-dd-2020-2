@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: gerenciamento-estoque
+Bundle-SymbolicName: gerenciamento-estoque
+Bundle-Version: 1.0.0.qualifier
+Export-Package: senac.estoque,
+ senac.estoque.controller,
+ senac.estoque.helpers,
+ senac.estoque.model,
+ senac.estoque.model.bo,
+ senac.estoque.model.dao,
+ senac.estoque.model.dto,
+ senac.estoque.model.vo,
+ senac.estoque.view
