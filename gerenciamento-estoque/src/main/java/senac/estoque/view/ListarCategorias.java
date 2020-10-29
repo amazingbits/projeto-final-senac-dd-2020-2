@@ -81,7 +81,7 @@ public class ListarCategorias extends JPanel {
 
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				int linhaSelecionada = tabela.getSelectedRow();
 
 				if (linhaSelecionada == -1) {
@@ -106,10 +106,9 @@ public class ListarCategorias extends JPanel {
 
 			}
 
-		
 		});
 		add(btnExcluir);
-		
+
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.setBounds(358, 58, 129, 36);
 		btnEditar.addActionListener(new ActionListener() {
@@ -149,7 +148,8 @@ public class ListarCategorias extends JPanel {
 							JOptionPane.showMessageDialog(null, "Categoria editada com sucesso!");
 							((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
 						} else {
-							JOptionPane.showMessageDialog(null, "Houve um erro ao editar a categoria!", "Erro",JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Houve um erro ao editar a categoria!", "Erro",
+									JOptionPane.ERROR_MESSAGE);
 						}
 					}
 
@@ -158,16 +158,15 @@ public class ListarCategorias extends JPanel {
 			}
 		});
 		add(btnEditar);
-		
+
 		final JButton btnAnterior = new JButton("<<");
 		btnAnterior.setBounds(10, 373, 89, 23);
 		add(btnAnterior);
-		
+
 		final JButton btnProxima = new JButton(">>");
 		btnProxima.setBounds(531, 373, 89, 23);
 		add(btnProxima);
 
-			
 		JButton btnFiltrar = new JButton("Filtrar");
 		btnFiltrar.setBounds(224, 58, 129, 36);
 		btnFiltrar.addActionListener(new ActionListener() {
@@ -199,18 +198,15 @@ public class ListarCategorias extends JPanel {
 				if (categoriasFiltradas != null) {
 					((DefaultTableModel) tabela.getModel()).setRowCount(0);
 					for (int i = 0; i < categoriasFiltradas.size(); i++) {
-						((DefaultTableModel) tabela.getModel()).addRow(
-							new Object[] { 
-								categoriasFiltradas.get(i).getId(),
-								categoriasFiltradas.get(i).getDescricao()
-							});
+						((DefaultTableModel) tabela.getModel()).addRow(new Object[] {
+								categoriasFiltradas.get(i).getId(), categoriasFiltradas.get(i).getDescricao() });
 					}
 					((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
 				}
 
 			}
 		});
-		
+
 		add(btnFiltrar);
 
 	}

@@ -2,11 +2,8 @@ package senac.estoque.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.text.Format;
-import java.text.NumberFormat;
+
 import java.util.ArrayList;
-import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,8 +16,6 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.JSpinner.DefaultEditor;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
 
 import senac.estoque.controller.CategoriaController;
 import senac.estoque.controller.ProdutoController;
@@ -40,7 +35,7 @@ public class CadastrarProduto extends JPanel {
 
     private JTextField tfNomeProduto;
     private JFormattedTextField tfPrecoUnidade;
-    
+
     private JSpinner sQuantidade;
 
     private JComboBox<String> cbCategoria;
@@ -51,7 +46,7 @@ public class CadastrarProduto extends JPanel {
 
     private Formatos formato = new Formatos();
     private Constantes constantes;
-    
+
     public CadastrarProduto() {
         setLayout(null);
 
@@ -71,10 +66,10 @@ public class CadastrarProduto extends JPanel {
         lblPrecoUnidade = new JLabel("Preco Un. R$");
         lblPrecoUnidade.setBounds(420, 50, 200, 36);
         add(lblPrecoUnidade);
-        
+
         tfPrecoUnidade = new JFormattedTextField();
         (tfPrecoUnidade).setFormatterFactory(formato.money());
-        
+
         tfPrecoUnidade.setBounds(420, 80, 200, 36);
         add(tfPrecoUnidade);
 
@@ -98,7 +93,6 @@ public class CadastrarProduto extends JPanel {
         lblQuantidade.setBounds(420, 150, 200, 36);
         add(lblQuantidade);
 
-
         Integer value = new Integer(1);
         Integer min = new Integer(1);
         Integer max = new Integer(100);
@@ -108,7 +102,7 @@ public class CadastrarProduto extends JPanel {
         ((DefaultEditor) sQuantidade.getEditor()).getTextField().setEditable(false);
         sQuantidade.setBounds(420, 190, 200, 36);
         add(sQuantidade);
-        
+
         bCadastrar = new JButton("Cadastrar");
         bCadastrar.setBounds(10, 237, 200, 36);
         add(bCadastrar);
@@ -116,20 +110,20 @@ public class CadastrarProduto extends JPanel {
         bCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
-            	/**
-            	 * tratando o valor do preço para evitar dar crash no programa
-            	 */
-            	String preco = tfPrecoUnidade.getText();
-            	if(preco.trim().length() == 0 || preco.equalsIgnoreCase(",00")) {
-            		preco = "0";
-            	} else if(preco.trim().length() <= 6) {
-            		preco = tfPrecoUnidade.getText().replace(",", ".");
-            	} else {
-            		preco = tfPrecoUnidade.getText().replace(".", "").replace(",", ".");
-            	}
-            	System.out.println(preco);
-            	
+
+                /**
+                 * tratando o valor do preço para evitar dar crash no programa
+                 */
+                String preco = tfPrecoUnidade.getText();
+                if (preco.trim().length() == 0 || preco.equalsIgnoreCase(",00")) {
+                    preco = "0";
+                } else if (preco.trim().length() <= 6) {
+                    preco = tfPrecoUnidade.getText().replace(",", ".");
+                } else {
+                    preco = tfPrecoUnidade.getText().replace(".", "").replace(",", ".");
+                }
+                System.out.println(preco);
+
                 ProdutoVO produtoVO = new ProdutoVO();
                 CategoriaVO categoriaVO = new CategoriaVO();
                 produtoController = new ProdutoController();
@@ -145,8 +139,9 @@ public class CadastrarProduto extends JPanel {
 
                 if (produtoController.cadastrarProduto(produtoVO)) {
                     JOptionPane.showMessageDialog(null, constantes.MENSAGEM_SUCESSO_CADASTRO_PRODUTO);
-                }else{
-                    JOptionPane.showMessageDialog(null, constantes.MENSAGEM_FALHA_CADASTRO_PRODUTO, "Erro", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, constantes.MENSAGEM_FALHA_CADASTRO_PRODUTO, "Erro",
+                            JOptionPane.ERROR_MESSAGE);
 
                 }
 

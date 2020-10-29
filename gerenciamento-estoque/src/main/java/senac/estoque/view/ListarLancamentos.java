@@ -31,7 +31,7 @@ public class ListarLancamentos extends JPanel {
 
 	private Utils utils = new Utils();
 	private SeletorLancamento seletorLancamento = new SeletorLancamento();
-	
+
 	private Integer offset = 0;
 	private String nomeProduto = "";
 	private String nomeSetor = "";
@@ -49,7 +49,7 @@ public class ListarLancamentos extends JPanel {
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setBounds(10, 11, 600, 36);
 		add(lblTitle);
-		
+
 		JLabel lblNomeProduto = new JLabel("Nome do Produto");
 		lblNomeProduto.setBounds(20, 44, 154, 14);
 		add(lblNomeProduto);
@@ -108,30 +108,29 @@ public class ListarLancamentos extends JPanel {
 		radio.add(radioBtnEntrada);
 		radio.add(radioBtnSaida);
 		radio.add(radioBtnTodos);
-		
+
 		final JButton btnAnterior = new JButton("<<");
 		final JButton btnProxima = new JButton(">>");
-		
 
 		// ===========imprimindo tabela na tela========================
 		// carregando os itens da tabela
 		this.seletorLancamento.setTemFiltro(false);
 		LancamentoController lancamentoController = new LancamentoController();
 		ArrayList<LancamentoDTO> lancamentos = lancamentoController.listarLancamento(seletorLancamento);
-		
-		/*======estados dos botões de paginação=====*/
-		if(lancamentos.size() < Constantes.ITEM_POR_PAGINA) {
+
+		/* ======estados dos botões de paginação===== */
+		if (lancamentos.size() < Constantes.ITEM_POR_PAGINA) {
 			btnProxima.setEnabled(false);
 		} else {
 			btnProxima.setEnabled(true);
 		}
-		
-		if(offset == 0) {
+
+		if (offset == 0) {
 			btnAnterior.setEnabled(false);
 		} else {
 			btnAnterior.setEnabled(true);
 		}
-		/*========================================*/
+		/* ======================================== */
 
 		// título das colunas
 		String[] colunas = { "ID", "PRODUTO", "SETOR", "TIPO", "QUANTIDADE", "PRECO TOTAL", "DATA" };
@@ -160,7 +159,6 @@ public class ListarLancamentos extends JPanel {
 		scrollPane.setBounds(10, 230, 610, 200);
 		add(scrollPane);
 		// ============================================================
-
 
 		JButton btnFiltrar = new JButton("Filtrar");
 		btnFiltrar.addActionListener(new ActionListener() {
@@ -194,31 +192,31 @@ public class ListarLancamentos extends JPanel {
 				seletorLancamentoFiltrado.setDataInicial(dataInicial);
 				seletorLancamentoFiltrado.setDataFinal(dataFinal);
 				seletorLancamentoFiltrado.setTipo(tipo);
-				
+
 				nomeProduto = txtNomeProduto.getText();
 				nomeSetor = txtNomeSetor.getText();
 				dtInicial = dataInicial;
 				dtFinal = dataFinal;
 				tipoLancamento = tipo;
 				offset = 0;
-				
+
 				LancamentoController lancamentoController = new LancamentoController();
 				ArrayList<LancamentoDTO> filtro = lancamentoController.filtrarLancamentos(seletorLancamentoFiltrado);
-				
+
 				/* ======estados dos botões de paginação===== */
-				if(filtro.size() < Constantes.ITEM_POR_PAGINA) {
+				if (filtro.size() < Constantes.ITEM_POR_PAGINA) {
 					btnProxima.setEnabled(false);
 				} else {
 					btnProxima.setEnabled(true);
 				}
-				
-				if(offset == 0) {
+
+				if (offset == 0) {
 					btnAnterior.setEnabled(false);
 				} else {
 					btnAnterior.setEnabled(true);
 				}
-				/*================================*/
-				
+				/* ================================ */
+
 				if (filtro != null) {
 					((DefaultTableModel) tabela.getModel()).setRowCount(0);
 					for (int i = 0; i < filtro.size(); i++) {
@@ -274,10 +272,10 @@ public class ListarLancamentos extends JPanel {
 
 		btnAnterior.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(offset > 0) {
+				if (offset > 0) {
 					offset -= Constantes.ITEM_POR_PAGINA;
 				}
-				
+
 				SeletorLancamento seletorLancamento = new SeletorLancamento();
 				seletorLancamento.setNomeProduto(nomeProduto);
 				seletorLancamento.setNomeSetor(nomeSetor);
@@ -285,25 +283,24 @@ public class ListarLancamentos extends JPanel {
 				seletorLancamento.setDataFinal(dtFinal);
 				seletorLancamento.setTipo(tipoLancamento);
 				seletorLancamento.setOffset(offset);
-				
+
 				LancamentoController lancamentoController = new LancamentoController();
 				ArrayList<LancamentoDTO> filtro = lancamentoController.filtrarLancamentos(seletorLancamento);
-				
-				/*======estados dos botões de paginação=====*/
-				if(filtro.size() < Constantes.ITEM_POR_PAGINA) {
+
+				/* ======estados dos botões de paginação===== */
+				if (filtro.size() < Constantes.ITEM_POR_PAGINA) {
 					btnProxima.setEnabled(false);
 				} else {
 					btnProxima.setEnabled(true);
 				}
-				
-				if(offset == 0) {
+
+				if (offset == 0) {
 					btnAnterior.setEnabled(false);
 				} else {
 					btnAnterior.setEnabled(true);
 				}
-				/*========================================*/
-				
-				
+				/* ======================================== */
+
 				if (filtro != null) {
 					((DefaultTableModel) tabela.getModel()).setRowCount(0);
 					for (int i = 0; i < filtro.size(); i++) {
@@ -314,7 +311,7 @@ public class ListarLancamentos extends JPanel {
 					}
 					((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
 				}
-				
+
 			}
 		});
 		btnAnterior.setBounds(10, 441, 89, 23);
@@ -323,7 +320,7 @@ public class ListarLancamentos extends JPanel {
 		btnProxima.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				offset += Constantes.ITEM_POR_PAGINA;
-				
+
 				SeletorLancamento seletorLancamento = new SeletorLancamento();
 				seletorLancamento.setNomeProduto(nomeProduto);
 				seletorLancamento.setNomeSetor(nomeSetor);
@@ -331,25 +328,24 @@ public class ListarLancamentos extends JPanel {
 				seletorLancamento.setDataFinal(dtFinal);
 				seletorLancamento.setTipo(tipoLancamento);
 				seletorLancamento.setOffset(offset);
-				
+
 				LancamentoController lancamentoController = new LancamentoController();
 				ArrayList<LancamentoDTO> filtro = lancamentoController.filtrarLancamentos(seletorLancamento);
-				
-				/*======estados dos botões de paginação=====*/
-				if(filtro.size() < Constantes.ITEM_POR_PAGINA) {
+
+				/* ======estados dos botões de paginação===== */
+				if (filtro.size() < Constantes.ITEM_POR_PAGINA) {
 					btnProxima.setEnabled(false);
 				} else {
 					btnProxima.setEnabled(true);
 				}
-				
-				if(offset == 0) {
+
+				if (offset == 0) {
 					btnAnterior.setEnabled(false);
 				} else {
 					btnAnterior.setEnabled(true);
 				}
-				/*========================================*/
-				
-				
+				/* ======================================== */
+
 				if (filtro != null) {
 					((DefaultTableModel) tabela.getModel()).setRowCount(0);
 					for (int i = 0; i < filtro.size(); i++) {
@@ -360,8 +356,7 @@ public class ListarLancamentos extends JPanel {
 					}
 					((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
 				}
-				
-				
+
 			}
 		});
 		btnProxima.setBounds(531, 441, 89, 23);

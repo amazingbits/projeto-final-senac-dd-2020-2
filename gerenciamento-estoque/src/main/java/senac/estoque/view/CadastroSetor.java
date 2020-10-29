@@ -21,7 +21,7 @@ public class CadastroSetor extends JPanel {
     private JTextField tfSetor;
 
     private JButton bCadastrar;
-    
+
     private Constantes constantes;
 
     public CadastroSetor() {
@@ -45,7 +45,7 @@ public class CadastroSetor extends JPanel {
         add(bCadastrar);
 
         bCadastrar.addActionListener(new ActionListener() {
-           
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 SetorVO setor = new SetorVO();
@@ -53,13 +53,11 @@ public class CadastroSetor extends JPanel {
 
                 setor.setDescricao(tfSetor.getText());
 
-                if(setorController.cadastrarSetor(setor)){
+                if (setorController.cadastrarSetor(setor)) {
                     JOptionPane.showMessageDialog(null, constantes.MENSAGEM_SUCESSO_CADASTRO_SETOR);
                 }
             }
         });
-
-        
 
     }
 
