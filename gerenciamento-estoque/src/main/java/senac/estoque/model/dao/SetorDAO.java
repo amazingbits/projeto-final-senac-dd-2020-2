@@ -8,11 +8,13 @@ import java.sql.*;
 
 import senac.estoque.model.Conexao;
 import senac.estoque.model.vo.SetorVO;
+import senac.estoque.seletores.SeletorSetor;
 
 public class SetorDAO {
-	
+
 	/**
 	 * listar setores
+	 * 
 	 * @return
 	 */
 	public ArrayList<SetorVO> listar() {
@@ -21,16 +23,16 @@ public class SetorDAO {
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;
 		ArrayList<SetorVO> listaSetor = new ArrayList<SetorVO>();
-		
+
 		try {
 			result = stmt.executeQuery(sql);
-			while(result.next()) {
+			while (result.next()) {
 				SetorVO setor = new SetorVO();
 				setor.setId(Integer.parseInt(result.getString("id")));
 				setor.setDescricao(result.getString("descricao"));
 				listaSetor.add(setor);
 			}
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			Conexao.closeResultSet(result);
@@ -39,9 +41,10 @@ public class SetorDAO {
 		}
 		return listaSetor;
 	}
-	
+
 	/**
 	 * retorna um setor espec�fico
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -51,14 +54,14 @@ public class SetorDAO {
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;
 		SetorVO setor = new SetorVO();
-		
+
 		try {
 			result = stmt.executeQuery(sql);
-			while(result.next()) {
+			while (result.next()) {
 				setor.setId(Integer.parseInt(result.getString("id")));
 				setor.setDescricao(result.getString("descricao"));
 			}
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			Conexao.closeResultSet(result);
@@ -67,20 +70,21 @@ public class SetorDAO {
 		}
 		return setor;
 	}
+
 	public SetorVO encontrar(String nome) {
-		String sql = "SELECT * FROM tb_setor WHERE descricao = '" + nome +"'";
+		String sql = "SELECT * FROM tb_setor WHERE descricao = '" + nome + "'";
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;
 		SetorVO setor = new SetorVO();
-		
+
 		try {
 			result = stmt.executeQuery(sql);
-			while(result.next()) {
+			while (result.next()) {
 				setor.setId(Integer.parseInt(result.getString("id")));
 				setor.setDescricao(result.getString("descricao"));
 			}
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			Conexao.closeResultSet(result);
@@ -89,21 +93,22 @@ public class SetorDAO {
 		}
 		return setor;
 	}
-	
+
 	/**
 	 * cadastrar novo setor
+	 * 
 	 * @param setor
 	 * @return
 	 */
 	public int cadastrar(SetorVO setor) {
-		String sql = "INSERT INTO tb_setor (descricao) VALUES ('"+ setor.getDescricao() +"')";
+		String sql = "INSERT INTO tb_setor (descricao) VALUES ('" + setor.getDescricao() + "')";
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		int result = 0;
-		
+
 		try {
 			result = stmt.executeUpdate(sql);
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			Conexao.closeStatement(stmt);
@@ -111,22 +116,23 @@ public class SetorDAO {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * atualiza um setor
+	 * 
 	 * @param setor
 	 * @param id
 	 * @return
 	 */
 	public int atualizar(SetorVO setor, int id) {
-		String sql = "UPDATE tb_setor SET descricao = '"+ setor.getDescricao() +"' WHERE id = " + id;
+		String sql = "UPDATE tb_setor SET descricao = '" + setor.getDescricao() + "' WHERE id = " + id;
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		int result = 0;
-		
+
 		try {
 			result = stmt.executeUpdate(sql);
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			Conexao.closeStatement(stmt);
@@ -134,9 +140,10 @@ public class SetorDAO {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * excluir um setor
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -145,16 +152,52 @@ public class SetorDAO {
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		int result = 0;
-		
+
 		try {
 			result = stmt.executeUpdate(sql);
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			Conexao.closeStatement(stmt);
 			Conexao.closeConnection(conn);
 		}
 		return result;
+	}
+
+	public ArrayList<SetorVO> listarView(SeletorSetor seletorSetor) {
+		String sql = "SELECT * FROM tb_setor";
+
+		if (seletorSetor.getNomeSetor().trim().length() > 0) {
+			sql = sql.concat(" WHERE descricao LIKE '%");
+			sql = sql.concat(seletorSetor.getNomeSetor() + "%' ");
+		}
+
+		sql = sql.concat(" LIMIT " + seletorSetor.getNumeroPorPagina());
+		sql = sql.concat(" OFFSET " + seletorSetor.getOffset());
+
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		ArrayList<SetorVO> listaSetor = new ArrayList<SetorVO>();
+
+		try {
+			result = stmt.executeQuery(sql);
+			while (result.next()) {
+				SetorVO setor = new SetorVO();
+				setor.setId(Integer.parseInt(result.getString("id")));
+				setor.setDescricao(result.getString("descricao"));
+
+				listaSetor.add(setor);
+
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		return listaSetor;
 	}
 
 }

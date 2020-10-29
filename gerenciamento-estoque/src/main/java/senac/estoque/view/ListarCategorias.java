@@ -81,7 +81,7 @@ public class ListarCategorias extends JPanel {
 
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				
 				int linhaSelecionada = tabela.getSelectedRow();
 
 				if (linhaSelecionada == -1) {

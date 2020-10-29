@@ -71,7 +71,7 @@ public class CategoriaBO {
 	public boolean excluirCategoria(CategoriaVO categoriaVO) {
 		categoriaDAO = new CategoriaDAO();
 
-		return categoriaDAO.excluir(categoriaVO.getId()) == 1?true:false;
+		return categoriaDAO.exclusaoLogica(categoriaVO.getId()) == 1?true:false;
 	}
 
 	public boolean editarCategoria(CategoriaVO categoriaVO) {
