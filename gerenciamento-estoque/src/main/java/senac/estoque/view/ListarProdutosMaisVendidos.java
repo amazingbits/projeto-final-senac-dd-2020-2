@@ -22,20 +22,19 @@ public class ListarProdutosMaisVendidos extends JPanel {
 	public ListarProdutosMaisVendidos() {
 		setLayout(null);
 
-		JLabel lblTitle = new JLabel("LISTAR PRODUTOS MAIS VENDIDOS");
+		JLabel lblTitle = new JLabel("LISTAR PRODUTOS MAIS USADOS");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setBounds(10, 11, 600, 36);
 		add(lblTitle);
-
-		/**
-		 * carregar lista de categorias
-		 */
+		
+		
+		//carregar itens da tabela
 		ProdutoController produtoController = new ProdutoController();
-		ArrayList<ProdutoMaisVendidoDTO> produtos = produtoController.listarProdutoMaisVendidos();
+		ArrayList<ProdutoMaisVendidoDTO> produtos = produtoController.listarProdutosMaisVendidos();
 		/* ==================================================================== */
 
 		// definir colunas
-		final String[] colunas = { "PRODUTO", "QUANTIDADE JÁ VENDIDOS" };
+		final String[] colunas = { "PRODUTO", "TOTAL USADO" };
 
 		// setando modelo padrão de tabela
 		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
@@ -55,14 +54,6 @@ public class ListarProdutosMaisVendidos extends JPanel {
 		JScrollPane scrollPane = new JScrollPane(tabela);
 		scrollPane.setBounds(10, 50, 610, 239);
 		add(scrollPane);
-
-		JButton btnAnterior = new JButton("<<");
-		btnAnterior.setBounds(10, 300, 89, 23);
-		add(btnAnterior);
-
-		JButton btnProxima = new JButton(">>");
-		btnProxima.setBounds(531, 300, 89, 23);
-		add(btnProxima);
 
 		JButton btnGerar = new JButton("Gerar PDF");
 		btnGerar.setBounds(10, 340, 200, 23);

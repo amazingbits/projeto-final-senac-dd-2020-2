@@ -31,11 +31,11 @@ public class ListarProdutosMaisUsados extends JPanel {
 		 * carregar lista de categorias
 		 */
 		ProdutoController produtoController = new ProdutoController();
-		ArrayList<ProdutoMaisUsadosDTO> produtos = produtoController.listarMaisUsados();
+		ArrayList<ProdutoMaisUsadosDTO> produtos = produtoController.listarProdutosMaisUsados();
 		/* ==================================================================== */
 
 		// definir colunas
-		final String[] colunas = { "PRODUTO", "QUANTIDADE USADOS" };
+		final String[] colunas = { "PRODUTO", "TOTAL DE COMPRAS" };
 
 		// setando modelo padrão de tabela
 		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
@@ -55,14 +55,6 @@ public class ListarProdutosMaisUsados extends JPanel {
 		JScrollPane scrollPane = new JScrollPane(tabela);
 		scrollPane.setBounds(10, 50, 610, 239);
 		add(scrollPane);
-
-		JButton btnAnterior = new JButton("<<");
-		btnAnterior.setBounds(10, 300, 89, 23);
-		add(btnAnterior);
-
-		JButton btnProxima = new JButton(">>");
-		btnProxima.setBounds(531, 300, 89, 23);
-		add(btnProxima);
 
 		JButton btnGerar = new JButton("Gerar PDF");
 		btnGerar.setBounds(10, 340, 200, 23);

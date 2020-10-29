@@ -118,15 +118,6 @@ public class ProdutoBO {
 		return produtoDAO.listarView(seletorProduto);
 	}
 	
-	
-	public ArrayList<ProdutoMaisVendidoDTO> listarProdutoMaisVendidos() {
-        
-        produtoDAO = new ProdutoDAO();
-
-		return  produtoDAO.listarMaisVendidos();
-	}
-	
-	
     
     public ArrayList<LogProdutosVO> listaLogProdutos(){
         produtoDAO = new ProdutoDAO();
@@ -134,17 +125,23 @@ public class ProdutoBO {
 		return  produtoDAO.listaLogProdutos();
     }
     
-    
-    
-	public ArrayList<ProdutoMaisUsadosDTO> listarMaisUsados() {
-        produtoDAO = new ProdutoDAO();
-
-		return  produtoDAO.listarMaisUsados();
-	}
 
 	public boolean excluir(ProdutoVO produtoVO) {
 		produtoDAO = new ProdutoDAO();
 
 		return  produtoDAO.desativar(produtoVO.getId()) ?true:false;
+	}
+	
+	
+	
+	
+	public ArrayList<ProdutoMaisUsadosDTO> listarProdutosMaisUsados() {
+		ProdutoDAO produtoDAO = new ProdutoDAO();
+		return produtoDAO.listarProdutosMaisUsados();
+	}
+	
+	public ArrayList<ProdutoMaisVendidoDTO> listarProdutosMaisVendidos() {
+		ProdutoDAO produtoDAO = new ProdutoDAO();
+		return produtoDAO.listarProdutosMaisVendidos();
 	}
 }

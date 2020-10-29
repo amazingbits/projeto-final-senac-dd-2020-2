@@ -20,14 +20,7 @@ public class ProdutoController {
 		ProdutoBO produtoBO = new ProdutoBO();
 		return produtoBO.listarProduto();
 	}
-	public ArrayList<ProdutoMaisVendidoDTO> listarProdutoMaisVendidos(){
-		ProdutoBO produtoBO = new ProdutoBO();
-		return produtoBO.listarProdutoMaisVendidos();
-	}
-	public ArrayList<ProdutoMaisUsadosDTO> listarMaisUsados(){
-		ProdutoBO produtoBO = new ProdutoBO();
-		return produtoBO.listarMaisUsados();
-	}
+
 	public ArrayList<LogProdutosVO> listaLogProdutos(){
 		ProdutoBO produtoBO = new ProdutoBO();
 		return produtoBO.listaLogProdutos();
@@ -47,5 +40,16 @@ public class ProdutoController {
 		ProdutoBO produtoBO = new ProdutoBO();
 		return produtoBO.excluir(produtoVO);
 
+	}
+	
+	
+	public ArrayList<ProdutoMaisUsadosDTO> listarProdutosMaisUsados() {
+		ProdutoBO produtoBO = new ProdutoBO();
+		return produtoBO.listarProdutosMaisUsados();
+	}
+	
+	public ArrayList<ProdutoMaisVendidoDTO> listarProdutosMaisVendidos() {
+		ProdutoBO produtoBO = new ProdutoBO();
+		return produtoBO.listarProdutosMaisVendidos();
 	}
 }

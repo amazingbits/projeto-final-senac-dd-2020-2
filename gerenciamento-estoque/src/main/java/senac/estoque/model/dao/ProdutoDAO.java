@@ -57,73 +57,6 @@ public class ProdutoDAO {
 		return listaProduto;
 	}
 
-
-	/**
-	 * listar todos os produtos mais vendidos
-	 * 
-	 * @return
-	 */
-	public ArrayList<ProdutoMaisVendidoDTO> listarMaisVendidos() {
-		String sql = "SELECT * FROM vw_produtos_mais_comprados";
-		Connection conn = Conexao.getConnection();
-		Statement stmt = Conexao.getStatement(conn);
-		ResultSet result = null;
-		ArrayList<ProdutoMaisVendidoDTO> listaProdutoMaisVendidos = new ArrayList<ProdutoMaisVendidoDTO>();
-		
-		try {
-			result = stmt.executeQuery(sql);
-			while(result.next()) {
-				
-				ProdutoMaisVendidoDTO produtoMaisVendidoDTO = new ProdutoMaisVendidoDTO();
-
-				produtoMaisVendidoDTO.setQtd_vendas(Integer.parseInt(result.getString("qtd_vendas")));
-				produtoMaisVendidoDTO.setDescricao(result.getString("descricao"));
-
-				listaProdutoMaisVendidos.add(produtoMaisVendidoDTO);
-			}
-		} catch(SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-		} finally {
-			Conexao.closeResultSet(result);
-			Conexao.closeStatement(stmt);
-			Conexao.closeConnection(conn);
-		}
-		return listaProdutoMaisVendidos;
-	}
-
-	/**
-	 * listar todos os produtos mais usados
-	 * 
-	 * @return
-	 */
-	public ArrayList<ProdutoMaisUsadosDTO> listarMaisUsados() {
-		String sql = "SELECT * FROM vw_produtos_mais_usados";
-		Connection conn = Conexao.getConnection();
-		Statement stmt = Conexao.getStatement(conn);
-		ResultSet result = null;
-		ArrayList<ProdutoMaisUsadosDTO> listaProdutoMaisVendidos = new ArrayList<ProdutoMaisUsadosDTO>();
-		
-		try {
-			result = stmt.executeQuery(sql);
-			while(result.next()) {
-				
-				ProdutoMaisUsadosDTO produtoMaisUsadosDTO = new ProdutoMaisUsadosDTO();
-
-				produtoMaisUsadosDTO.setQtd_usados(Integer.parseInt(result.getString("qtd_usados")));
-				produtoMaisUsadosDTO.setDescricao(result.getString("descricao"));
-
-				listaProdutoMaisVendidos.add(produtoMaisUsadosDTO);
-			}
-		} catch(SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-		} finally {
-			Conexao.closeResultSet(result);
-			Conexao.closeStatement(stmt);
-			Conexao.closeConnection(conn);
-		}
-		return listaProdutoMaisVendidos;
-	}
-
 	public ArrayList<LogProdutosVO> listaLogProdutos(){
 		
 		String sql = "SELECT * FROM vw_produto_log";
@@ -506,6 +439,64 @@ public class ProdutoDAO {
 		if(result == 0) return false;
 		return true;
 		
+	}
+	
+	
+	/**
+	 * retorna lista de produtos mais usados
+	 */
+	public ArrayList<ProdutoMaisUsadosDTO> listarProdutosMaisUsados() {
+		String sql = "select * from vw_produtos_mais_comprados";
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		ArrayList<ProdutoMaisUsadosDTO> lista = new ArrayList<ProdutoMaisUsadosDTO>();
+		
+		try {
+			result = stmt.executeQuery(sql);
+			while(result.next()) {
+				ProdutoMaisUsadosDTO produto = new ProdutoMaisUsadosDTO();
+				produto.setDescricao(result.getString("des"));
+				produto.setQtd_usados(Integer.parseInt(result.getString("qtd")));
+				lista.add(produto);
+			}
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		return lista;
+	}
+	
+	
+	/**
+	 * retorna lista de produtos mais vendidos
+	 */
+	public ArrayList<ProdutoMaisVendidoDTO> listarProdutosMaisVendidos() {
+		String sql = "select * from vw_produtos_mais_usados";
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		ArrayList<ProdutoMaisVendidoDTO> lista = new ArrayList<ProdutoMaisVendidoDTO>();
+		
+		try {
+			result = stmt.executeQuery(sql);
+			while(result.next()) {
+				ProdutoMaisVendidoDTO produto = new ProdutoMaisVendidoDTO();
+				produto.setDescricao(result.getString("des"));
+				produto.setQtd_vendas(Integer.parseInt(result.getString("qtd")));
+				lista.add(produto);
+			}
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		return lista;
 	}
 
 }
