@@ -9,6 +9,39 @@ public class SeletorProduto {
 	private Integer offset = 0;
 	private Integer numeroPorPagina = Constantes.ITEM_POR_PAGINA;
 	
+	/* seletores para os logs */
+	private int mes;
+	private int ano;
+	
+	
+	/**
+	 * @return the mes
+	 */
+	public int getMes() {
+		return mes;
+	}
+
+	/**
+	 * @param mes the mes to set
+	 */
+	public void setMes(int mes) {
+		this.mes = mes;
+	}
+
+	/**
+	 * @return the ano
+	 */
+	public int getAno() {
+		return ano;
+	}
+
+	/**
+	 * @param ano the ano to set
+	 */
+	public void setAno(int ano) {
+		this.ano = ano;
+	}
+
 	public SeletorProduto() {
 		super();
 		// TODO Auto-generated constructor stub

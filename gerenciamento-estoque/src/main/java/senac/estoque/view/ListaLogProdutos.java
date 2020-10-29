@@ -19,11 +19,18 @@ import senac.estoque.controller.ProdutoController;
 import senac.estoque.helpers.GerarPdf;
 import senac.estoque.helpers.Item;
 import senac.estoque.model.vo.LogProdutosVO;
+import senac.estoque.seletores.SeletorProduto;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 public class ListaLogProdutos extends JPanel {
 
+	
+	private SeletorProduto seletorProduto = new SeletorProduto();
+	private int mes = LocalDate.now().getMonthValue();
+	private int ano = LocalDate.now().getYear();
+	
 	/**
 	 * Create the panel.
 	 */
@@ -35,17 +42,21 @@ public class ListaLogProdutos extends JPanel {
 		lblTitle.setBounds(10, 11, 600, 36);
 		add(lblTitle);
 
-		/**
-		 * carregar lista de categorias
-		 */
+		//carregar itens da tabela
 		ProdutoController produtoController = new ProdutoController();
-		ArrayList<LogProdutosVO> logProdutos = produtoController.listaLogProdutos();
+		this.seletorProduto.setMes(this.mes);
+		this.seletorProduto.setAno(this.ano);
+		ArrayList<LogProdutosVO> logProdutos = produtoController.listaLogProdutos(this.seletorProduto);
 
 		// definir colunas
 		final String[] colunas = { "PRODUTO", "OPERAÇÃO", "QUANTIDADE", "DATA" };
 
 		// setando modelo padrão de tabela
-		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
+		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0) {
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 
 		// construindo a tabela seguindo o modelo criado
 		final JTable tabela = new JTable(modeloTabela);
@@ -55,9 +66,13 @@ public class ListaLogProdutos extends JPanel {
 
 		// populando a tabela
 		for (int i = 0; i < logProdutos.size(); i++) {
-			modelo.addRow(new Object[] { logProdutos.get(i).getProduto(), logProdutos.get(i).getOperacao(),
-
-					logProdutos.get(i).getQuantidade(), logProdutos.get(i).getData() });
+			modelo.addRow(new Object[] { 
+					logProdutos.get(i).getProduto(), 
+					logProdutos.get(i).getOperacao(),
+					logProdutos.get(i).getQuantidade(), 
+					logProdutos.get(i).getData() 
+					}
+			);
 		}
 
 		// imprimindo a tabela na tela
@@ -107,11 +122,24 @@ public class ListaLogProdutos extends JPanel {
 				int anoSelecionado = Integer.parseInt((String) cbAno.getSelectedItem());
 				
 				ProdutoController produtoController = new ProdutoController();
-				/*
-				 *  TODO
-				 *  - terminar listagem de logs de produto por data...
-				 */
+				SeletorProduto seletorProduto = new SeletorProduto();
+				seletorProduto.setMes(mesSelecionado);
+				seletorProduto.setAno(anoSelecionado);
+				ArrayList<LogProdutosVO> filtro = produtoController.listaLogProdutos(seletorProduto);
 				
+				if (filtro != null) {
+					((DefaultTableModel) tabela.getModel()).setRowCount(0);
+					for (int i = 0; i < filtro.size(); i++) {
+						((DefaultTableModel) tabela.getModel()).addRow(new Object[] { 
+								filtro.get(i).getProduto(), 
+								filtro.get(i).getOperacao(),
+								filtro.get(i).getQuantidade(), 
+								filtro.get(i).getData()  
+								}
+						);
+					}
+					((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
+				}
 				
 			}
 		});

@@ -37,7 +37,11 @@ public class ListarProdutosMaisVendidos extends JPanel {
 		final String[] colunas = { "PRODUTO", "TOTAL USADO" };
 
 		// setando modelo padrão de tabela
-		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
+		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0) {
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 
 		// construindo a tabela seguindo o modelo criado
 		final JTable tabela = new JTable(modeloTabela);

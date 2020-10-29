@@ -86,7 +86,8 @@ create view vw_produto_log as
 select 	tb_produto.descricao as produto,
         tb_produto_log.quantidade as quantidade,
         tb_produto_log.operacao as operacao,
-        date_format(tb_produto_log.data, "%d/%m/%Y") as data
+        date_format(tb_produto_log.data, "%d/%m/%Y") as data,
+        tb_produto_log.data as data_sql
 from tb_produto_log
 inner join tb_produto on
 (tb_produto_log.idproduto = tb_produto.id)
@@ -99,7 +100,8 @@ select 	tb_lancamento_log.idproduto as codigoproduto,
         tb_lancamento_log.descricaotipo as tipo,
         tb_lancamento_log.quantidade as quantidade,
         tb_lancamento_log.operacao as operacao,
-        date_format(tb_lancamento_log.data, "%d/%m/%Y") as data
+        date_format(tb_lancamento_log.data, "%d/%m/%Y") as data,
+        tb_lancamento_log.data as data_sql
 from tb_lancamento_log
 inner join tb_produto on
 (tb_lancamento_log.idproduto = tb_produto.id)
@@ -129,7 +131,8 @@ select 	tb_lancamento.id as codigo,
         tb_setor.descricao as setor,
         tb_tipo_lancamento.descricao as tipo,
         tb_lancamento.quantidade as quantidade,
-        date_format(tb_lancamento.data, "%d/%m/%Y") as data
+        date_format(tb_lancamento.data, "%d/%m/%Y") as data,
+        tb_lancamento.data as data_sql
 from tb_lancamento
 inner join tb_produto on 
 (tb_lancamento.idproduto = tb_produto.id)
@@ -331,6 +334,9 @@ insert into tb_produto values (null, "Esparadrapo", 4, 10, 150.0, null, null, 0)
 use db_estoque;
 select * from vw_produto;
 select * from vw_produtos_mais_comprados LIMIT 5 OFFSET 0;
+use db_estoque;
+
+select * from vw_produto_log where month(data_sql) = 8;
  -- insert into tb_produto values (null, "Mouse", 1, 5, 18.50, now(), null);
  -- insert into tb_lancamento values (null, 1, 2, 2, 4, null, now());
 -- select * from vw_produto_log;

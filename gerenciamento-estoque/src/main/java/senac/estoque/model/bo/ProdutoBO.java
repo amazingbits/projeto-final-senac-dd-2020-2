@@ -119,10 +119,9 @@ public class ProdutoBO {
 	}
 	
     
-    public ArrayList<LogProdutosVO> listaLogProdutos(){
+    public ArrayList<LogProdutosVO> listaLogProdutos(SeletorProduto seletorProduto){
         produtoDAO = new ProdutoDAO();
-
-		return  produtoDAO.listaLogProdutos();
+		return  produtoDAO.listaLogProdutos(seletorProduto);
     }
     
 

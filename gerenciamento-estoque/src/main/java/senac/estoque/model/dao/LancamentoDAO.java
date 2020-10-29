@@ -53,8 +53,30 @@ public class LancamentoDAO {
 	 * listar todos os lan�amentos
 	 * @return
 	 */
-	public ArrayList<LogLancamentosVO> listarLogLancamentos() {
+	public ArrayList<LogLancamentosVO> listarLogLancamentos(SeletorLancamento seletorLancamento) {
 		String sql = "SELECT * FROM vw_lancamento_log";
+		int primeiro = 0;
+		
+		if(seletorLancamento.getMes() > 0 && seletorLancamento.getMes() <= 12) {
+			if(primeiro == 0) {
+				sql = sql.concat(" WHERE ");
+				primeiro++;
+			} else {
+				sql = sql.concat(" AND ");
+			}
+			sql = sql.concat(" MONTH(data_sql) = " + seletorLancamento.getMes());
+		}
+		
+		if(seletorLancamento.getAno() > 1500) {
+			if(primeiro == 0) {
+				sql = sql.concat(" WHERE ");
+				primeiro++;
+			} else {
+				sql = sql.concat(" AND ");
+			}
+			sql = sql.concat(" YEAR(data_sql) = " + seletorLancamento.getAno());
+		}
+		
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;
@@ -90,6 +112,7 @@ public class LancamentoDAO {
 	 * @return
 	 */
 	public ArrayList<LancamentoDTO> filtrarLancamentos(SeletorLancamento seletorLancamento) {
+		
 		String nomeProduto = (seletorLancamento.isTemFiltro()) ? seletorLancamento.getNomeProduto().trim() : "";
 		String nomeSetor = (seletorLancamento.isTemFiltro()) ? seletorLancamento.getNomeSetor().trim() : "";
 		String dataInicial = (seletorLancamento.isTemFiltro()) ? seletorLancamento.getDataInicial() : "";
@@ -143,11 +166,11 @@ public class LancamentoDAO {
 			} else {
 				sql = sql.concat(" AND ");
 			}
-			sql = sql.concat(" data BETWEEN CAST('");
+			sql = sql.concat(" data_sql BETWEEN '");
 			sql = sql.concat(dataInicial);
-			sql = sql.concat("' AS DATE) AND CAST('");
+			sql = sql.concat("' AND '");
 			sql = sql.concat(dataFinal);
-			sql = sql.concat("' AS DATE) ");
+			sql = sql.concat("' ");
 		}
 		
 		if(dataInicial.length() > 0 && dataFinal.length() == 0) {
@@ -157,9 +180,9 @@ public class LancamentoDAO {
 			} else {
 				sql = sql.concat(" AND ");
 			}
-			sql = sql.concat(" data >= CAST('");
+			sql = sql.concat(" data_sql >= '");
 			sql = sql.concat(dataInicial);
-			sql = sql.concat("' AS DATE) ");
+			sql = sql.concat("' ");
 		}
 		
 		if(dataFinal.length() > 0 && dataInicial.length() == 0) {
@@ -169,9 +192,9 @@ public class LancamentoDAO {
 			} else {
 				sql = sql.concat(" AND ");
 			}
-			sql = sql.concat(" data <= CAST('");
+			sql = sql.concat(" data_sql <= ");
 			sql = sql.concat(dataFinal);
-			sql = sql.concat("' AS DATE) ");
+			sql = sql.concat("' ");
 		}
 		
 		sql = sql.concat(" LIMIT " + seletorLancamento.getNumeroPorPagina());

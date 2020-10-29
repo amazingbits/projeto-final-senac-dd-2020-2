@@ -21,9 +21,9 @@ public class ProdutoController {
 		return produtoBO.listarProduto();
 	}
 
-	public ArrayList<LogProdutosVO> listaLogProdutos(){
+	public ArrayList<LogProdutosVO> listaLogProdutos(SeletorProduto seletorProduto){
 		ProdutoBO produtoBO = new ProdutoBO();
-		return produtoBO.listaLogProdutos();
+		return produtoBO.listaLogProdutos(seletorProduto);
 	}
 	
 	public ArrayList<ProdutoDTO> listarProdutoSeletor(SeletorProduto seletorProduto) {

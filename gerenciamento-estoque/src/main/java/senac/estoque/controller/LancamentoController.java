@@ -24,9 +24,9 @@ public class LancamentoController {
         return lacamentoBO.listarLancamento(seletorLancamento);
     }
 
-    public ArrayList<LogLancamentosVO> listarLogLancamentos(){
+    public ArrayList<LogLancamentosVO> listarLogLancamentos(SeletorLancamento seletorLancamento){
         lacamentoBO = new LancamentoBO();
-		return lacamentoBO.listarLogLancamentos();
+		return lacamentoBO.listarLogLancamentos(seletorLancamento);
     }
     
     public boolean excluirLancamento(int id) {

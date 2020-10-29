@@ -55,9 +55,9 @@ public class LancamentoBO {
 		return lancamentoDAO.filtrarLancamentos(seletorLancamento);
     }   
     
-    public ArrayList<LogLancamentosVO> listarLogLancamentos(){
+    public ArrayList<LogLancamentosVO> listarLogLancamentos(SeletorLancamento seletorLancamento){
         lancamentoDAO = new LancamentoDAO();
-		return lancamentoDAO.listarLogLancamentos();
+		return lancamentoDAO.listarLogLancamentos(seletorLancamento);
     }
     
     

@@ -202,20 +202,25 @@ public class ListarLancamentos extends JPanel {
 
 				LancamentoController lancamentoController = new LancamentoController();
 				ArrayList<LancamentoDTO> filtro = lancamentoController.filtrarLancamentos(seletorLancamentoFiltrado);
-
-				/* ======estados dos botões de paginação===== */
-				if (filtro.size() < Constantes.ITEM_POR_PAGINA) {
+				
+				if(filtro == null) {
 					btnProxima.setEnabled(false);
-				} else {
-					btnProxima.setEnabled(true);
-				}
-
-				if (offset == 0) {
 					btnAnterior.setEnabled(false);
 				} else {
-					btnAnterior.setEnabled(true);
+					/* ======estados dos botões de paginação===== */
+					if (filtro.size() < Constantes.ITEM_POR_PAGINA) {
+						btnProxima.setEnabled(false);
+					} else {
+						btnProxima.setEnabled(true);
+					}
+
+					if (offset == 0) {
+						btnAnterior.setEnabled(false);
+					} else {
+						btnAnterior.setEnabled(true);
+					}
+					/* ================================ */
 				}
-				/* ================================ */
 
 				if (filtro != null) {
 					((DefaultTableModel) tabela.getModel()).setRowCount(0);

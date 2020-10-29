@@ -57,9 +57,31 @@ public class ProdutoDAO {
 		return listaProduto;
 	}
 
-	public ArrayList<LogProdutosVO> listaLogProdutos(){
+	public ArrayList<LogProdutosVO> listaLogProdutos(SeletorProduto seletorProduto){
 		
 		String sql = "SELECT * FROM vw_produto_log";
+		int primeiro = 0;
+		
+		if(seletorProduto.getMes() > 0 && seletorProduto.getMes() <= 12) {
+			if(primeiro == 0) {
+				sql = sql.concat(" WHERE ");
+				primeiro++;
+			} else {
+				sql = sql.concat(" AND ");
+			}
+			sql = sql.concat(" MONTH(data_sql) = " + seletorProduto.getMes());
+		}
+		
+		if(seletorProduto.getAno() > 1500) {
+			if(primeiro == 0) {
+				sql = sql.concat(" WHERE ");
+				primeiro++;
+			} else {
+				sql = sql.concat(" AND ");
+			}
+			sql = sql.concat(" YEAR(data_sql) = " + seletorProduto.getAno());
+		}
+		
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;
