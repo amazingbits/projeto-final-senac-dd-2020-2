@@ -13,6 +13,7 @@ import senac.estoque.model.dto.ProdutoMaisVendidoDTO;
 import senac.estoque.model.vo.CategoriaVO;
 import senac.estoque.model.vo.LogProdutosVO;
 import senac.estoque.model.vo.ProdutoVO;
+import senac.estoque.model.vo.SetorVO;
 import senac.estoque.seletores.SeletorProduto;
 
 public class ProdutoDAO {
@@ -23,7 +24,7 @@ public class ProdutoDAO {
 	 * @return
 	 */
 	public ArrayList<ProdutoVO> listar() {
-		String sql = "SELECT * FROM tb_produto";
+		String sql = "SELECT * FROM tb_produto WHERE ativo = 0 ORDER BY descricao ASC";
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;
@@ -159,7 +160,7 @@ public class ProdutoDAO {
 	 * @return
 	 */
 	public ArrayList<ProdutoDTO> listarView(SeletorProduto seletorProduto) {
-		String sql = "SELECT * FROM vw_produto";
+		String sql = "SELECT * FROM vw_produto ";
 		
 		if(seletorProduto.getNomeProduto().trim().length() > 0) {
 			sql = sql.concat(" WHERE descricao LIKE '%");
@@ -241,28 +242,43 @@ public class ProdutoDAO {
 	 * @param nome
 	 * @return null ou ProdutoVO
 	 */
-	public ProdutoVO encontrarPorNome(String nome) {
+	public boolean encontrarPorNome(String nome) {
 		String sql = "SELECT * FROM tb_produto WHERE descricao = '" + nome + "'";
 
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		ResultSet result = null;
-		ProdutoVO produto = null;
+		int contador = 0;
 
 		try {
 			result = stmt.executeQuery(sql);
 			while (result.next()) {
-				produto = new ProdutoVO();
-				CategoriaVO categoria = new CategoriaVO();
+				contador++;
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		
+		if(contador == 0) return false;
+		return true;
+	}
+	
+	public ProdutoVO retornarPorNome(String nome) {
+		String sql = "SELECT * FROM tb_produto WHERE descricao = '" + nome + "'";
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		ProdutoVO produto = new ProdutoVO();
 
+		try {
+			result = stmt.executeQuery(sql);
+			while (result.next()) {
 				produto.setId(Integer.parseInt(result.getString("id")));
 				produto.setDescricao(result.getString("descricao"));
-				categoria.setId(Integer.parseInt(result.getString("categoria")));
-				produto.setCategoria(categoria);
-				produto.setQuantidade(Integer.parseInt(result.getString("quantidade")));
-				produto.setPreco(Float.parseFloat(result.getString("preco")));
-				produto.setData_ultima_entrada(result.getString("data_ultima_entrada"));
-				produto.setData_ultima_saida(result.getString("data_ultima_saida"));
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -272,6 +288,35 @@ public class ProdutoDAO {
 			Conexao.closeConnection(conn);
 		}
 		return produto;
+	}
+	
+	/**
+	 * verificar se está desativado
+	 * @param setor
+	 * @return
+	 */
+	public boolean verificarSeEstaDesativado(ProdutoVO produto) {
+		String sql = "SELECT * FROM tb_produto WHERE ativo = 1 AND descricao = '";
+		sql = sql.concat(produto.getDescricao() + "'");
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		int contador = 0;
+
+		try {
+			result = stmt.executeQuery(sql);
+			while (result.next()) {
+				contador++;
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		if(contador == 0) return false;
+		return true;
 	}
 
 	/**
@@ -286,10 +331,16 @@ public class ProdutoDAO {
 				+ ", " + produto.getPreco() + ", " + "" + produto.getData_ultima_entrada() + ", " + ""
 				+ produto.getData_ultima_saida() + ")";
 
-		System.out.println(sql);
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		int result = 0;
+		
+		int id = this.retornarPorNome(produto.getDescricao()).getId();
+		produto.setId(id);
+		if(this.verificarSeEstaDesativado(produto)) {
+			this.ativar(produto);
+			return 1;
+		}
 
 		try {
 			result = stmt.executeUpdate(sql);
@@ -407,6 +458,54 @@ public class ProdutoDAO {
 		}
 		if(contador > 0) return true;
 		return false;
+	}
+	
+	/**
+	 * desativar um produto no banco de dados
+	 * @param id
+	 * @return
+	 */
+	public boolean desativar(int id) {
+		String sql = "UPDATE tb_produto SET ativo = 1 WHERE id = " + id;
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		int result = 0;
+		
+		try {
+			result = stmt.executeUpdate(sql);
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		if(result == 0) return false;
+		return true;
+		
+	}
+	
+	/**
+	 * ativar um produto no banco de dados
+	 * @param id
+	 * @return
+	 */
+	public boolean ativar(ProdutoVO produto) {
+		String sql = "UPDATE tb_produto SET ativo = 0 WHERE id = " + produto.getId();
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		int result = 0;
+		
+		try {
+			result = stmt.executeUpdate(sql);
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		if(result == 0) return false;
+		return true;
+		
 	}
 
 }

@@ -262,10 +262,8 @@ public class LancamentoDAO {
 		
 		try {
 			result = stmt.executeUpdate(sql);
-			System.out.println(sql);
 		} catch(SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-			System.out.println(sql);
 		} finally {
 			Conexao.closeStatement(stmt);
 			Conexao.closeConnection(conn);

@@ -26,7 +26,13 @@ public class ProdutoBO {
 
         ProdutoDAO produtoDAO = new ProdutoDAO();
         
-        if (produtoDAO.encontrarPorNome(produtoVO.getDescricao()) != null ){
+        boolean desativado = produtoDAO.verificarSeEstaDesativado(produtoVO);
+		if(desativado) {
+			produtoDAO.ativar(produtoVO); 
+			return true;
+		}
+        
+        if (produtoDAO.encontrarPorNome(produtoVO.getDescricao())){
             
 			JOptionPane.showMessageDialog(null, constantes.MENSAGEM_VALIDACAO_SE_EXISTE_PRODUTO, "Erro", JOptionPane.ERROR_MESSAGE);
 
@@ -60,14 +66,14 @@ public class ProdutoBO {
 		int verificacao = 0;
 		ProdutoDAO eProd = new ProdutoDAO();
 		String nomeAtual = eProd.encontrar(produtoVO.getId()).getDescricao();
-	
+		
 		if(nomeAtual.equalsIgnoreCase(produtoVO.getDescricao())) {
 			JOptionPane.showMessageDialog(null, "O nome do produto não pode ser o mesmo que o nome atual!", "Erro", JOptionPane.ERROR_MESSAGE);
 			verificacao++;
 		}
 		
 
-		if(eProd.verificarSeExistePorNome(produtoVO.getDescricao())) {
+		if(eProd.encontrarPorNome(produtoVO.getDescricao()) && verificacao == 0) {
 			JOptionPane.showMessageDialog(null, "Este nome pertence a outro produto no banco de dados. Tente outro nome!", "Erro", JOptionPane.ERROR_MESSAGE);
 			verificacao++;
 		}
@@ -139,6 +145,6 @@ public class ProdutoBO {
 	public boolean excluir(ProdutoVO produtoVO) {
 		produtoDAO = new ProdutoDAO();
 
-		return  produtoDAO.excluir(produtoVO.getId()) == 1?true:false;
+		return  produtoDAO.desativar(produtoVO.getId()) ?true:false;
 	}
 }

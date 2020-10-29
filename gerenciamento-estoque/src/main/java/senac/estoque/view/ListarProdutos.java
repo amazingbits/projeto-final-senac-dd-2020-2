@@ -111,19 +111,21 @@ public class ListarProdutos extends JPanel {
 				if (linhaSelecionada == -1) {
 					JOptionPane.showMessageDialog(null, "Selecione ao menos um registro");
 				} else {
-					int id = (int) tabela.getValueAt(linhaSelecionada, 0);
-					ProdutoController produtoController = new ProdutoController();
-					ProdutoVO produtoVO = new ProdutoVO();
-					produtoVO.setId(id);
+					int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir este registro?");
+					if(confirm == 0) {
+						int id = (int) tabela.getValueAt(linhaSelecionada, 0);
+						ProdutoController produtoController = new ProdutoController();
+						ProdutoVO produtoVO = new ProdutoVO();
+						produtoVO.setId(id);
 
-					boolean resultado = produtoController.excluir(produtoVO);
+						boolean resultado = produtoController.excluir(produtoVO);
 
-					if (resultado) {
-						JOptionPane.showMessageDialog(null, "Sucesso em deletar o produto");
+						if (resultado) {
+							JOptionPane.showMessageDialog(null, "Sucesso em deletar o produto");
+							((DefaultTableModel) tabela.getModel()).removeRow(linhaSelecionada);
+							((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
 
-					} else {
-						JOptionPane.showMessageDialog(null, "Erro ao deletar o produto");
-
+						}
 					}
 
 				}
@@ -146,12 +148,12 @@ public class ListarProdutos extends JPanel {
 					verificacao++;
 				}
 
-				if (totalDeLinhasSelecionadas > 1) {
+				if (totalDeLinhasSelecionadas > 1 && verificacao == 0) {
 					JOptionPane.showMessageDialog(null, "Selecione apenas um registro da tabela!");
 					verificacao++;
 				}
 
-				if (nmProduto.length() <= 0) {
+				if (nmProduto.length() <= 0 && verificacao == 0) {
 					JOptionPane.showMessageDialog(null, "Você precisa digitar um nome para o produto!");
 					verificacao++;
 				}
@@ -168,10 +170,8 @@ public class ListarProdutos extends JPanel {
 
 						if (produtoController.editarProduto(produtoVO)) {
 							JOptionPane.showMessageDialog(null, "Produto editado com sucesso!");
-							((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
-						} else {
-							JOptionPane.showMessageDialog(null, "Houve um erro ao editar o produto!", "Erro",
-									JOptionPane.ERROR_MESSAGE);
+							((DefaultTableModel) tabela.getModel()).setValueAt(nmProduto, linhaSelecionada, 1);
+							txtNomeProduto.setText("");
 						}
 					}
 
@@ -224,9 +224,92 @@ public class ListarProdutos extends JPanel {
 		btnFiltrar.setBounds(224, 58, 129, 36);
 		add(btnFiltrar);
 
+		btnAnterior.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				if (offset > 0) {
+					offset -= Constantes.ITEM_POR_PAGINA;
+				}
+				
+				SeletorProduto filtro = new SeletorProduto();
+				filtro.setNomeProduto(txtNomeProduto.getText());
+				filtro.setOffset(offset);
+				
+				ProdutoController produtoController = new ProdutoController();
+				ArrayList<ProdutoDTO> produtosFiltrados = produtoController.listarProdutoSeletor(filtro);
+				
+				/* ======estados dos botões de paginação===== */
+				if (produtosFiltrados.size() < Constantes.ITEM_POR_PAGINA) {
+					btnProxima.setEnabled(false);
+				} else {
+					btnProxima.setEnabled(true);
+				}
+
+				if (offset == 0) {
+					btnAnterior.setEnabled(false);
+				} else {
+					btnAnterior.setEnabled(true);
+				}
+				/* ================================ */
+				
+				if (produtosFiltrados != null) {
+					((DefaultTableModel) tabela.getModel()).setRowCount(0);
+					for (int i = 0; i < produtosFiltrados.size(); i++) {
+						((DefaultTableModel) tabela.getModel()).addRow(new Object[] { produtosFiltrados.get(i).getId(),
+								produtosFiltrados.get(i).getDescricao(), "R$ " + produtosFiltrados.get(i).getPreco(),
+								produtosFiltrados.get(i).getCategoria(), produtosFiltrados.get(i).getQuantidade() });
+					}
+					((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
+				}
+				
+			}
+		});
 		btnAnterior.setBounds(10, 373, 89, 23);
 		add(btnAnterior);
 
+		
+		btnProxima.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				offset += Constantes.ITEM_POR_PAGINA;
+				
+				SeletorProduto filtro = new SeletorProduto();
+				filtro.setNomeProduto(txtNomeProduto.getText());
+				filtro.setOffset(offset);
+				
+				ProdutoController produtoController = new ProdutoController();
+				ArrayList<ProdutoDTO> produtosFiltrados = produtoController.listarProdutoSeletor(filtro);
+				
+				/* ======estados dos botões de paginação===== */
+				if (produtosFiltrados.size() < Constantes.ITEM_POR_PAGINA) {
+					btnProxima.setEnabled(false);
+				} else {
+					btnProxima.setEnabled(true);
+				}
+
+				if (offset == 0) {
+					btnAnterior.setEnabled(false);
+				} else {
+					btnAnterior.setEnabled(true);
+				}
+				/* ================================ */
+				
+				if (produtosFiltrados != null) {
+					((DefaultTableModel) tabela.getModel()).setRowCount(0);
+					for (int i = 0; i < produtosFiltrados.size(); i++) {
+						((DefaultTableModel) tabela.getModel()).addRow(new Object[] { 
+								produtosFiltrados.get(i).getId(),
+								produtosFiltrados.get(i).getDescricao(), 
+								"R$ " + produtosFiltrados.get(i).getPreco(),
+								produtosFiltrados.get(i).getCategoria(), 
+								produtosFiltrados.get(i).getQuantidade() 
+								}
+						);
+					}
+					((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
+				}
+				
+			}
+		});
 		btnProxima.setBounds(531, 373, 89, 23);
 		add(btnProxima);
 

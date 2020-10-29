@@ -17,9 +17,15 @@ public class SetorBO {
 
     public boolean validarSetor(SetorVO setor){
 
-        setorDAO = new SetorDAO();
+        SetorDAO setorDAO = new SetorDAO();
         
-        if (setorDAO.encontrar(setor.getDescricao()) != null ){
+        boolean desativado = setorDAO.verificarSeEstaDesativado(setor);
+		if(desativado) {
+			setorDAO.ativar(setor); 
+			return true;
+		}
+        
+        if (setorDAO.encontrarPorNome(setor.getDescricao()) != null ){
             
 			JOptionPane.showMessageDialog(null, constantes.MENSAGEM_VALIDACAO_SE_EXISTE_SETOR, "Erro", JOptionPane.ERROR_MESSAGE);
 
@@ -69,7 +75,7 @@ public class SetorBO {
 			verificacao++;
 		}
 
-		if(setorDAO.encontrar(setorVO.getDescricao()).equals(null) ) {
+		if(setorDAO.encontrarPorNome(setorVO.getDescricao()).getDescricao() != null && verificacao == 0) {
 			JOptionPane.showMessageDialog(null, "Este nome pertence a outra setor no banco de dados. Tente outro nome!", "Erro", JOptionPane.ERROR_MESSAGE);
 			verificacao++;
 		}
@@ -87,6 +93,11 @@ public class SetorBO {
         setorDAO = new SetorDAO();
 
 		return setorDAO.listarView(seletorSetor);
+	}
+	
+	public boolean desativar(SetorVO setorVO) {
+		SetorDAO setorDAO = new SetorDAO();
+		return setorDAO.exclusaoLogica(setorVO);
 	}
 
 }

@@ -40,4 +40,9 @@ public class SetorController {
 
 		return setorBO.listarSetorSeletor(seletorSetor);
 	}
+	
+	public boolean desativar(SetorVO setorVO) {
+		SetorBO setorBO = new SetorBO();
+		return setorBO.desativar(setorVO);
+	}
 }

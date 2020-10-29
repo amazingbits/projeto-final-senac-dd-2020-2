@@ -25,6 +25,13 @@ public class CategoriaBO {
 		
 		String nomeCategoria = caracteres.permitirSomenteLetras(categoria.getDescricao());
 		
+		categoria.setDescricao(nomeCategoria);
+		boolean desativado = this.categoriaDAO.verificarSeEstaDesativado(categoria);
+		if(desativado) {
+			this.categoriaDAO.ativar(categoria); 
+			return true;
+		}
+		
 		if(nomeCategoria.length() < 3) {
 			JOptionPane.showMessageDialog(null, constantes.MENSAGEM_VALIDACAO_NOME_CATEGORIA, "Erro", JOptionPane.ERROR_MESSAGE);
 			return false;
@@ -64,16 +71,6 @@ public class CategoriaBO {
 		return this.categoriaDAO.listar();
 	}
 
-	/**
-	 * retorna true quando deletado e false quando não deletado
-	 * @return
-	 */
-	public boolean excluirCategoria(CategoriaVO categoriaVO) {
-		categoriaDAO = new CategoriaDAO();
-
-		return categoriaDAO.exclusaoLogica(categoriaVO.getId()) == 1?true:false;
-	}
-
 	public boolean editarCategoria(CategoriaVO categoriaVO) {
 		int verificacao = 0;
 		categoriaDAO = new CategoriaDAO();
@@ -84,7 +81,7 @@ public class CategoriaBO {
 			verificacao++;
 		}
 
-		if(categoriaDAO.encontrarCategoriaPeloNome(categoriaVO.getDescricao())) {
+		if(categoriaDAO.encontrarCategoriaPeloNome(categoriaVO.getDescricao()) && verificacao == 0) {
 			JOptionPane.showMessageDialog(null, "Este nome pertence a outra categoria no banco de dados. Tente outro nome!", "Erro", JOptionPane.ERROR_MESSAGE);
 			verificacao++;
 		}
@@ -102,6 +99,11 @@ public class CategoriaBO {
 
 		return categoriaDAO.listarView(seletorCategoria);
 
+	}
+	
+	public boolean desativar(CategoriaVO categoriaVO) {
+		CategoriaDAO categoriaDAO = new CategoriaDAO();
+		return categoriaDAO.exclusaoLogica(categoriaVO.getId());
 	}
 
 }

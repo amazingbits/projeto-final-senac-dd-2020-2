@@ -72,6 +72,7 @@ public class CadastrarProduto extends JPanel {
 
         tfPrecoUnidade.setBounds(420, 80, 200, 36);
         add(tfPrecoUnidade);
+        tfPrecoUnidade.setValue(1);
 
         lblCategoria = new JLabel("Categoria");
         lblCategoria.setBounds(10, 150, 200, 36);
@@ -122,7 +123,7 @@ public class CadastrarProduto extends JPanel {
                 } else {
                     preco = tfPrecoUnidade.getText().replace(".", "").replace(",", ".");
                 }
-                System.out.println(preco);
+                
 
                 ProdutoVO produtoVO = new ProdutoVO();
                 CategoriaVO categoriaVO = new CategoriaVO();
@@ -135,10 +136,12 @@ public class CadastrarProduto extends JPanel {
                 categoriaVO.setId(listIdCategorias.get(cbCategoria.getSelectedIndex()));
                 produtoVO.setCategoria(categoriaVO);
 
-                System.out.println(produtoVO.toString());
-
                 if (produtoController.cadastrarProduto(produtoVO)) {
                     JOptionPane.showMessageDialog(null, constantes.MENSAGEM_SUCESSO_CADASTRO_PRODUTO);
+                    tfNomeProduto.setText("");
+                    tfPrecoUnidade.setValue(1);
+                    sQuantidade.setValue(1);
+                    cbCategoria.setSelectedIndex(0);
                 } else {
                     JOptionPane.showMessageDialog(null, constantes.MENSAGEM_FALHA_CADASTRO_PRODUTO, "Erro",
                             JOptionPane.ERROR_MESSAGE);

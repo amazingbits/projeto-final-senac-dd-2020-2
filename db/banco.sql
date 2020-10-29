@@ -10,7 +10,19 @@ create table if not exists tb_categoria(
 
 insert into tb_categoria values (NULL, "Escritório", 0);
 insert into tb_categoria values (NULL, "Informática", 0);
-insert into tb_categoria values (NULL, "Lazer", 0);
+insert into tb_categoria values (NULL, "Equipamento", 0);
+insert into tb_categoria values (NULL, "Medicação", 0);
+insert into tb_categoria values (NULL, "Insumos", 0);
+insert into tb_categoria values (NULL, "Materiais", 0);
+insert into tb_categoria values (NULL, "Eletrônicos", 0);
+insert into tb_categoria values (NULL, "Perecíveis", 0);
+insert into tb_categoria values (NULL, "Demais Itens", 0);
+insert into tb_categoria values (NULL, "Farmácia", 0);
+insert into tb_categoria values (NULL, "CCIH", 0);
+insert into tb_categoria values (NULL, "Portaria", 0);
+insert into tb_categoria values (NULL, "Obras", 0);
+insert into tb_categoria values (NULL, "Documentos", 0);
+
 
 create table if not exists tb_setor(
 	id int not null auto_increment primary key,
@@ -18,9 +30,30 @@ create table if not exists tb_setor(
     ativo int default 0
 );
 
-insert into tb_setor values (NULL, "Administração", 0);
-insert into tb_setor values (NULL, "TI", 0);
-insert into tb_setor values (NULL, "Diretoria", 0);
+insert into tb_setor values (NULL, "Escritório", 0);
+insert into tb_setor values (NULL, "Informática", 0);
+insert into tb_setor values (NULL, "RH", 0);
+insert into tb_setor values (NULL, "Tesouraria", 0);
+insert into tb_setor values (NULL, "Direção", 0);
+insert into tb_setor values (NULL, "Marketing", 0);
+insert into tb_setor values (NULL, "Telefonia", 0);
+insert into tb_setor values (NULL, "Atendimento", 0);
+insert into tb_setor values (NULL, "Obras", 0);
+insert into tb_setor values (NULL, "Nutrição", 0);
+insert into tb_setor values (NULL, "CCIH", 0);
+insert into tb_setor values (NULL, "Raio-X", 0);
+insert into tb_setor values (NULL, "Cardiologia", 0);
+insert into tb_setor values (NULL, "Ambulatório", 0);
+insert into tb_setor values (NULL, "Emergência", 0);
+insert into tb_setor values (NULL, "Medicação", 0);
+insert into tb_setor values (NULL, "UTI", 0);
+insert into tb_setor values (NULL, "Isolamento", 0);
+insert into tb_setor values (NULL, "Internação", 0);
+insert into tb_setor values (NULL, "Farmácia", 0);
+insert into tb_setor values (NULL, "Bioquímica", 0);
+insert into tb_setor values (NULL, "Infectologia", 0);
+insert into tb_setor values (NULL, "Laboratório", 0);
+insert into tb_setor values (NULL, "Portaria", 0);
 
 create table if not exists tb_tipo_lancamento(
 	id int not null auto_increment primary key,
@@ -42,6 +75,26 @@ create table if not exists tb_produto(
     constraint fk_produto_categoria
     foreign key (categoria) references tb_categoria(id)
 );
+
+insert into tb_produto values (null, "Papel A4", 1, 10, 15.0, null, null, 0);
+insert into tb_produto values (null, "Caneta", 1, 10, 8.0, null, null, 0);
+insert into tb_produto values (null, "Postite", 1, 10, 2.50, null, null, 0);
+insert into tb_produto values (null, "Cola Bastão", 1, 10, 9.0, null, null, 0);
+insert into tb_produto values (null, "Clips", 1, 10, 0.8, null, null, 0);
+
+insert into tb_produto values (null, "Memória RAM 4Gb", 2, 10, 150.0, null, null, 0);
+insert into tb_produto values (null, "SSD 128Gb", 2, 10, 199.0, null, null, 0);
+insert into tb_produto values (null, "Pasta Térmica", 2, 10, 15.0, null, null, 0);
+insert into tb_produto values (null, "Monitor 28'", 2, 10, 680.0, null, null, 0);
+insert into tb_produto values (null, "Fonte 12v", 2, 10, 39.0, null, null, 0);
+
+insert into tb_produto values (null, "Planilha 3D", 3, 10, 159.0, null, null, 0);
+insert into tb_produto values (null, "Laptop Samsung", 3, 3, 2599.0, null, null, 0);
+
+insert into tb_produto values (null, "Becker", 4, 10, 158.0, null, null, 0);
+insert into tb_produto values (null, "Seringa", 4, 10, 200.0, null, null, 0);
+insert into tb_produto values (null, "Agulha", 4, 10, 159.0, null, null, 0);
+insert into tb_produto values (null, "Esparadrapo", 4, 10, 150.0, null, null, 0);
 
 create table if not exists tb_lancamento(
 	id int not null auto_increment primary key,
@@ -108,6 +161,7 @@ select 	tb_produto.id as codigo,
 from tb_produto
 inner join tb_categoria on 
 (tb_produto.categoria = tb_categoria.id)
+where tb_produto.ativo = 0
 order by tb_produto.id desc;
 
 create view vw_lancamento as
@@ -230,6 +284,8 @@ end $$
 
 DELIMITER ;
 
+use db_estoque;
+select * from vw_produto;
  -- insert into tb_produto values (null, "Mouse", 1, 5, 18.50, now(), null);
  -- insert into tb_lancamento values (null, 1, 2, 2, 4, null, now());
 -- select * from vw_produto_log;

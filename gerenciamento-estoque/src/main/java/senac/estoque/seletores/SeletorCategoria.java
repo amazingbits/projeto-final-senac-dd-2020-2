@@ -7,6 +7,7 @@ public class SeletorCategoria {
 	private boolean temFiltro = true;
 	private Integer offset = 0;
     private Integer numeroPorPagina = Constantes.ITEM_POR_PAGINA;
+    
     public SeletorCategoria() {
 		super();
     }

@@ -18,11 +18,6 @@ public class CategoriaController {
 		return categoriaBO.listarCategoria();
 	}
 
-	public boolean excluirCategoria(CategoriaVO categoriaVO) {
-		CategoriaBO categoriaBO = new CategoriaBO();
-		return categoriaBO.excluirCategoria(categoriaVO);
-	}
-
 	public boolean editarCategoria(CategoriaVO categoriaVO) {
 		CategoriaBO categoriaBO = new CategoriaBO();
 
@@ -33,6 +28,11 @@ public class CategoriaController {
 		CategoriaBO categoriaBO = new CategoriaBO();
 
 		return categoriaBO.listarCategoriaSeletor(seletorCategoria);
+	}
+	
+	public boolean desativar(CategoriaVO categoriaVO) {
+		CategoriaBO categoriaBO = new CategoriaBO();
+		return categoriaBO.desativar(categoriaVO);
 	}
 
 }
