@@ -1,2 +1,0 @@
-Nova funcionalidade
-Resolvendo fix
