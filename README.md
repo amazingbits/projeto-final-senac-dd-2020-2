@@ -58,23 +58,6 @@ produtos e efetuar lançamentos.
 - SQBG MySQL
 
 
-### Wireframes
-
-<div style="display: flex; overflow: auto; max-height: 400px">
-    <img src="./wireframes/cadastrar_categoria.jpg" alt="cadastrar_categoria">
-    <img src="./wireframes/cadastrar_lancamento.jpg" alt="cadastrar_lancamento">
-    <img src="./wireframes/cadastrar_produto.jpg" alt="cadastrar_produto">
-    <img src="./wireframes/cadastrar_setor.jpg" alt="cadastrar_setor">
-    <img src="./wireframes/listar_categoria.jpg" alt="listar_categoria">
-    <img src="./wireframes/listar_lancamento.jpg" alt="listar_lancamento">
-    <img src="./wireframes/listar_produto.jpg" alt="listar_produto">
-    <img src="./wireframes/listar_setor.jpg" alt="listar_setor">
-    <img src="./wireframes/relatorio_log.jpg" alt="relatorio_log">
-    <img src="./wireframes/relatorio.jpg" alt="relatorio">
-</div>
-
-
-
 ### Modelo SGBD
 
 ![Banco de dados](./db/modelo.png)
