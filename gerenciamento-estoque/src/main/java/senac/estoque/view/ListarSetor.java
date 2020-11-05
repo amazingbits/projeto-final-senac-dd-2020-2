@@ -7,6 +7,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
@@ -22,9 +26,9 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 public class ListarSetor extends JPanel {
-	
+
 	private JTextField txtNomeSetor;
-	
+
 	private SeletorSetor seletorSetor = new SeletorSetor();
 	private String nomeSetor = "";
 	private Integer offset = 0;
@@ -39,26 +43,26 @@ public class ListarSetor extends JPanel {
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setBounds(10, 11, 600, 36);
 		add(lblTitle);
-		
+
 		JLabel lblNomeSetor = new JLabel("Nome do Setor");
-		lblNomeSetor.setBounds(10, 43, 97, 14);
+		lblNomeSetor.setBounds(10, 43, 160, 14);
 		add(lblNomeSetor);
 
 		txtNomeSetor = new JTextField();
 		txtNomeSetor.setColumns(10);
 		txtNomeSetor.setBounds(10, 58, 209, 36);
 		add(txtNomeSetor);
-		
+
 		final JButton btnAnterior = new JButton("<<");
 		final JButton btnProxima = new JButton(">>");
 
-		//carregar itens da tabela
+		// carregar itens da tabela
 		SetorController setorController = new SetorController();
 		this.seletorSetor.setOffset(offset);
 		this.seletorSetor.setNomeSetor(nomeSetor);
 		ArrayList<SetorVO> setores = setorController.listarSetorSeletor(this.seletorSetor);
 		/* ==================================================================== */
-		
+
 		/* ======estados dos botões de paginação===== */
 		if (setores.size() < Constantes.ITEM_POR_PAGINA) {
 			btnProxima.setEnabled(false);
@@ -111,18 +115,17 @@ public class ListarSetor extends JPanel {
 				if (linhaSelecionada == -1) {
 					JOptionPane.showMessageDialog(null, "Selecione ao menos um registro");
 				} else {
-					
-					
+
 					int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir este registro?");
-					
-					if(confirm == 0) {
+
+					if (confirm == 0) {
 						int id = (int) tabela.getValueAt(linhaSelecionada, 0);
-						
+
 						SetorController setorController = new SetorController();
 						SetorVO setorVO = new SetorVO();
 						setorVO.setId(id);
-						
-						if(setorController.desativar(setorVO)) {
+
+						if (setorController.desativar(setorVO)) {
 							JOptionPane.showMessageDialog(null, "Sucesso em deletar o setor");
 							((DefaultTableModel) tabela.getModel()).removeRow(linhaSelecionada);
 							((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
@@ -132,11 +135,22 @@ public class ListarSetor extends JPanel {
 				}
 
 			}
-	
+
 		});
 		add(btnExcluir);
-		
-		
+
+		tabela.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				int linhaSelecionada = tabela.getSelectedRow();
+
+				 String descricao = (String) tabela.getValueAt(linhaSelecionada, 1);
+				 
+				 txtNomeSetor.setText(descricao);
+			}
+		});
+
+
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.setBounds(358, 58, 129, 36);
 

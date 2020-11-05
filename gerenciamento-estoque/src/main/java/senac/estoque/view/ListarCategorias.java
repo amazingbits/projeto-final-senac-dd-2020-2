@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import senac.estoque.controller.CategoriaController;
@@ -23,9 +25,9 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 public class ListarCategorias extends JPanel {
-	
+
 	private JTextField txtNomeCategoria;
-	
+
 	private SeletorCategoria seletorCategoria = new SeletorCategoria();
 	private Integer offset = 0;
 	private String nomeCategoria = "";
@@ -49,11 +51,10 @@ public class ListarCategorias extends JPanel {
 		txtNomeCategoria.setColumns(10);
 		txtNomeCategoria.setBounds(10, 58, 209, 36);
 		add(txtNomeCategoria);
-		
+
 		final JButton btnAnterior = new JButton("<<");
 		final JButton btnProxima = new JButton(">>");
-		
-		
+
 		// carregando itens da tebal
 		this.seletorCategoria.setOffset(this.offset);
 		this.seletorCategoria.setNomeCategoria(this.nomeCategoria);
@@ -74,7 +75,7 @@ public class ListarCategorias extends JPanel {
 			btnAnterior.setEnabled(true);
 		}
 		/* ======================================== */
-		
+
 		// definir colunas
 		String[] colunas = { "ID", "Descrição" };
 
@@ -99,38 +100,51 @@ public class ListarCategorias extends JPanel {
 		// imprimindo a tabela na tela
 		JScrollPane scrollPane = new JScrollPane(tabela);
 		scrollPane.setBounds(10, 123, 610, 239);
-		add(scrollPane);		
+		add(scrollPane);
 
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				int linhaSelecionada = tabela.getSelectedRow();
-				
-				if(linhaSelecionada == -1) {
+
+				if (linhaSelecionada == -1) {
 					JOptionPane.showMessageDialog(null, "Selecione ao menos um registro");
 				} else {
 					int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir este registro?");
-					
-					if(confirm == 0) {
+
+					if (confirm == 0) {
 						int id = (int) tabela.getValueAt(linhaSelecionada, 0);
-						
+
 						CategoriaController categoriaController = new CategoriaController();
 						CategoriaVO categoriaVO = new CategoriaVO();
 						categoriaVO.setId(id);
-						
-						if(categoriaController.desativar(categoriaVO)) {
+
+						if (categoriaController.desativar(categoriaVO)) {
 							JOptionPane.showMessageDialog(null, "Sucesso em deletar a categoria");
 							((DefaultTableModel) tabela.getModel()).removeRow(linhaSelecionada);
 							((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
 						}
 					}
 				}
-				
+
 			}
 		});
 		btnExcluir.setBounds(491, 58, 129, 36);
 		add(btnExcluir);
+
+		tabela.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				int linhaSelecionada = tabela.getSelectedRow();
+
+				String descricao = (String) tabela.getValueAt(linhaSelecionada, 1);
+
+				txtNomeCategoria.setText(descricao);
+			}
+		});
+
 
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {

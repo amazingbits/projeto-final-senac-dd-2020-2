@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
@@ -41,7 +43,7 @@ public class ListarProdutos extends JPanel {
 		add(lblTitle);
 
 		JLabel lblNomeProduto = new JLabel("Nome do produto");
-		lblNomeProduto.setBounds(10, 43, 97, 14);
+		lblNomeProduto.setBounds(10, 43, 160, 14);
 		add(lblNomeProduto);
 
 		txtNomeProduto = new JTextField();
@@ -112,7 +114,7 @@ public class ListarProdutos extends JPanel {
 					JOptionPane.showMessageDialog(null, "Selecione ao menos um registro");
 				} else {
 					int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir este registro?");
-					if(confirm == 0) {
+					if (confirm == 0) {
 						int id = (int) tabela.getValueAt(linhaSelecionada, 0);
 						ProdutoController produtoController = new ProdutoController();
 						ProdutoVO produtoVO = new ProdutoVO();
@@ -133,6 +135,19 @@ public class ListarProdutos extends JPanel {
 			}
 		});
 		add(btnExcluir);
+
+		tabela.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				int linhaSelecionada = tabela.getSelectedRow();
+
+				String descricao = (String) tabela.getValueAt(linhaSelecionada, 1);
+
+				txtNomeProduto.setText(descricao);
+			}
+		});
+
 
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
