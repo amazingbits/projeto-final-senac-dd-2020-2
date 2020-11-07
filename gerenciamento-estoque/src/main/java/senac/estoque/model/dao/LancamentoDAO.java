@@ -192,7 +192,7 @@ public class LancamentoDAO {
 			} else {
 				sql = sql.concat(" AND ");
 			}
-			sql = sql.concat(" data_sql <= ");
+			sql = sql.concat(" data_sql <= '");
 			sql = sql.concat(dataFinal);
 			sql = sql.concat("' ");
 		}

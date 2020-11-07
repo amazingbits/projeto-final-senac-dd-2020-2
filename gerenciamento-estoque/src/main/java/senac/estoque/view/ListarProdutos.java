@@ -252,7 +252,7 @@ public class ListarProdutos extends JPanel {
 				}
 
 				SeletorProduto filtro = new SeletorProduto();
-				filtro.setNomeProduto(txtNomeProduto.getText());
+				filtro.setNomeProduto("");
 				filtro.setOffset(offset);
 
 				ProdutoController produtoController = new ProdutoController();
@@ -292,7 +292,7 @@ public class ListarProdutos extends JPanel {
 				offset += Constantes.ITEM_POR_PAGINA;
 
 				SeletorProduto filtro = new SeletorProduto();
-				filtro.setNomeProduto(txtNomeProduto.getText());
+				filtro.setNomeProduto("");
 				filtro.setOffset(offset);
 
 				ProdutoController produtoController = new ProdutoController();

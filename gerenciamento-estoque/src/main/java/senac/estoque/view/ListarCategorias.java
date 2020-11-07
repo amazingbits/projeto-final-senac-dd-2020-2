@@ -252,7 +252,7 @@ public class ListarCategorias extends JPanel {
 				}
 
 				SeletorCategoria filtro = new SeletorCategoria();
-				filtro.setNomeCategoria(txtNomeCategoria.getText());
+				filtro.setNomeCategoria("");
 				filtro.setOffset(offset);
 
 				CategoriaController categoriaController = new CategoriaController();
@@ -292,7 +292,7 @@ public class ListarCategorias extends JPanel {
 				offset += Constantes.ITEM_POR_PAGINA;
 
 				SeletorCategoria filtro = new SeletorCategoria();
-				filtro.setNomeCategoria(txtNomeCategoria.getText());
+				filtro.setNomeCategoria("");
 				filtro.setOffset(offset);
 
 				CategoriaController categoriaController = new CategoriaController();

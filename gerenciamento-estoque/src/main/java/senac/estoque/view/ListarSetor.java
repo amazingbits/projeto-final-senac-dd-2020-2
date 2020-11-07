@@ -258,7 +258,7 @@ public class ListarSetor extends JPanel {
 				}
 
 				SeletorSetor filtro = new SeletorSetor();
-				filtro.setNomeSetor(txtNomeSetor.getText());
+				filtro.setNomeSetor("");
 				filtro.setOffset(offset);
 
 				SetorController setorController = new SetorController();
@@ -298,7 +298,7 @@ public class ListarSetor extends JPanel {
 				offset += Constantes.ITEM_POR_PAGINA;
 
 				SeletorSetor filtro = new SeletorSetor();
-				filtro.setNomeSetor(txtNomeSetor.getText());
+				filtro.setNomeSetor("");
 				filtro.setOffset(offset);
 
 				SetorController setorController = new SetorController();
