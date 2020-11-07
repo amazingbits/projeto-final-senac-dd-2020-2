@@ -1,7 +1,5 @@
 # Projeto Final Senac - Disciplina de Desenvolvimento de Software (2020/2)
 
-
-
 ### A tarefa
 
 A tarefa consiste em desenvolver uma aplicação utilizando os assuntos que
@@ -46,22 +44,24 @@ produtos e efetuar lançamentos.
 
 ### Requisitos
 
-- CRUD de produtos
-- CRUD de lançamentos dos produtos do estoque
+- Cadastrar produtos
+- Editar produtos
+- Excluir produtos
+- Listar produtos
+- Adicionar lançamento (entrada e saída de produtos)
+- Remover lançamento
 - Informar últimas saídas
 - Informar últimas entradas
 - Arquitetura MVC
-- Uma tela para cada operação de cada entidade
-- Pelo menos uma tela de busca de produtos cadastrados
+- Pelo menos duas telas de cadastro
+- Pelo menos uma tela de listagem com filtragem dinâmica
 - Linguagem Java no back-end
 - Java Swing no front-end
-- SQBG MySQL
-
+- SGBD MySQL
 
 ### Modelo SGBD
 
 ![Banco de dados](./db/modelo.png)
-
 
 ```sql
 drop database if exists db_estoque;
@@ -183,7 +183,7 @@ select 	tb_produto.id as codigo,
         date_format(tb_produto.data_ultima_entrada, "%d/%m/%Y") as ultima_entrada,
         date_format(tb_produto.data_ultima_saida, "%d/%m/%Y") as ultima_saida
 from tb_produto
-inner join tb_categoria on 
+inner join tb_categoria on
 (tb_produto.categoria = tb_categoria.id)
 where tb_produto.ativo = 0
 order by tb_produto.id desc;
@@ -200,9 +200,9 @@ select 	tb_lancamento.id as codigo,
         date_format(tb_lancamento.data, "%d/%m/%Y") as data,
         tb_lancamento.data as data_sql
 from tb_lancamento
-inner join tb_produto on 
+inner join tb_produto on
 (tb_lancamento.idproduto = tb_produto.id)
-inner join tb_setor on 
+inner join tb_setor on
 (tb_lancamento.idsetor = tb_setor.id)
 inner join tb_tipo_lancamento on
 (tb_lancamento.tipo = tb_tipo_lancamento.id)
@@ -213,8 +213,8 @@ create view vw_produtos_mais_comprados as
 select 	sum(tb_lancamento.quantidade) as qtd,
 		tb_produto.descricao as des
 from tb_lancamento
-inner join tb_produto on 
-(tb_lancamento.idproduto = tb_produto.id) 
+inner join tb_produto on
+(tb_lancamento.idproduto = tb_produto.id)
 where tb_lancamento.tipo = 1
 group by tb_produto.descricao
 order by qtd desc;
@@ -224,8 +224,8 @@ create view vw_produtos_mais_usados as
 select 	sum(tb_lancamento.quantidade) as qtd,
 		tb_produto.descricao as des
 from tb_lancamento
-inner join tb_produto on 
-(tb_lancamento.idproduto = tb_produto.id) 
+inner join tb_produto on
+(tb_lancamento.idproduto = tb_produto.id)
 where tb_lancamento.tipo = 2
 group by tb_produto.descricao
 order by qtd desc;
@@ -238,14 +238,14 @@ DELIMITER $$
 create trigger tg_tb_produto_bi before insert on tb_produto for each row
 begin
 	declare vProduto int;
-    
+
     select count(*) into vProduto from tb_produto where tb_produto.id = new.id;
-    
+
     -- VERIFICAR QUANTIDADE EM ESTOQUE
     if(vProduto > 0) then
 		signal sqlstate "45000" set message_text = "Este produto já existe no banco de dados!";
     end if;
-    
+
 end $$
 
 -- VERIFICAÇÕES APÓS INSERIR UM NOVO PRODUTO
@@ -265,7 +265,7 @@ end $$
 -- VERIFICAÇÕES ANTES DE ATUALIZAR UM PRODUTO
 create trigger tg_tb_produto_au after update on tb_produto for each row
 begin
-	
+
     if(new.ativo = 1) then
 		insert into tb_produto_log values (old.id, old.quantidade, "Exclusão", NOW());
     elseif(old.descricao <> new.descricao) then
@@ -273,8 +273,8 @@ begin
     elseif(old.descricao = new.descricao and new.ativo = 0) then
 		insert into tb_produto_log values (old.id, old.quantidade, "Inserção", NOW());
     end if;
-    
-	
+
+
 end $$
 
 
@@ -286,21 +286,21 @@ begin
     declare vDescricaoTipo text;
     declare vValorTotal numeric(10,2);
     declare vValorProduto numeric(10,2);
-    
+
     select preco into vValorProduto from tb_produto where id = new.idproduto;
     set vValorTotal = new.quantidade * vValorProduto;
     set new.preco_total = vValorTotal;
-    
+
     select descricao into vDescricaoTipo from tb_tipo_lancamento where id = new.tipo;
-    
+
     select quantidade into vQuantidadeEstoque from tb_produto where id = new.idproduto;
-    
+
     set vTipoLancamento = new.tipo;
-    
+
     if(vTipoLancamento = 2 and new.quantidade > vQuantidadeEstoque) then
 		signal sqlstate "45000" set message_text = "Não há quantidade suficiente em estoque!";
     end if;
-    
+
     if(vTipoLancamento = 1) then
 		set vQuantidadeAtual = vQuantidadeEstoque + new.quantidade;
         update tb_produto set data_ultima_entrada = NOW() where id = new.idproduto;
@@ -308,10 +308,10 @@ begin
 		set vQuantidadeAtual = vQuantidadeEstoque - new.quantidade;
         update tb_produto set data_ultima_saida = NOW() where id = new.idproduto;
     end if;
-    
+
     update tb_produto set quantidade = vQuantidadeAtual where id = new.idproduto;
     insert into tb_lancamento_log values (new.idproduto, new.quantidade, new.tipo, vDescricaoTipo, "Inserção", NOW());
-    
+
 end $$
 
 create trigger tg_tb_lancamento_ad after delete on tb_lancamento for each row
@@ -319,9 +319,9 @@ begin
 	declare vQuantidadeEstoqueAtual int;
     declare vQuantidadeEstoque int;
     declare vDescricaoTipo text;
-    
+
     select descricao into vDescricaoTipo from tb_tipo_lancamento where id = old.tipo;
-    
+
     select quantidade into vQuantidadeEstoqueAtual from tb_produto where id = old.idproduto;
     set vQuantidadeEstoque = vQuantidadeEstoqueAtual + old.quantidade;
     update tb_produto set quantidade = vQuantidadeEstoque where id = old.idproduto;
@@ -414,4 +414,3 @@ select * from vw_produto_log where month(data_sql) = 8;
 ### Diagrama de classe
 
 ![Diagrama de Classe](./diagramas/diagrama.png)
-
