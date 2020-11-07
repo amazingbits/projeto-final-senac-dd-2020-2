@@ -139,17 +139,21 @@ public class ListarSetor extends JPanel {
 		});
 		add(btnExcluir);
 
-		tabela.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+		tabela.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				int linhaSelecionada = tabela.getSelectedRow();
 
-				 String descricao = (String) tabela.getValueAt(linhaSelecionada, 1);
-				 
-				 txtNomeSetor.setText(descricao);
+				if (linhaSelecionada != -1) {
+					String descricao = (String) tabela.getValueAt(linhaSelecionada, 1);
+					txtNomeSetor.setText(descricao);
+
+				} else {
+
+					txtNomeSetor.setText("");
+				}
 			}
 		});
-
 
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.setBounds(358, 58, 129, 36);
@@ -180,20 +184,20 @@ public class ListarSetor extends JPanel {
 				if (verificacao == 0) {
 					int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja editar este registro?");
 					if (confirm == 0) {
-						
+
 						int id = (int) tabela.getValueAt(linhaSelecionada, 0);
 						SetorController setorController = new SetorController();
-						
+
 						SetorVO setorVO = new SetorVO();
 						setorVO.setId(id);
 						setorVO.setDescricao(nmSetor);
-						
-						if(setorController.editarSetor(setorVO)) {
+
+						if (setorController.editarSetor(setorVO)) {
 							JOptionPane.showMessageDialog(null, "Setor editado com sucesso!");
 							((DefaultTableModel) tabela.getModel()).setValueAt(nmSetor, linhaSelecionada, 1);
 							txtNomeSetor.setText("");
 						}
-						
+
 					}
 
 				}
@@ -234,37 +238,32 @@ public class ListarSetor extends JPanel {
 				if (setoresFiltrados != null) {
 					((DefaultTableModel) tabela.getModel()).setRowCount(0);
 					for (int i = 0; i < setoresFiltrados.size(); i++) {
-						((DefaultTableModel) tabela.getModel()).addRow(
-							new Object[] { 
-								setoresFiltrados.get(i).getId(),
-								setoresFiltrados.get(i).getDescricao()
-							});
+						((DefaultTableModel) tabela.getModel()).addRow(new Object[] { setoresFiltrados.get(i).getId(),
+								setoresFiltrados.get(i).getDescricao() });
 					}
 					((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
 				}
 
 			}
 		});
-		
+
 		add(btnFiltrar);
-		
-		
-		
+
 		btnAnterior.setBounds(10, 373, 89, 23);
 		btnAnterior.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (offset > 0) {
 					offset -= Constantes.ITEM_POR_PAGINA;
 				}
-				
+
 				SeletorSetor filtro = new SeletorSetor();
 				filtro.setNomeSetor(txtNomeSetor.getText());
 				filtro.setOffset(offset);
-				
+
 				SetorController setorController = new SetorController();
 				ArrayList<SetorVO> setoresFiltrados = setorController.listarSetorSeletor(filtro);
-				
+
 				/* ======estados dos botões de paginação===== */
 				if (setoresFiltrados.size() < Constantes.ITEM_POR_PAGINA) {
 					btnProxima.setEnabled(false);
@@ -278,39 +277,33 @@ public class ListarSetor extends JPanel {
 					btnAnterior.setEnabled(true);
 				}
 				/* ================================ */
-				
+
 				if (setoresFiltrados != null) {
 					((DefaultTableModel) tabela.getModel()).setRowCount(0);
 					for (int i = 0; i < setoresFiltrados.size(); i++) {
-						((DefaultTableModel) tabela.getModel()).addRow(new Object[] { 
-								setoresFiltrados.get(i).getId(),
-								setoresFiltrados.get(i).getDescricao()
-								}
-						);
+						((DefaultTableModel) tabela.getModel()).addRow(new Object[] { setoresFiltrados.get(i).getId(),
+								setoresFiltrados.get(i).getDescricao() });
 					}
 					((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
 				}
-				
-				
-				
+
 			}
 		});
 		add(btnAnterior);
-		
-		
+
 		btnProxima.setBounds(531, 373, 89, 23);
 		btnProxima.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				offset += Constantes.ITEM_POR_PAGINA;
-				
+
 				SeletorSetor filtro = new SeletorSetor();
 				filtro.setNomeSetor(txtNomeSetor.getText());
 				filtro.setOffset(offset);
-				
+
 				SetorController setorController = new SetorController();
 				ArrayList<SetorVO> setoresFiltrados = setorController.listarSetorSeletor(filtro);
-				
+
 				/* ======estados dos botões de paginação===== */
 				if (setoresFiltrados.size() < Constantes.ITEM_POR_PAGINA) {
 					btnProxima.setEnabled(false);
@@ -324,19 +317,16 @@ public class ListarSetor extends JPanel {
 					btnAnterior.setEnabled(true);
 				}
 				/* ================================ */
-				
+
 				if (setoresFiltrados != null) {
 					((DefaultTableModel) tabela.getModel()).setRowCount(0);
 					for (int i = 0; i < setoresFiltrados.size(); i++) {
-						((DefaultTableModel) tabela.getModel()).addRow(new Object[] { 
-								setoresFiltrados.get(i).getId(),
-								setoresFiltrados.get(i).getDescricao()
-								}
-						);
+						((DefaultTableModel) tabela.getModel()).addRow(new Object[] { setoresFiltrados.get(i).getId(),
+								setoresFiltrados.get(i).getDescricao() });
 					}
 					((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
 				}
-				
+
 			}
 		});
 		add(btnProxima);

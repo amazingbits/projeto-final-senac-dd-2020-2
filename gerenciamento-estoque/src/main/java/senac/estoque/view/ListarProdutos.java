@@ -142,12 +142,17 @@ public class ListarProdutos extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 				int linhaSelecionada = tabela.getSelectedRow();
 
-				String descricao = (String) tabela.getValueAt(linhaSelecionada, 1);
+				if (linhaSelecionada != -1) {
+					String descricao = (String) tabela.getValueAt(linhaSelecionada, 1);
 
-				txtNomeProduto.setText(descricao);
+					txtNomeProduto.setText(descricao);
+				} else {
+
+					txtNomeProduto.setText("");
+				}
+
 			}
 		});
-
 
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
@@ -241,18 +246,18 @@ public class ListarProdutos extends JPanel {
 
 		btnAnterior.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				if (offset > 0) {
 					offset -= Constantes.ITEM_POR_PAGINA;
 				}
-				
+
 				SeletorProduto filtro = new SeletorProduto();
 				filtro.setNomeProduto(txtNomeProduto.getText());
 				filtro.setOffset(offset);
-				
+
 				ProdutoController produtoController = new ProdutoController();
 				ArrayList<ProdutoDTO> produtosFiltrados = produtoController.listarProdutoSeletor(filtro);
-				
+
 				/* ======estados dos botões de paginação===== */
 				if (produtosFiltrados.size() < Constantes.ITEM_POR_PAGINA) {
 					btnProxima.setEnabled(false);
@@ -266,7 +271,7 @@ public class ListarProdutos extends JPanel {
 					btnAnterior.setEnabled(true);
 				}
 				/* ================================ */
-				
+
 				if (produtosFiltrados != null) {
 					((DefaultTableModel) tabela.getModel()).setRowCount(0);
 					for (int i = 0; i < produtosFiltrados.size(); i++) {
@@ -276,24 +281,23 @@ public class ListarProdutos extends JPanel {
 					}
 					((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
 				}
-				
+
 			}
 		});
 		btnAnterior.setBounds(10, 373, 89, 23);
 		add(btnAnterior);
 
-		
 		btnProxima.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				offset += Constantes.ITEM_POR_PAGINA;
-				
+
 				SeletorProduto filtro = new SeletorProduto();
 				filtro.setNomeProduto(txtNomeProduto.getText());
 				filtro.setOffset(offset);
-				
+
 				ProdutoController produtoController = new ProdutoController();
 				ArrayList<ProdutoDTO> produtosFiltrados = produtoController.listarProdutoSeletor(filtro);
-				
+
 				/* ======estados dos botões de paginação===== */
 				if (produtosFiltrados.size() < Constantes.ITEM_POR_PAGINA) {
 					btnProxima.setEnabled(false);
@@ -307,22 +311,17 @@ public class ListarProdutos extends JPanel {
 					btnAnterior.setEnabled(true);
 				}
 				/* ================================ */
-				
+
 				if (produtosFiltrados != null) {
 					((DefaultTableModel) tabela.getModel()).setRowCount(0);
 					for (int i = 0; i < produtosFiltrados.size(); i++) {
-						((DefaultTableModel) tabela.getModel()).addRow(new Object[] { 
-								produtosFiltrados.get(i).getId(),
-								produtosFiltrados.get(i).getDescricao(), 
-								"R$ " + produtosFiltrados.get(i).getPreco(),
-								produtosFiltrados.get(i).getCategoria(), 
-								produtosFiltrados.get(i).getQuantidade() 
-								}
-						);
+						((DefaultTableModel) tabela.getModel()).addRow(new Object[] { produtosFiltrados.get(i).getId(),
+								produtosFiltrados.get(i).getDescricao(), "R$ " + produtosFiltrados.get(i).getPreco(),
+								produtosFiltrados.get(i).getCategoria(), produtosFiltrados.get(i).getQuantidade() });
 					}
 					((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
 				}
-				
+
 			}
 		});
 		btnProxima.setBounds(531, 373, 89, 23);

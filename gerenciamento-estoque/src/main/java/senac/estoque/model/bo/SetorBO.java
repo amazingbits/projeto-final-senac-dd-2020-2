@@ -23,9 +23,9 @@ public class SetorBO {
 		if(desativado) {
 			setorDAO.ativar(setor); 
 			return true;
-		}
-        
-        if (setorDAO.encontrarPorNome(setor.getDescricao()) != null ){
+        }
+                
+        if (setorDAO.encontrarPorNome(setor.getDescricao()).getDescricao() != null ){
             
 			JOptionPane.showMessageDialog(null, constantes.MENSAGEM_VALIDACAO_SE_EXISTE_SETOR, "Erro", JOptionPane.ERROR_MESSAGE);
 

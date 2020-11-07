@@ -139,17 +139,22 @@ public class ListarCategorias extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 				int linhaSelecionada = tabela.getSelectedRow();
 
-				String descricao = (String) tabela.getValueAt(linhaSelecionada, 1);
+				if (linhaSelecionada != -1) {
+					String descricao = (String) tabela.getValueAt(linhaSelecionada, 1);
 
-				txtNomeCategoria.setText(descricao);
+					txtNomeCategoria.setText(descricao);
+				} else {
+
+					txtNomeCategoria.setText("");
+				}
+
 			}
 		});
-
 
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				int linhaSelecionada = tabela.getSelectedRow();
 				int totalDeLinhasSelecionadas = tabela.getSelectedRowCount();
 				int verificacao = 0;
@@ -169,29 +174,29 @@ public class ListarCategorias extends JPanel {
 					JOptionPane.showMessageDialog(null, "Você precisa digitar um nome para a categoria!");
 					verificacao++;
 				}
-				
-				if(verificacao == 0) {
-					
+
+				if (verificacao == 0) {
+
 					int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja editar este registro?");
-					if(confirm == 0) {
-						
+					if (confirm == 0) {
+
 						int id = (int) tabela.getValueAt(linhaSelecionada, 0);
 						CategoriaController categoriaController = new CategoriaController();
-						
+
 						CategoriaVO categoriaVO = new CategoriaVO();
 						categoriaVO.setId(id);
 						categoriaVO.setDescricao(nmCategoria);
-						
-						if(categoriaController.editarCategoria(categoriaVO)) {
+
+						if (categoriaController.editarCategoria(categoriaVO)) {
 							JOptionPane.showMessageDialog(null, "Categoria editada com sucesso!");
 							((DefaultTableModel) tabela.getModel()).setValueAt(nmCategoria, linhaSelecionada, 1);
 							txtNomeCategoria.setText("");
 						}
-						
+
 					}
-					
+
 				}
-				
+
 			}
 		});
 		btnEditar.setBounds(358, 58, 129, 36);
@@ -200,16 +205,16 @@ public class ListarCategorias extends JPanel {
 		JButton btnFiltrar = new JButton("Filtrar");
 		btnFiltrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				SeletorCategoria filtro = new SeletorCategoria();
 				filtro.setNomeCategoria(txtNomeCategoria.getText());
-				
+
 				nomeCategoria = txtNomeCategoria.getText();
 				offset = 0;
-				
+
 				CategoriaController categoriaController = new CategoriaController();
-				ArrayList<CategoriaVO> categoriasFiltradas =  categoriaController.listarCategoriaSeletor(filtro);
-				
+				ArrayList<CategoriaVO> categoriasFiltradas = categoriaController.listarCategoriaSeletor(filtro);
+
 				/* ======estados dos botões de paginação===== */
 				if (categoriasFiltradas.size() < Constantes.ITEM_POR_PAGINA) {
 					btnProxima.setEnabled(false);
@@ -223,40 +228,36 @@ public class ListarCategorias extends JPanel {
 					btnAnterior.setEnabled(true);
 				}
 				/* ================================ */
-				
+
 				if (categoriasFiltradas != null) {
 					((DefaultTableModel) tabela.getModel()).setRowCount(0);
 					for (int i = 0; i < categoriasFiltradas.size(); i++) {
-						((DefaultTableModel) tabela.getModel()).addRow(new Object[] { 
-								categoriasFiltradas.get(i).getId(),
-								categoriasFiltradas.get(i).getDescricao() 
-								}
-						);
+						((DefaultTableModel) tabela.getModel()).addRow(new Object[] {
+								categoriasFiltradas.get(i).getId(), categoriasFiltradas.get(i).getDescricao() });
 					}
 					((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
 				}
-				
+
 			}
 		});
 		btnFiltrar.setBounds(224, 58, 129, 36);
 		add(btnFiltrar);
-		
-		
+
 		btnAnterior.setBounds(10, 373, 89, 23);
 		btnAnterior.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (offset > 0) {
 					offset -= Constantes.ITEM_POR_PAGINA;
 				}
-				
+
 				SeletorCategoria filtro = new SeletorCategoria();
 				filtro.setNomeCategoria(txtNomeCategoria.getText());
 				filtro.setOffset(offset);
-				
+
 				CategoriaController categoriaController = new CategoriaController();
 				ArrayList<CategoriaVO> categoriasFiltradas = categoriaController.listarCategoriaSeletor(filtro);
-				
+
 				/* ======estados dos botões de paginação===== */
 				if (categoriasFiltradas.size() < Constantes.ITEM_POR_PAGINA) {
 					btnProxima.setEnabled(false);
@@ -270,37 +271,33 @@ public class ListarCategorias extends JPanel {
 					btnAnterior.setEnabled(true);
 				}
 				/* ================================ */
-				
+
 				if (categoriasFiltradas != null) {
 					((DefaultTableModel) tabela.getModel()).setRowCount(0);
 					for (int i = 0; i < categoriasFiltradas.size(); i++) {
-						((DefaultTableModel) tabela.getModel()).addRow(new Object[] { 
-								categoriasFiltradas.get(i).getId(),
-								categoriasFiltradas.get(i).getDescricao()
-								}
-						);
+						((DefaultTableModel) tabela.getModel()).addRow(new Object[] {
+								categoriasFiltradas.get(i).getId(), categoriasFiltradas.get(i).getDescricao() });
 					}
 					((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
 				}
-				
-				
+
 			}
 		});
 		add(btnAnterior);
-		
+
 		btnProxima.setBounds(531, 373, 89, 23);
 		btnProxima.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				offset += Constantes.ITEM_POR_PAGINA;
-				
+
 				SeletorCategoria filtro = new SeletorCategoria();
 				filtro.setNomeCategoria(txtNomeCategoria.getText());
 				filtro.setOffset(offset);
-				
+
 				CategoriaController categoriaController = new CategoriaController();
 				ArrayList<CategoriaVO> categoriasFiltradas = categoriaController.listarCategoriaSeletor(filtro);
-				
+
 				/* ======estados dos botões de paginação===== */
 				if (categoriasFiltradas.size() < Constantes.ITEM_POR_PAGINA) {
 					btnProxima.setEnabled(false);
@@ -314,19 +311,16 @@ public class ListarCategorias extends JPanel {
 					btnAnterior.setEnabled(true);
 				}
 				/* ================================ */
-				
+
 				if (categoriasFiltradas != null) {
 					((DefaultTableModel) tabela.getModel()).setRowCount(0);
 					for (int i = 0; i < categoriasFiltradas.size(); i++) {
-						((DefaultTableModel) tabela.getModel()).addRow(new Object[] { 
-								categoriasFiltradas.get(i).getId(),
-								categoriasFiltradas.get(i).getDescricao()
-								}
-						);
+						((DefaultTableModel) tabela.getModel()).addRow(new Object[] {
+								categoriasFiltradas.get(i).getId(), categoriasFiltradas.get(i).getDescricao() });
 					}
 					((DefaultTableModel) tabela.getModel()).fireTableDataChanged();
 				}
-				
+
 			}
 		});
 		add(btnProxima);
