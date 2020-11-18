@@ -59,6 +59,12 @@ produtos e efetuar lançamentos.
 - Java Swing no front-end
 - SGBD MySQL
 
+## Regras do negócio
+
+- Sempre que houver a compra de um produto o sistema deve permitir que essa compra seja lançada no sistema do tipo entrada, com a quantidade de produtos comprados.
+- Sempre que a unidade de produto acabar, o sistema deve permitir que seja lançando como saída específicando a quantidade de unidades que acabaram.
+
+
 ### Modelo SGBD
 
 ![Banco de dados](./db/modelo.png)

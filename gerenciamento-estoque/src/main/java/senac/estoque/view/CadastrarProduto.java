@@ -90,7 +90,7 @@ public class CadastrarProduto extends JPanel {
         cbCategoria.setBounds(10, 190, 400, 36);
         add(cbCategoria);
 
-        lblQuantidade = new JLabel("Qtde");
+        lblQuantidade = new JLabel("Quantidade");
         lblQuantidade.setBounds(420, 150, 200, 36);
         add(lblQuantidade);
 
@@ -123,7 +123,6 @@ public class CadastrarProduto extends JPanel {
                 } else {
                     preco = tfPrecoUnidade.getText().replace(".", "").replace(",", ".");
                 }
-                
 
                 ProdutoVO produtoVO = new ProdutoVO();
                 CategoriaVO categoriaVO = new CategoriaVO();
