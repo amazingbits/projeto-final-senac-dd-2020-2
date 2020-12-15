@@ -381,4 +381,27 @@ public class LancamentoDAO {
 		return Math.ceil(numeroDeRegistros / Constantes.ITEM_POR_PAGINA);
 	}
 
+	public ArrayList<String> listaAnos(){
+
+		String sql = "SELECT DISTINCT YEAR(data) as years FROM `tb_lancamento` WHERE data IS NOT NULL";
+		Connection conn = Conexao.getConnection();
+		Statement stmt = Conexao.getStatement(conn);
+		ResultSet result = null;
+		ArrayList<String> listaAnos = new  ArrayList<String>();
+		
+		try {
+			result = stmt.executeQuery(sql);
+			while(result.next()) {
+				listaAnos.add(result.getString("years"));
+			}
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Conexao.closeResultSet(result);
+			Conexao.closeStatement(stmt);
+			Conexao.closeConnection(conn);
+		}
+		return listaAnos;
+
+	}
 }

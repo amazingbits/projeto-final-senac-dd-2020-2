@@ -83,7 +83,7 @@ public class ListaLogLancamentos extends JPanel {
         add(lblAno);
         
         String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
-		String[] anos = {"2020", "2021", "2022", "2023"};
+		Object[] anos = lancamentoController.listaAnos().toArray();
         
         final JComboBox cbMes = new JComboBox(meses);
         cbMes.setBounds(10, 45, 135, 36);

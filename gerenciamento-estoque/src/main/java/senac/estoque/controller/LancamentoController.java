@@ -4,6 +4,7 @@ package senac.estoque.controller;
 import java.util.ArrayList;
 
 import senac.estoque.model.bo.LancamentoBO;
+import senac.estoque.model.dao.LancamentoDAO;
 import senac.estoque.model.dto.LancamentoDTO;
 import senac.estoque.model.vo.LancamentoVO;
 import senac.estoque.model.vo.LogLancamentosVO;
@@ -40,5 +41,11 @@ public class LancamentoController {
     public ArrayList<LancamentoDTO> filtrarLancamentos(SeletorLancamento seletorLancamento) {
     	LancamentoBO lancamentoBO = new LancamentoBO();
     	return lancamentoBO.filtrarLancamentos(seletorLancamento);
+    }
+
+    public ArrayList<String> listaAnos() {
+        LancamentoDAO lancamentoDAO = new LancamentoDAO();
+
+        return lancamentoDAO.listaAnos();
     }
 }

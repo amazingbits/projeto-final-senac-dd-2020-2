@@ -3,6 +3,7 @@ package senac.estoque.controller;
 import java.util.ArrayList;
 
 import senac.estoque.model.bo.ProdutoBO;
+import senac.estoque.model.dao.ProdutoDAO;
 import senac.estoque.model.dto.ProdutoDTO;
 import senac.estoque.model.dto.ProdutoMaisUsadosDTO;
 import senac.estoque.model.dto.ProdutoMaisVendidoDTO;
@@ -51,5 +52,10 @@ public class ProdutoController {
 	public ArrayList<ProdutoMaisVendidoDTO> listarProdutosMaisVendidos() {
 		ProdutoBO produtoBO = new ProdutoBO();
 		return produtoBO.listarProdutosMaisVendidos();
+	}
+
+	public ArrayList<String> listaAnos(){
+		ProdutoDAO produtoDAO = new ProdutoDAO();
+		return produtoDAO.listaAnos();
 	}
 }
