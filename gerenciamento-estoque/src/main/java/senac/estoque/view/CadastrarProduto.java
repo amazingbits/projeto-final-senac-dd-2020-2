@@ -56,11 +56,12 @@ public class CadastrarProduto extends JPanel {
         add(lblTitle);
 
         lblNomeProduto = new JLabel("Nome do Produtos");
-        lblNomeProduto.setBounds(10, 50, 600, 36);
+        lblNomeProduto.setBounds(10, 50, 600, 36); 
         add(lblNomeProduto);
 
         tfNomeProduto = new JTextField();
         tfNomeProduto.setBounds(10, 80, 400, 36);
+        tfNomeProduto.setToolTipText("O valor do campo será armazenado da mesma forma que foi cadastrado");
         add(tfNomeProduto);
 
         lblPrecoUnidade = new JLabel("Preco Un. R$");

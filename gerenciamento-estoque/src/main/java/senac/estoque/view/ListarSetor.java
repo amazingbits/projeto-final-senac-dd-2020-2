@@ -50,6 +50,7 @@ public class ListarSetor extends JPanel {
 
 		txtNomeSetor = new JTextField();
 		txtNomeSetor.setColumns(10);
+		txtNomeSetor.setToolTipText("O valor do campo será armazenado da mesma forma que for alterado");
 		txtNomeSetor.setBounds(10, 58, 209, 36);
 		add(txtNomeSetor);
 

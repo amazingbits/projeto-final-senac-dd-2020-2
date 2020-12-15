@@ -33,6 +33,7 @@ public class CadastrarCategoria extends JPanel {
 		
 		txtCategoria = new JTextField();
 		txtCategoria.setBounds(10, 101, 610, 36);
+		txtCategoria.setToolTipText("Somente letras");
 		add(txtCategoria);
 		txtCategoria.setColumns(10);
 		
@@ -52,10 +53,7 @@ public class CadastrarCategoria extends JPanel {
 		btnSalvar.setBounds(10, 148, 131, 40);
 		add(btnSalvar);
 		
-		JLabel lblPermitirSomenteLetras = new JLabel("Somente letras");
-		lblPermitirSomenteLetras.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPermitirSomenteLetras.setBounds(368, 148, 252, 14);
-		add(lblPermitirSomenteLetras);
+
 
 	}
 }

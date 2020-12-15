@@ -38,6 +38,7 @@ public class CadastroSetor extends JPanel {
 
         tfSetor = new JTextField();
         tfSetor.setBounds(10, 80, 610, 36);
+        tfSetor.setToolTipText("O valor do campo será armazenado da mesma forma que foi cadastrado");
         add(tfSetor);
 
         bCadastrar = new JButton("Cadastrar");

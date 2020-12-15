@@ -49,6 +49,8 @@ public class ListarCategorias extends JPanel {
 
 		txtNomeCategoria = new JTextField();
 		txtNomeCategoria.setColumns(10);
+        txtNomeCategoria.setToolTipText("O valor do campo será armazenado da mesma forma que for alterado");
+
 		txtNomeCategoria.setBounds(10, 58, 209, 36);
 		add(txtNomeCategoria);
 

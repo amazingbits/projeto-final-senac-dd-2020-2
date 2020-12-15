@@ -48,6 +48,7 @@ public class ListarProdutos extends JPanel {
 
 		txtNomeProduto = new JTextField();
 		txtNomeProduto.setBounds(10, 58, 209, 36);
+		txtNomeProduto.setToolTipText("O valor do campo será armazenado da mesma forma que for alterado");
 		add(txtNomeProduto);
 		txtNomeProduto.setColumns(10);
 
