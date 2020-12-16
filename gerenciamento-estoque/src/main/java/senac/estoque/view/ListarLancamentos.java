@@ -6,9 +6,13 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.JScrollPane;
 import senac.estoque.controller.LancamentoController;
 import senac.estoque.helpers.Constantes;
+import senac.estoque.helpers.Month;
 import senac.estoque.helpers.Utils;
 import senac.estoque.model.dto.LancamentoDTO;
 import senac.estoque.seletores.SeletorLancamento;
@@ -20,6 +24,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
@@ -38,6 +43,14 @@ public class ListarLancamentos extends JPanel {
 	private String dtInicial = "";
 	private String dtFinal = "";
 	private String tipoLancamento = "";
+
+	private JDateChooser jdDataInicial;
+	private JDateChooser jdDataFinal;
+
+	
+	private String dataInicial;
+	private String dataFinal;
+
 
 	/**
 	 * Create the panel.
@@ -68,11 +81,12 @@ public class ListarLancamentos extends JPanel {
 		lblNomeSetor.setBounds(346, 44, 154, 14);
 		add(lblNomeSetor);
 
-		txtDataInicial = new JFormattedTextField();
-		utils.mascara("##/##/####", txtDataInicial);
-		txtDataInicial.setColumns(10);
-		txtDataInicial.setBounds(20, 130, 264, 36);
-		add(txtDataInicial);
+		
+		
+
+		jdDataInicial = new JDateChooser();
+		jdDataInicial.setBounds(20, 130, 264, 36);
+		add(jdDataInicial);
 
 		JLabel lblDataInicial = new JLabel("Data Inicial");
 		lblDataInicial.setBounds(20, 116, 154, 14);
@@ -80,9 +94,14 @@ public class ListarLancamentos extends JPanel {
 
 		txtDataFinal = new JFormattedTextField();
 		utils.mascara("##/##/####", txtDataFinal);
-		txtDataFinal.setColumns(10);
-		txtDataFinal.setBounds(346, 130, 264, 36);
-		add(txtDataFinal);
+		//txtDataFinal.setColumns(10);
+		//txtDataFinal.setBounds(346, 130, 264, 36);
+		//add(txtDataFinal);
+
+		jdDataFinal = new JDateChooser();
+		jdDataFinal.setBounds(346, 130, 264, 36);
+		add(jdDataFinal);
+
 
 		JLabel lblDataFinal = new JLabel("Data Final");
 		lblDataFinal.setBounds(346, 116, 154, 14);
@@ -165,9 +184,34 @@ public class ListarLancamentos extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				int verificador = 0;
-				String dataInicial = txtDataInicial.getText().trim().replace(" ", "");
-				String dataFinal = txtDataFinal.getText().trim().replace(" ", "");
 
+				Calendar calendarInicial = jdDataInicial.getCalendar();   
+				Calendar calendarFinal = jdDataFinal.getCalendar();   
+
+			
+				try {
+					
+					dataInicial =  calendarInicial.get(Calendar.DAY_OF_MONTH) < 10 ? 
+					"0" + calendarInicial.get(Calendar.DAY_OF_MONTH)+ "/"+ new Month().getMonth(calendarInicial.get(Calendar.MONTH)) + "/" + calendarInicial.get(Calendar.YEAR) + "".trim().replace(" ", "") 
+					:
+					calendarInicial.get(Calendar.DAY_OF_MONTH) + "/"+ new Month().getMonth(calendarInicial.get(Calendar.MONTH)) + "/" + calendarInicial.get(Calendar.YEAR) + "".trim().replace(" ", "") ;
+				   
+				} catch (Exception exception) {
+					dataInicial = "//";	
+				}
+
+
+				try {
+					dataFinal =  calendarFinal.get(Calendar.DAY_OF_MONTH) < 10 ? 
+					"0" + calendarFinal.get(Calendar.DAY_OF_MONTH)+ "/"+ new Month().getMonth(calendarFinal.get(Calendar.MONTH)) + "/" + calendarFinal.get(Calendar.YEAR) + "".trim().replace(" ", "") 
+					:
+					calendarFinal.get(Calendar.DAY_OF_MONTH) + "/"+ new Month().getMonth(calendarFinal.get(Calendar.MONTH)) + "/" + calendarFinal.get(Calendar.YEAR) + "".trim().replace(" ", "") ;
+				   
+			   
+				} catch (Exception exception) {
+					dataFinal  = "//";
+				}
+				
 				if (!utils.validarData(dataInicial) && !dataInicial.equals("//")) {
 					JOptionPane.showMessageDialog(null, "A data inicial deve ser válida!");
 					verificador++;
@@ -186,6 +230,7 @@ public class ListarLancamentos extends JPanel {
 				String tipo = radio.getSelection().getActionCommand() == "Todos" ? ""
 						: radio.getSelection().getActionCommand();
 
+				
 				SeletorLancamento seletorLancamentoFiltrado = new SeletorLancamento();
 				seletorLancamentoFiltrado.setNomeProduto(txtNomeProduto.getText());
 				seletorLancamentoFiltrado.setNomeSetor(txtNomeSetor.getText());
