@@ -22,6 +22,8 @@ import senac.estoque.seletores.SeletorProduto;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.awt.event.ActionEvent;
 
 public class ListarProdutos extends JPanel {
@@ -30,6 +32,8 @@ public class ListarProdutos extends JPanel {
 	private SeletorProduto seletorProduto = new SeletorProduto();
 	private Integer offset = 0;
 	private String nomeProduto = "";
+	
+	NumberFormat formatarFloat= new DecimalFormat("0.00");  
 
 	/**
 	 * Create the panel.
@@ -95,7 +99,7 @@ public class ListarProdutos extends JPanel {
 		// populando a tabela
 		for (int i = 0; i < produtos.size(); i++) {
 			modelo.addRow(new Object[] { produtos.get(i).getId(), produtos.get(i).getDescricao(),
-					"R$ " + produtos.get(i).getPreco(), produtos.get(i).getCategoria(),
+					"R$ " + formatarFloat.format(produtos.get(i).getPreco()), produtos.get(i).getCategoria(),
 					produtos.get(i).getQuantidade() });
 		}
 
