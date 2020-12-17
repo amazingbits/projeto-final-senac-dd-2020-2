@@ -309,17 +309,17 @@ insert into tb_setor values (NULL, "Laboratório", 0);
 insert into tb_setor values (NULL, "Portaria", 0);
 
 -- PRODUTOS
-insert into tb_produto values (null, "Papel A4", 1, 10, 15.0, null, null, 0);
-insert into tb_produto values (null, "Caneta", 1, 10, 8.0, null, null, 0);
-insert into tb_produto values (null, "Postite", 1, 10, 2.50, null, null, 0);
-insert into tb_produto values (null, "Cola Bastão", 1, 10, 9.0, null, null, 0);
-insert into tb_produto values (null, "Clips", 1, 10, 0.8, null, null, 0);
+insert into tb_produto values (null, "Papel A4", 1, 10, 15.0, "2020-12-15", null, 0);
+insert into tb_produto values (null, "Caneta", 1, 10, 8.0, "2020-12-15", null, 0);
+insert into tb_produto values (null, "Postite", 1, 10, 2.50, "2020-12-15", null, 0);
+insert into tb_produto values (null, "Cola Bastão", 1, 10, 9.0, "2020-12-15", null, 0);
+insert into tb_produto values (null, "Clips", 1, 10, 0.8, "2020-12-15", null, 0);
 
-insert into tb_produto values (null, "Memória RAM 4Gb", 2, 10, 150.0, null, null, 0);
-insert into tb_produto values (null, "SSD 128Gb", 2, 10, 199.0, null, null, 0);
-insert into tb_produto values (null, "Pasta Térmica", 2, 10, 15.0, null, null, 0);
-insert into tb_produto values (null, "Monitor 28'", 2, 10, 680.0, null, null, 0);
-insert into tb_produto values (null, "Fonte 12v", 2, 10, 39.0, null, null, 0);
+insert into tb_produto values (null, "Memória RAM 4Gb", 2, 10, 150.0, "2020-12-15", null, 0);
+insert into tb_produto values (null, "SSD 128Gb", 2, 10, 199.0, "2020-12-15", null, 0);
+insert into tb_produto values (null, "Pasta Térmica", 2, 10, 15.0, "2020-12-15", null, 0);
+insert into tb_produto values (null, "Monitor 28'", 2, 10, 680.0, "2020-12-15", null, 0);
+insert into tb_produto values (null, "Fonte 12v", 2, 10, 39.0, "2020-12-15", null, 0);
 
 insert into tb_produto values (null, "Planilha 3D", 3, 10, 159.0, null, null, 0);
 insert into tb_produto values (null, "Laptop Samsung", 3, 3, 2599.0, null, null, 0);

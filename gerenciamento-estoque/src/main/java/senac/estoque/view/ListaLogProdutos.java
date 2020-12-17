@@ -96,9 +96,9 @@ public class ListaLogProdutos extends JPanel {
 		add(btnGerar);
 		
 		String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
-		//String[] anos = {"2020", "2021", "2022", "2023"};
 		Object[] anos = produtoController.listaAnos().toArray();		
 
+		
 		
 		final JComboBox cbMes = new JComboBox(meses);
 		cbMes.setBounds(10, 46, 135, 36);
