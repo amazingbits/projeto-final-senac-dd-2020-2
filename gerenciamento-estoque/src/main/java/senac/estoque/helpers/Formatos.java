@@ -13,6 +13,7 @@ public class Formatos {
 	 */
 	public DefaultFormatterFactory money() {
 		DecimalFormat decimal = new DecimalFormat("#,###,###.00");
+		decimal.setMaximumIntegerDigits(10);
         NumberFormatter numberFormatter = new NumberFormatter(decimal);
         numberFormatter.setFormat(decimal);
         numberFormatter.setAllowsInvalid(false);
