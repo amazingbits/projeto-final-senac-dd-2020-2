@@ -445,7 +445,7 @@ public class ProdutoDAO {
 	 * @return
 	 */
 	public boolean ativar(ProdutoVO produto) {
-		String sql = "UPDATE tb_produto SET ativo = 0 WHERE id = " + produto.getId();
+		String sql = "UPDATE tb_produto SET ativo = 0, categoria = "+produto.getCategoria().getId()+", quantidade = "+produto.getQuantidade()+", preco = "+produto.getPreco()+" WHERE id = " + produto.getId();
 		Connection conn = Conexao.getConnection();
 		Statement stmt = Conexao.getStatement(conn);
 		int result = 0;
